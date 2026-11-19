@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia Tribo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(15, 15, 15, 0.78), rgba(20, 20, 20, 0.88)), 
+                        url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            color: #ffffff;
+            padding: 18px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Topo com botão Admin */
+        .top-bar {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 4px;
+            z-index: 5;
+        }
+
+        .btn-admin {
+            background: rgba(30, 30, 30, 0.65);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            color: #d4af37;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-admin:hover {
+            background: #d4af37;
+            color: #111;
+        }
+
+        /* Logotipo Principal: Barbearia Tribo */
+        header {
+            text-align: center;
+            margin-bottom: 12px;
+            z-index: 5;
+        }
+
+        .brand-subtitle-top {
+            font-size: 0.68rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #d4af37;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .brand-title {
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+        }
+
+        .brand-title span {
+            color: #d4af37;
+        }
+
+        header p {
+            font-size: 0.82rem;
+            color: #cccccc;
+            margin-top: 2px;
+        }
+
+        /* Carrossel de Barbeiros Conforme Esboço */
+        .carousel-section {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 8px 0 14px 0;
+            z-index: 5;
+        }
+
+        .carousel-wrapper {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .arrow-btn {
+            background: rgba(25, 25, 25, 0.72);
+            backdrop-filter: blur(10px);
+            border: 1.5px solid rgba(212, 175, 55, 0.55);
+            color: #d4af37;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            font-size: 1.15rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: 0.25s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.45);
+        }
+
+        .arrow-btn:hover {
+            background: #d4af37;
+            color: #111;
+            transform: scale(1.08);
+        }
+
+        .cards-stage {
+            position: relative;
+            width: 100%;
+            height: 155px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .barber-card {
+            position: absolute;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
+            transition: all 0.35s ease;
+            background: rgba(25, 25, 25, 0.8);
+        }
+
+        .barber-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .barber-card.center {
+            width: 132px;
+            height: 152px;
+            z-index: 3;
+            border-color: #d4af37;
+            transform: translateX(0) scale(1);
+            opacity: 1;
+        }
+
+        .barber-card.left {
+            width: 96px;
+            height: 124px;
+            z-index: 2;
+            transform: translateX(-82px) scale(0.92);
+            opacity: 0.62;
+            filter: brightness(0.75);
+        }
+
+        .barber-card.right {
+            width: 96px;
+            height: 124px;
+            z-index: 2;
+            transform: translateX(82px) scale(0.92);
+            opacity: 0.62;
+            filter: brightness(0.75);
+        }
+
+        .barber-card.hidden {
+            opacity: 0;
+            transform: scale(0.7);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .barber-name-box {
+            margin-top: 8px;
+            background: rgba(20, 20, 20, 0.72);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 4px 16px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .barber-name-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #d4af37;
+            letter-spacing: 0.5px;
+        }
+
+        /* Menu Principal com Botões Estilo Vidro Escuro Translúcido */
+        .menu-container {
+            width: 100%;
+            max-width: 410px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            justify-content: center;
+            z-index: 5;
+        }
+
+        .btn-balloon {
+            background: rgba(30, 30, 30, 0.55);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #ffffff;
+            padding: 15px 20px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            border-radius: 16px;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-balloon:hover {
+            background: rgba(212, 175, 55, 0.25);
+            border-color: #d4af37;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(212, 175, 55, 0.25);
+        }
+
+        /* Janelas / Modais Internos */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.78);
+            backdrop-filter: blur(6px);
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            z-index: 999;
+        }
+
+        .modal-content {
+            background: rgba(22, 22, 22, 0.94);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            width: 100%;
+            max-width: 440px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.65);
+            position: relative;
+            color: #ffffff;
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.5);
+            border-radius: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 14px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #d4af37;
+        }
+
+        .modal-content h2 {
+            color: #ffffff;
+            font-size: 1.15rem;
+            margin-bottom: 14px;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.4);
+            padding-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 13px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #cccccc;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"], 
+        .form-group input[type="password"],
+        .form-group input[type="date"],
+        .form-group input[type="file"],
+        .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            background: rgba(40, 40, 40, 0.65);
+            color: #ffffff;
+        }
+
+        .sub-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .sub-tab-btn {
+            flex: 1;
+            min-width: 90px;
+            padding: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 10px;
+            cursor: pointer;
+            color: #cccccc;
+            transition: 0.2s;
+        }
+
+        .sub-tab-btn.active, .sub-tab-btn:hover {
+            background: #d4af37;
+            color: #111;
+            border-color: #d4af37;
+        }
+
+        .service-category-title {
+            font-size: 0.75rem;
+            color: #d4af37;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin: 12px 0 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 3px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .service-checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            font-weight: 500;
+            background: rgba(40, 40, 40, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .service-checkbox span:first-child {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .service-checkbox:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #d4af37;
+        }
+
+        .service-price {
+            font-weight: 700;
+            color: #d4af37;
+            white-space: nowrap;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .time-btn {
+            background: rgba(40, 40, 40, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #ffffff;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .time-btn.selected, .time-btn:hover {
+            background: #d4af37;
+            color: #111;
+            border-color: #d4af37;
+        }
+
+        .total-box {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid #d4af37;
+            padding: 12px 14px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            margin: 15px 0 10px 0;
+            color: #d4af37;
+            font-size: 0.95rem;
+        }
+
+        .pix-box {
+            background: rgba(40, 40, 40, 0.6);
+            border: 1px dashed #d4af37;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .btn-copy-pix {
+            background: #27ae60;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        .btn-submit {
+            background: #d4af37;
+            color: #111;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: #e5be42;
+        }
+
+        .report-card {
+            background: rgba(40, 40, 40, 0.6);
+            border-left: 4px solid #d4af37;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            color: #dddddd;
+        }
+
+        .barber-manage-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background: rgba(40, 40, 40, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            padding: 8px 10px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .barber-manage-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .barber-manage-info img {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #d4af37;
+        }
+
+        .btn-remove {
+            background: rgba(231, 76, 60, 0.25);
+            border: 1px solid #e74c3c;
+            color: #ff8a80;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        footer {
+            font-size: 0.75rem;
+            color: #888888;
+            text-align: center;
+            margin-top: 8px;
+            font-weight: 500;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Topo com Acesso do Administrador -->
+    <div class="top-bar">
+        <button class="btn-admin" onclick="openAdminAccess()">Painel Admin ⚙️</button>
+    </div>
+
+    <!-- Logotipo Principal: Barbearia Tribo -->
+    <header>
+        <div class="brand-subtitle-top">Barbearia Profissional</div>
+        <h1 class="brand-title">Barbearia <span>Tribo</span></h1>
+        <p>Gean & Miro Barbeiros</p>
+    </header>
+
+    <!-- Carrossel de Barbeiros na Tela Principal -->
+    <section class="carousel-section" aria-label="Equipe de Barbeiros">
+        <div class="carousel-wrapper">
+            <button type="button" class="arrow-btn" onclick="prevBarber()" title="Barbeiro anterior">&#8592;</button>
+            <div class="cards-stage" id="barberStage"></div>
+            <button type="button" class="arrow-btn" onclick="nextBarber()" title="Próximo barbeiro">&#8594;</button>
+        </div>
+        <div class="barber-name-box">
+            <div class="barber-name-label" id="currentBarberName">Gean</div>
+        </div>
+    </section>
+
+    <!-- Botões Balão Translúcidos Estilo Escuro -->
+    <div class="menu-container">
+        <button class="btn-balloon" onclick="openModal('clientModal')">👤 Área do Cliente & Pagamento</button>
+        <button class="btn-balloon" onclick="openModal('reservationModal')">📅 Agendar Horário & Serviços</button>
+        <button class="btn-balloon" onclick="openModal('combosModal')">⭐ Combos Fixos por Mês</button>
+    </div>
+
+    <footer>
+        &copy; 2026 Barbearia Tribo - Todos os direitos reservados.
+    </footer>
+
+    <!-- MODAL: Senha do Administrador -->
+    <div id="adminPasswordModal" class="modal">
+        <div class="modal-content" style="max-width: 340px;">
+            <span class="close-btn" onclick="closeModal('adminPasswordModal')">&times;</span>
+            <h2>Acesso do Administrador</h2>
+            <div class="form-group">
+                <label>Digite a senha de 4 dígitos:</label>
+                <input type="password" id="adminPasswordInput" maxlength="4" placeholder="••••" onkeydown="if(event.key==='Enter') verifyAdminPassword()">
+            </div>
+            <button class="btn-submit" onclick="verifyAdminPassword()">Entrar no Painel</button>
+        </div>
+    </div>
+
+    <!-- MODAL: Área do Cliente -->
+    <div id="clientModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('clientModal')">&times;</span>
+            <h2>Área do Cliente</h2>
+
+            <div class="sub-tabs">
+                <button class="sub-tab-btn active" onclick="switchClientTab('profile', this)">Perfil</button>
+                <button class="sub-tab-btn" onclick="switchClientTab('payment', this)">Cartão & Pix</button>
+            </div>
+
+            <div id="clientTabProfile">
+                <div class="form-group">
+                    <label>Nome Completo:</label>
+                    <input type="text" id="clientName" placeholder="Ex: Carlos Silva">
+                </div>
+                <div class="form-group">
+                    <label>Foto de Perfil:</label>
+                    <input type="file" id="clientPhoto">
+                </div>
+                <button class="btn-submit" onclick="saveClient()">Salvar Perfil</button>
+            </div>
+
+            <div id="clientTabPayment" style="display: none;">
+                <div class="pix-box">
+                    <p style="font-size: 0.85rem; font-weight: 600; color: #d4af37;">Chave Pix da Barbearia Tribo:</p>
+                    <p id="pixKeyText" style="font-size: 0.95rem; font-weight: 700; color: #ffffff; margin: 4px 0;">barbeariatribo.pix@gmail.com</p>
+                    <button class="btn-copy-pix" onclick="copyPix()">📋 Copiar Chave Pix</button>
+                </div>
+
+                <div class="form-group">
+                    <label>Cadastrar Cartão de Crédito:</label>
+                    <input type="text" id="cardNumber" placeholder="Número do Cartão (0000 0000 0000 0000)" style="margin-bottom: 8px;">
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="cardExpiry" placeholder="Validade (MM/AA)">
+                        <input type="text" id="cardCvv" placeholder="CVV">
+                    </div>
+                </div>
+                <button class="btn-submit" onclick="saveCard()">Salvar Cartão</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Agendamento & Valores -->
+    <div id="reservationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('reservationModal')">&times;</span>
+            <h2>Agendamento & Serviços</h2>
+
+            <div class="form-group">
+                <label>Tipo de Agendamento:</label>
+                <select id="bookingType">
+                    <option value="Avulso" style="background:#222;">Corte Avulso (Data única)</option>
+                    <option value="Mensal Fixo" style="background:#222;">Plano Fixo Mensal (Toda semana)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Escolha a Data:</label>
+                <input type="date" id="reservationDate">
+            </div>
+
+            <div class="form-group">
+                <label>Selecione o Horário:</label>
+                <div class="time-grid">
+                    <button type="button" class="time-btn" onclick="selectTime(this, '09:00')">09:00</button>
+                    <button type="button" class="time-btn" onclick="selectTime(this, '10:30')">10:30</button>
+                    <button type="button" class="time-btn" onclick="selectTime(this, '13:30')">13:30</button>
+                    <button type="button" class="time-btn" onclick="selectTime(this, '15:00')">15:00</button>
+                    <button type="button" class="time-btn" onclick="selectTime(this, '16:30')">16:30</button>
+                    <button type="button" class="time-btn" onclick="selectTime(this, '18:00')">18:00</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Escolha os Procedimentos (Valores Médios):</label>
+                
+                <div class="service-category-title">Cortes & Barba</div>
+                <div class="services-grid">
+                    <label class="service-checkbox">
+                        <span><input type="checkbox" class="srv-check" data-name="Cabelo" data-price="40" onchange="calculateTotal()"> Cabelo</span>
+                        <span class="service-price">R$ 40</span>
+                    </label>
+                    <label class="service-checkbox">
+                        <span><input type="checkbox" class="srv-check" data-name="Barba" data-price="30" onchange="calculateTotal()"> Barba</span>
+                        <span class="service-price">R$ 30</span>
+                    </label>
+                    <label class="service-checkbox">
+                        <span><input type="checkbox" class="srv-check" data-name="Bigode" data-price="15" onchange="calculateTotal()"> Bigode</span>
+                        <span class="service-price">R$ 15</span>
+                    </label>
+                    <label class="service-checkbox">
+                        <span><input type="checkbox" class="srv-check" data-name="Barboterapia" data-price="50" onchange="calculateTotal()"> Barboterapia</span>
+                        <span class="service-price">R$ 50</span>
+                    </label>
+                </div>
+
+                <div class="service-category-title">Química & Estilo</div>
+                <div class="services-grid">
+                    <label class="service-checkbox">
+                        <span><input type="checkbox" class="srv-check" data-name="Relaxamento" data-price="60" onchange="calculateTotal()"> Relaxamento</span>
+                        <span class="service-price">R$ 60</span>
+                    </label>
+                    <label class="service-checkbox">
+                        <span><input type="checkbox" class="srv-check" data-name="Progressiva" data-price="90" onchange="calculateTotal()"> Progressiva</span>
+                        <span class="service-price">R$ 90</span>
+                    </label>
+                    <label class="service-checkbox">
+                        <span><input type="checkbox" class="srv-check" data-name="Luzes" data-price="110" onchange="calculateTotal()"> Luzes</span>
+                        <span class="service-price">R$ 110</span>
+                    </label>
+                    <label class="service-checkbox">
+                        <span><input type="checkbox" class="srv-check" data-name="Platinado" data-price="150" onchange="calculateTotal()"> Platinado</span>
+                        <span class="service-price">R$ 150</span>
+                    </label>
+                    <label class="service-checkbox">
+                        <span><input type="checkbox" class="srv-check" data-name="Penteado" data-price="30" onchange="calculateTotal()"> Penteado</span>
+                        <span class="service-price">R$ 30</span>
+                    </label>
+                    <label class="service-checkbox">
+                        <span><input type="checkbox" class="srv-check" data-name="Escovamento" data-price="30" onchange="calculateTotal()"> Escovamento</span>
+                        <span class="service-price">R$ 30</span>
+                    </label>
+                </div>
+
+                <div class="service-category-title">Estética & Cuidados</div>
+                <div class="services-grid">
+                    <label class="service-checkbox">
+                        <span><input type="checkbox" class="srv-check" data-name="Sobrancelha" data-price="20" onchange="calculateTotal()"> Sobrancelha</span>
+                        <span class="service-price">R$ 20</span>
+                    </label>
+                    <label class="service-checkbox">
+                        <span><input type="checkbox" class="srv-check" data-name="Limpeza de Pele" data-price="55" onchange="calculateTotal()"> Limpeza Pele</span>
+                        <span class="service-price">R$ 55</span>
+                    </label>
+                    <label class="service-checkbox">
+                        <span><input type="checkbox" class="srv-check" data-name="Esfoliação" data-price="35" onchange="calculateTotal()"> Esfoliação</span>
+                        <span class="service-price">R$ 35</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="total-box">
+                <span>Valor Total Estimado:</span>
+                <span id="totalValue">R$ 0,00</span>
+            </div>
+
+            <button class="btn-submit" onclick="saveReservation()">Confirmar Agendamento</button>
+        </div>
+    </div>
+
+    <!-- MODAL: Combos Fixos por Mês -->
+    <div id="combosModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('combosModal')">&times;</span>
+            <h2>Combos Fixos Mensais</h2>
+            <div class="report-card">
+                <strong style="color: #d4af37;">Combo Tribo VIP (R$ 160/mês)</strong>
+                <p>Corte ilimitado + Barboterapia quinzenal + Sobrancelha.</p>
+            </div>
+            <div class="report-card">
+                <strong style="color: #d4af37;">Combo Executivo (R$ 110/mês)</strong>
+                <p>2 Cortes por mês + Barba semanal + Esfoliação.</p>
+            </div>
+            <div class="report-card">
+                <strong style="color: #d4af37;">Combo Pai & Filho (R$ 180/mês)</strong>
+                <p>Agendamento fixo mensal para ambos.</p>
+            </div>
+            <button class="btn-submit" onclick="closeModal('combosModal')">Fechar</button>
+        </div>
+    </div>
+
+    <!-- MODAL: Painel do Administrador -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('adminModal')">&times;</span>
+            <h2>Painel do Administrador</h2>
+            
+            <div class="sub-tabs">
+                <button class="sub-tab-btn active" onclick="switchAdminTab('barbers', this)">Barbeiros</button>
+                <button class="sub-tab-btn" onclick="switchAdminTab('clients', this)">Clientes & Fixos</button>
+                <button class="sub-tab-btn" onclick="switchAdminTab('financial', this)">Fechamento</button>
+            </div>
+
+            <!-- Aba Adicionar/Gerenciar Barbeiros -->
+            <div id="tabBarbers">
+                <div class="form-group">
+                    <label>Nome do Barbeiro:</label>
+                    <input type="text" id="newBarberName" placeholder="Ex: Gean ou Miro">
+                </div>
+                <div class="form-group">
+                    <label>Escolher Foto do Barbeiro:</label>
+                    <input type="file" id="newBarberFile" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Ou Link da Foto (opcional):</label>
+                    <input type="text" id="newBarberUrl" placeholder="https://...">
+                </div>
+                <button class="btn-submit" onclick="addBarber()">Adicionar ao Carrossel</button>
+
+                <div class="service-category-title" style="margin-top: 16px;">Barbeiros na Tela Principal</div>
+                <div id="adminBarberList"></div>
+            </div>
+
+            <!-- Aba Clientes & Fixos -->
+            <div id="tabClients" style="display: none;">
+                <div class="report-card">
+                    <strong style="color: #d4af37;">Clientes Cadastrados:</strong>
+                    <p id="adminClientList">Nenhum cliente cadastrado ainda.</p>
+                </div>
+                <div class="report-card">
+                    <strong style="color: #d4af37;">Agendamentos Registrados:</strong>
+                    <p id="adminFixedList">Nenhum agendamento registrado ainda.</p>
+                </div>
+            </div>
+
+            <!-- Aba Fechamento -->
+            <div id="tabFinancial" style="display: none;">
+                <div class="sub-tabs" style="margin-bottom: 10px;">
+                    <button class="sub-tab-btn active" onclick="switchFinancial('week', this)">Por Semana</button>
+                    <button class="sub-tab-btn" onclick="switchFinancial('month', this)">Por Mês</button>
+                </div>
+                <div class="report-card" id="financialReportContent">
+                    <strong style="color: #d4af37;">Fechamento da Semana:</strong>
+                    <p>Total de Atendimentos: 14<br>Faturamento Estimado: R$ 1.120,00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASS = '6367';
+        let selectedTime = '';
+        let currentBarberIndex = 0;
+
+        let barbers = [
+            {
+                name: 'Gean',
+                photo: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=500&q=80'
+            },
+            {
+                name: 'Miro',
+                photo: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=500&q=80'
+            },
+            {
+                name: 'Equipe Tribo',
+                photo: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=500&q=80'
+            }
+        ];
+
+        function renderCarousel() {
+            const stage = document.getElementById('barberStage');
+            const nameLabel = document.getElementById('currentBarberName');
+            stage.innerHTML = '';
+
+            if (barbers.length === 0) {
+                nameLabel.textContent = 'Nenhum barbeiro';
+                return;
+            }
+
+            if (currentBarberIndex >= barbers.length) {
+                currentBarberIndex = 0;
+            }
+
+            const total = barbers.length;
+            const prevIndex = (currentBarberIndex - 1 + total) % total;
+            const nextIndex = (currentBarberIndex + 1) % total;
+
+            barbers.forEach((barber, idx) => {
+                const card = document.createElement('div');
+                card.className = 'barber-card hidden';
+
+                if (idx === currentBarberIndex) {
+                    card.className = 'barber-card center';
+                    card.onclick = () => {};
+                } else if (total > 1 && idx === prevIndex) {
+                    card.className = 'barber-card left';
+                    card.onclick = prevBarber;
+                } else if (total > 2 && idx === nextIndex) {
+                    card.className = 'barber-card right';
+                    card.onclick = nextBarber;
+                }
+
+                const img = document.createElement('img');
+                img.src = barber.photo;
+                img.alt = barber.name;
+                card.appendChild(img);
+                stage.appendChild(card);
+            });
+
+            nameLabel.textContent = barbers[currentBarberIndex].name;
+            renderAdminBarberList();
+        }
+
+        function prevBarber() {
+            if (barbers.length === 0) return;
+            currentBarberIndex = (currentBarberIndex - 1 + barbers.length) % barbers.length;
+            renderCarousel();
+        }
+
+        function nextBarber() {
+            if (barbers.length === 0) return;
+            currentBarberIndex = (currentBarberIndex + 1) % barbers.length;
+            renderCarousel();
+        }
+
+        function openAdminAccess() {
+            document.getElementById('adminPasswordInput').value = '';
+            openModal('adminPasswordModal');
+            setTimeout(() => document.getElementById('adminPasswordInput').focus(), 100);
+        }
+
+        function verifyAdminPassword() {
+            const pass = document.getElementById('adminPasswordInput').value.trim();
+            if (pass === ADMIN_PASS) {
+                closeModal('adminPasswordModal');
+                renderAdminBarberList();
+                openModal('adminModal');
+            } else {
+                alert('Senha incorreta! Tente novamente.');
+            }
+        }
+
+        function addBarber() {
+            const nameInput = document.getElementById('newBarberName');
+            const fileInput = document.getElementById('newBarberFile');
+            const urlInput = document.getElementById('newBarberUrl');
+
+            const name = nameInput.value.trim();
+            if (!name) {
+                alert('Digite o nome do barbeiro.');
+                return;
+            }
+
+            const finishAdd = (photoSrc) => {
+                if (!photoSrc) {
+                    alert('Selecione uma foto ou informe o link da imagem.');
+                    return;
+                }
+                barbers.push({ name, photo: photoSrc });
+                currentBarberIndex = barbers.length - 1;
+                renderCarousel();
+                nameInput.value = '';
+                fileInput.value = '';
+                urlInput.value = '';
+                alert(`Barbeiro "${name}" adicionado na tela principal!`);
+            };
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    finishAdd(e.target.result);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                finishAdd(urlInput.value.trim());
+            }
+        }
+
+        function removeBarber(index) {
+            if (barbers.length <= 1) {
+                alert('É necessário manter pelo menos 1 barbeiro no carrossel.');
+                return;
+            }
+            barbers.splice(index, 1);
+            if (currentBarberIndex >= barbers.length) {
+                currentBarberIndex = 0;
+            }
+            renderCarousel();
+        }
+
+        function renderAdminBarberList() {
+            const listEl = document.getElementById('adminBarberList');
+            if (!listEl) return;
+            listEl.innerHTML = '';
+            barbers.forEach((b, index) => {
+                const item = document.createElement('div');
+                item.className = 'barber-manage-item';
+                item.innerHTML = `
+                    <div class="barber-manage-info">
+                        <img src="${b.photo}" alt="${b.name}">
+                        <span style="font-size:0.85rem;font-weight:600;">${b.name}</span>
+                    </div>
+                    <button type="button" class="btn-remove" onclick="removeBarber(${index})">Remover</button>
+                `;
+                listEl.appendChild(item);
+            });
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function switchClientTab(tab, btn) {
+            document.querySelectorAll('#clientModal .sub-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('clientTabProfile').style.display = tab === 'profile' ? 'block' : 'none';
+            document.getElementById('clientTabPayment').style.display = tab === 'payment' ? 'block' : 'none';
+        }
+
+        function copyPix() {
+            const pixKey = document.getElementById('pixKeyText').innerText;
+            navigator.clipboard.writeText(pixKey);
+            alert('Chave Pix copiada: ' + pixKey);
+        }
+
+        function saveCard() {
+            const card = document.getElementById('cardNumber').value;
+            if(card.length >= 12) {
+                alert('Cartão finalizado em ' + card.slice(-4) + ' cadastrado com segurança!');
+                closeModal('clientModal');
+            } else {
+                alert('Por favor, insira um número de cartão válido.');
+            }
+        }
+
+        function selectTime(btn, time) {
+            document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedTime = time;
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            document.querySelectorAll('.srv-check:checked').forEach(checkbox => {
+                total += parseFloat(checkbox.getAttribute('data-price'));
+            });
+            document.getElementById('totalValue').innerText = 'R$ ' + total.toFixed(2).replace('.', ',');
+        }
+
+        function saveClient() {
+            const name = document.getElementById('clientName').value;
+            if(name) {
+                document.getElementById('adminClientList').innerHTML = `• ${name} (Ativo)`;
+                alert('Perfil de ' + name + ' salvo com sucesso!');
+                closeModal('clientModal');
+            } else {
+                alert('Por favor, digite o nome do cliente.');
+            }
+        }
+
+        function saveReservation() {
+            const date = document.getElementById('reservationDate').value;
+            const type = document.getElementById('bookingType').value;
+            const total = document.getElementById('totalValue').innerText;
+            
+            let selectedServices = [];
+            document.querySelectorAll('.srv-check:checked').forEach(cb => {
+                selectedServices.push(cb.getAttribute('data-name'));
+            });
+
+            if(date && selectedTime && selectedServices.length > 0) {
+                const servicesText = selectedServices.join(', ');
+                document.getElementById('adminFixedList').innerHTML = `• <strong>${type}</strong> - Dia: ${date} às ${selectedTime}<br>Serviços: ${servicesText} (${total})`;
+                alert(`Agendamento confirmado para ${date} às ${selectedTime}!\nServiços: ${servicesText}\nTotal: ${total}`);
+                closeModal('reservationModal');
+            } else {
+                alert('Por favor, escolha a data, selecione um horário e marque pelo menos um procedimento.');
+            }
+        }
+
+        function switchAdminTab(tab, btn) {
+            document.querySelectorAll('#adminModal > .modal-content > .sub-tabs .sub-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('tabBarbers').style.display = tab === 'barbers' ? 'block' : 'none';
+            document.getElementById('tabClients').style.display = tab === 'clients' ? 'block' : 'none';
+            document.getElementById('tabFinancial').style.display = tab === 'financial' ? 'block' : 'none';
+        }
+
+        function switchFinancial(period, btn) {
+            btn.parentElement.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const content = document.getElementById('financialReportContent');
+            if(period === 'week') {
+                content.innerHTML = `<strong style="color: #d4af37;">Fechamento da Semana:</strong><p>Total de Atendimentos: 14<br>Faturamento Estimado: R$ 1.120,00</p>`;
+            } else {
+                content.innerHTML = `<strong style="color: #d4af37;">Fechamento do Mês:</strong><p>Total de Atendimentos: 58<br>Faturamento Estimado: R$ 4.640,00</p>`;
+            }
+        }
+
+        renderCarousel();
+    </script>
+</body>
+</html>
