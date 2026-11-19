@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barbearia Tribo</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d4af37">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -14,7 +18,7 @@
         }
 
         body {
-            background: linear-gradient(rgba(15, 15, 15, 0.78), rgba(20, 20, 20, 0.88)), 
+            background: linear-gradient(rgba(15, 15, 15, 0.78), rgba(20, 20, 20, 0.9)), 
                         url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
@@ -23,57 +27,58 @@
             justify-content: space-between;
             align-items: center;
             color: #ffffff;
-            padding: 18px;
+            padding: 16px;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Topo com botão Admin */
+        /* Topo com botões Barbeiro e Admin */
         .top-bar {
             width: 100%;
-            max-width: 420px;
+            max-width: 430px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 4px;
             z-index: 5;
         }
 
-        .btn-admin {
+        .btn-top {
             background: rgba(30, 30, 30, 0.65);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(212, 175, 55, 0.45);
             color: #d4af37;
-            padding: 6px 14px;
-            font-size: 0.75rem;
+            padding: 6px 12px;
+            font-size: 0.74rem;
             font-weight: 600;
             border-radius: 20px;
             cursor: pointer;
             transition: 0.3s;
         }
 
-        .btn-admin:hover {
+        .btn-top:hover {
             background: #d4af37;
             color: #111;
         }
 
-        /* Logotipo Principal: Barbearia Tribo */
+        /* Logotipo Principal */
         header {
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             z-index: 5;
         }
 
         .brand-subtitle-top {
-            font-size: 0.68rem;
+            font-size: 0.65rem;
             letter-spacing: 3px;
             text-transform: uppercase;
             color: #d4af37;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             font-weight: 600;
         }
 
         .brand-title {
-            font-size: 1.85rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: #ffffff;
             letter-spacing: 1px;
@@ -86,19 +91,63 @@
         }
 
         header p {
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             color: #cccccc;
-            margin-top: 2px;
         }
 
-        /* Carrossel de Barbeiros Conforme Esboço */
+        /* Banner de Notificação / Lembrete 1 Dia Antes */
+        .reminder-banner {
+            display: none;
+            width: 100%;
+            max-width: 420px;
+            background: rgba(39, 174, 96, 0.22);
+            backdrop-filter: blur(12px);
+            border: 1px solid #2ecc71;
+            border-radius: 14px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            z-index: 6;
+            font-size: 0.8rem;
+        }
+
+        .reminder-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .btn-ok {
+            flex: 1;
+            background: #27ae60;
+            color: #fff;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.76rem;
+            cursor: pointer;
+        }
+
+        .btn-reschedule {
+            flex: 1;
+            background: #e67e22;
+            color: #fff;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.76rem;
+            cursor: pointer;
+        }
+
+        /* Carrossel de Barbeiros */
         .carousel-section {
             width: 100%;
             max-width: 420px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 8px 0 14px 0;
+            margin: 6px 0 12px 0;
             z-index: 5;
         }
 
@@ -126,19 +175,17 @@
             justify-content: center;
             flex-shrink: 0;
             transition: 0.25s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.45);
         }
 
         .arrow-btn:hover {
             background: #d4af37;
             color: #111;
-            transform: scale(1.08);
         }
 
         .cards-stage {
             position: relative;
             width: 100%;
-            height: 155px;
+            height: 150px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -151,7 +198,8 @@
             border: 1.5px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
             transition: all 0.35s ease;
-            background: rgba(25, 25, 25, 0.8);
+            background: rgba(25, 25, 25, 0.85);
+            cursor: pointer;
         }
 
         .barber-card img {
@@ -162,8 +210,8 @@
         }
 
         .barber-card.center {
-            width: 132px;
-            height: 152px;
+            width: 130px;
+            height: 148px;
             z-index: 3;
             border-color: #d4af37;
             transform: translateX(0) scale(1);
@@ -171,19 +219,19 @@
         }
 
         .barber-card.left {
-            width: 96px;
-            height: 124px;
+            width: 94px;
+            height: 120px;
             z-index: 2;
-            transform: translateX(-82px) scale(0.92);
+            transform: translateX(-80px) scale(0.92);
             opacity: 0.62;
             filter: brightness(0.75);
         }
 
         .barber-card.right {
-            width: 96px;
-            height: 124px;
+            width: 94px;
+            height: 120px;
             z-index: 2;
-            transform: translateX(82px) scale(0.92);
+            transform: translateX(80px) scale(0.92);
             opacity: 0.62;
             filter: brightness(0.75);
         }
@@ -197,40 +245,45 @@
 
         .barber-name-box {
             margin-top: 8px;
-            background: rgba(20, 20, 20, 0.72);
+            background: rgba(20, 20, 20, 0.78);
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(212, 175, 55, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.45);
             padding: 4px 16px;
             border-radius: 20px;
             text-align: center;
         }
 
         .barber-name-label {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 700;
             color: #d4af37;
-            letter-spacing: 0.5px;
         }
 
-        /* Menu Principal com Botões Estilo Vidro Escuro Translúcido */
+        .barber-hint {
+            font-size: 0.68rem;
+            color: #bbb;
+            margin-top: 2px;
+        }
+
+        /* Menu Principal */
         .menu-container {
             width: 100%;
-            max-width: 410px;
+            max-width: 420px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 11px;
             justify-content: center;
             z-index: 5;
         }
 
         .btn-balloon {
-            background: rgba(30, 30, 30, 0.55);
+            background: rgba(30, 30, 30, 0.58);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.16);
             color: #ffffff;
-            padding: 15px 20px;
-            font-size: 0.92rem;
+            padding: 14px 18px;
+            font-size: 0.9rem;
             font-weight: 600;
             border-radius: 16px;
             cursor: pointer;
@@ -247,10 +300,9 @@
             background: rgba(212, 175, 55, 0.25);
             border-color: #d4af37;
             transform: translateY(-2px);
-            box-shadow: 0 12px 25px rgba(212, 175, 55, 0.25);
         }
 
-        /* Janelas / Modais Internos */
+        /* Modais */
         .modal {
             display: none;
             position: fixed;
@@ -258,26 +310,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.78);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(6px);
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 14px;
             z-index: 999;
         }
 
         .modal-content {
-            background: rgba(22, 22, 22, 0.94);
+            background: rgba(20, 20, 20, 0.95);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(212, 175, 55, 0.35);
             width: 100%;
-            max-width: 440px;
+            max-width: 450px;
             max-height: 90vh;
             overflow-y: auto;
             border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.65);
+            padding: 22px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
             position: relative;
             color: #ffffff;
         }
@@ -293,7 +344,7 @@
         .close-btn {
             position: absolute;
             top: 14px;
-            right: 20px;
+            right: 18px;
             font-size: 1.5rem;
             cursor: pointer;
             color: #d4af37;
@@ -301,35 +352,36 @@
 
         .modal-content h2 {
             color: #ffffff;
-            font-size: 1.15rem;
-            margin-bottom: 14px;
+            font-size: 1.12rem;
+            margin-bottom: 12px;
             border-bottom: 2px solid rgba(212, 175, 55, 0.4);
             padding-bottom: 8px;
         }
 
         .form-group {
-            margin-bottom: 13px;
+            margin-bottom: 12px;
         }
 
         .form-group label {
             display: block;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 500;
             color: #cccccc;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .form-group input[type="text"], 
+        .form-group input[type="number"],
         .form-group input[type="password"],
         .form-group input[type="date"],
         .form-group input[type="file"],
         .form-group select {
             width: 100%;
-            padding: 10px 14px;
+            padding: 9px 12px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px;
-            font-size: 0.9rem;
-            background: rgba(40, 40, 40, 0.65);
+            font-size: 0.86rem;
+            background: rgba(40, 40, 40, 0.7);
             color: #ffffff;
         }
 
@@ -342,9 +394,9 @@
 
         .sub-tab-btn {
             flex: 1;
-            min-width: 90px;
-            padding: 8px;
-            font-size: 0.78rem;
+            min-width: 80px;
+            padding: 7px 6px;
+            font-size: 0.75rem;
             font-weight: 600;
             border: 1px solid rgba(255, 255, 255, 0.2);
             background: rgba(40, 40, 40, 0.6);
@@ -361,13 +413,13 @@
         }
 
         .service-category-title {
-            font-size: 0.75rem;
+            font-size: 0.74rem;
             color: #d4af37;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 600;
             margin: 12px 0 6px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
             padding-bottom: 3px;
         }
 
@@ -381,11 +433,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             font-weight: 500;
-            background: rgba(40, 40, 40, 0.5);
+            background: rgba(40, 40, 40, 0.55);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 8px 10px;
+            padding: 8px 9px;
             border-radius: 10px;
             cursor: pointer;
             transition: 0.2s;
@@ -394,7 +446,7 @@
         .service-checkbox span:first-child {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
 
         .service-checkbox:hover {
@@ -419,7 +471,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 8px;
             border-radius: 10px;
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             font-weight: 600;
             color: #ffffff;
             cursor: pointer;
@@ -435,19 +487,19 @@
         .total-box {
             background: rgba(212, 175, 55, 0.15);
             border: 1px solid #d4af37;
-            padding: 12px 14px;
+            padding: 11px 14px;
             border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-weight: 700;
-            margin: 15px 0 10px 0;
+            margin: 14px 0 8px 0;
             color: #d4af37;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
         }
 
         .pix-box {
-            background: rgba(40, 40, 40, 0.6);
+            background: rgba(40, 40, 40, 0.65);
             border: 1px dashed #d4af37;
             padding: 12px;
             border-radius: 10px;
@@ -472,26 +524,162 @@
             color: #111;
             border: none;
             width: 100%;
-            padding: 12px;
+            padding: 11px;
             font-weight: 700;
             border-radius: 12px;
             cursor: pointer;
             margin-top: 8px;
             transition: 0.2s;
+            font-size: 0.88rem;
         }
 
         .btn-submit:hover {
             background: #e5be42;
         }
 
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            width: 100%;
+            padding: 9px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 8px;
+            font-size: 0.8rem;
+        }
+
         .report-card {
-            background: rgba(40, 40, 40, 0.6);
+            background: rgba(38, 38, 38, 0.72);
             border-left: 4px solid #d4af37;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 11px;
+            border-radius: 10px;
             margin-bottom: 10px;
-            font-size: 0.85rem;
-            color: #dddddd;
+            font-size: 0.82rem;
+            color: #e0e0e0;
+        }
+
+        /* Galeria de Cortes (Cliente & Barbeiro) */
+        .cuts-gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .cut-photo-card {
+            background: rgba(35, 35, 35, 0.8);
+            border: 1.5px solid rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.25s;
+            position: relative;
+        }
+
+        .cut-photo-card:hover, .cut-photo-card.selected-cut {
+            border-color: #d4af37;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+        }
+
+        .cut-photo-card img {
+            width: 100%;
+            height: 115px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .cut-photo-info {
+            padding: 7px;
+            font-size: 0.73rem;
+        }
+
+        .cut-badge {
+            display: inline-block;
+            background: #d4af37;
+            color: #111;
+            font-weight: 700;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 6px;
+            margin-top: 4px;
+        }
+
+        /* Gráficos de Barras Coloridas no Admin */
+        .chart-box {
+            background: rgba(32, 32, 32, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .bar-chart-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 145px;
+            padding-top: 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            gap: 8px;
+        }
+
+        .bar-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            justify-content: flex-end;
+        }
+
+        .bar-value-text {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .bar-fill {
+            width: 100%;
+            max-width: 34px;
+            border-radius: 8px 8px 0 0;
+            transition: height 0.5s ease;
+            min-height: 12px;
+        }
+
+        .bar-label-text {
+            font-size: 0.68rem;
+            color: #ccc;
+            margin-top: 6px;
+            text-align: center;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .status-confirmed {
+            background: rgba(39, 174, 96, 0.25);
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+
+        .status-pending {
+            background: rgba(243, 156, 18, 0.25);
+            color: #f1c40f;
+            border: 1px solid #f1c40f;
+        }
+
+        .status-rescheduled {
+            background: rgba(231, 76, 60, 0.25);
+            color: #ff7675;
+            border: 1px solid #e74c3c;
         }
 
         .barber-manage-item {
@@ -532,46 +720,56 @@
         }
 
         footer {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #888888;
             text-align: center;
             margin-top: 8px;
-            font-weight: 500;
             z-index: 5;
         }
     </style>
 </head>
 <body>
 
-    <!-- Topo com Acesso do Administrador -->
+    <!-- Topo com Acesso Barbeiro e Administrador -->
     <div class="top-bar">
-        <button class="btn-admin" onclick="openAdminAccess()">Painel Admin ⚙️</button>
+        <button class="btn-top" onclick="openBarberPanel()">✂️ Área do Barbeiro</button>
+        <button class="btn-top" onclick="openAdminAccess()">Painel Admin ⚙️</button>
     </div>
 
-    <!-- Logotipo Principal: Barbearia Tribo -->
+    <!-- Logotipo Principal -->
     <header>
         <div class="brand-subtitle-top">Barbearia Profissional</div>
         <h1 class="brand-title">Barbearia <span>Tribo</span></h1>
         <p>Gean & Miro Barbeiros</p>
     </header>
 
-    <!-- Carrossel de Barbeiros na Tela Principal -->
-    <section class="carousel-section" aria-label="Equipe de Barbeiros">
+    <!-- Notificação / Lembrete Automático 1 Dia Antes -->
+    <div id="reminderBanner" class="reminder-banner">
+        <div id="reminderText">🔔 <strong>Lembrete Barbearia Tribo:</strong> Seu corte é amanhã! Confirma sua presença?</div>
+        <div class="reminder-actions">
+            <button type="button" class="btn-ok" onclick="confirmBookingStatus('Confirmado (OK)')">✅ Dar OK (Confirmar)</button>
+            <button type="button" class="btn-reschedule" onclick="openRescheduleFromReminder()">🔄 Remarcar</button>
+        </div>
+    </div>
+
+    <!-- Carrossel de Barbeiros -->
+    <section class="carousel-section" aria-label="Escolha o Barbeiro">
         <div class="carousel-wrapper">
-            <button type="button" class="arrow-btn" onclick="prevBarber()" title="Barbeiro anterior">&#8592;</button>
+            <button type="button" class="arrow-btn" onclick="prevBarber()" title="Anterior">&#8592;</button>
             <div class="cards-stage" id="barberStage"></div>
-            <button type="button" class="arrow-btn" onclick="nextBarber()" title="Próximo barbeiro">&#8594;</button>
+            <button type="button" class="arrow-btn" onclick="nextBarber()" title="Próximo">&#8594;</button>
         </div>
         <div class="barber-name-box">
             <div class="barber-name-label" id="currentBarberName">Gean</div>
         </div>
+        <div class="barber-hint">Toque na foto ou use as setas para ver valores e combos deste barbeiro</div>
     </section>
 
-    <!-- Botões Balão Translúcidos Estilo Escuro -->
+    <!-- Botões Balão Translúcidos -->
     <div class="menu-container">
-        <button class="btn-balloon" onclick="openModal('clientModal')">👤 Área do Cliente & Pagamento</button>
-        <button class="btn-balloon" onclick="openModal('reservationModal')">📅 Agendar Horário & Serviços</button>
-        <button class="btn-balloon" onclick="openModal('combosModal')">⭐ Combos Fixos por Mês</button>
+        <button class="btn-balloon" onclick="openClientModal()">👤 Área do Cliente, Fotos & Pagamento</button>
+        <button class="btn-balloon" onclick="openReservationModal()">📅 Agendar com <span id="btnBarberTag">Gean</span></button>
+        <button class="btn-balloon" onclick="openCombosModal()">⭐ Combos Mensais (<span id="btnComboBarberTag">Gean</span>)</button>
     </div>
 
     <footer>
@@ -591,7 +789,44 @@
         </div>
     </div>
 
-    <!-- MODAL: Área do Cliente -->
+    <!-- MODAL: Área do Barbeiro (Agenda, Cortes Realizados e Upload Foto Pós-Corte) -->
+    <div id="barberPanelModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('barberPanelModal')">&times;</span>
+            <h2>Área do Barbeiro (<span id="barberPanelTitleName">Gean</span>)</h2>
+
+            <div class="sub-tabs">
+                <button class="sub-tab-btn active" onclick="switchBarberPanelTab('schedule', this)">Agenda Marcada</button>
+                <button class="sub-tab-btn" onclick="switchBarberPanelTab('done', this)">Cortes & Fotos</button>
+            </div>
+
+            <!-- Aba Agenda Marcada -->
+            <div id="barberTabSchedule">
+                <div class="form-group">
+                    <label>Filtrar por Dia (opcional):</label>
+                    <input type="date" id="barberFilterDate" onchange="renderBarberSchedule()">
+                </div>
+                <div id="barberAppointmentsList"></div>
+                <button type="button" class="btn-secondary" onclick="triggerOneDayBeforeReminder()">🔔 Simular Aviso 1 Dia Antes ao Cliente</button>
+            </div>
+
+            <!-- Aba Cortes Feitos + Adicionar Foto do Resultado -->
+            <div id="barberTabDone" style="display: none;">
+                <div class="form-group">
+                    <label>Registrar Foto Após o Corte:</label>
+                    <input type="text" id="postCutClientName" placeholder="Nome do Cliente" style="margin-bottom: 6px;">
+                    <input type="text" id="postCutStyleName" placeholder="Estilo do Corte (Ex: Degradê Navalhado)" style="margin-bottom: 6px;">
+                    <input type="file" id="postCutPhotoFile" accept="image/*">
+                    <button type="button" class="btn-submit" onclick="savePostCutPhoto()">📸 Salvar Foto no Histórico</button>
+                </div>
+
+                <div class="service-category-title">Cortes Realizados & Fotos Salvas</div>
+                <div class="cuts-gallery-grid" id="barberSavedCutsGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Área do Cliente (Perfil, Meus Cortes/Galeria e Pagamento) -->
     <div id="clientModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('clientModal')">&times;</span>
@@ -599,9 +834,11 @@
 
             <div class="sub-tabs">
                 <button class="sub-tab-btn active" onclick="switchClientTab('profile', this)">Perfil</button>
+                <button class="sub-tab-btn" onclick="switchClientTab('cuts', this)">Meus Cortes</button>
                 <button class="sub-tab-btn" onclick="switchClientTab('payment', this)">Cartão & Pix</button>
             </div>
 
+            <!-- Aba Perfil -->
             <div id="clientTabProfile">
                 <div class="form-group">
                     <label>Nome Completo:</label>
@@ -609,11 +846,24 @@
                 </div>
                 <div class="form-group">
                     <label>Foto de Perfil:</label>
-                    <input type="file" id="clientPhoto">
+                    <input type="file" id="clientPhoto" accept="image/*">
                 </div>
                 <button class="btn-submit" onclick="saveClient()">Salvar Perfil</button>
             </div>
 
+            <!-- Aba Galeria de Cortes (Escolher Foto como Próximo Corte Desejado) -->
+            <div id="clientTabCuts" style="display: none;">
+                <p style="font-size: 0.78rem; color: #ccc; margin-bottom: 8px;">
+                    Toque em uma foto dos seus cortes antigos ou dos cortes do barbeiro para definir como seu <strong>próximo corte desejado</strong>:
+                </p>
+                <div id="desiredCutSelectedBox" class="report-card" style="display:none;">
+                    <strong style="color:#d4af37;">Próximo Corte Escolhido:</strong>
+                    <p id="desiredCutSelectedText"></p>
+                </div>
+                <div class="cuts-gallery-grid" id="clientCutsGallery"></div>
+            </div>
+
+            <!-- Aba Pagamento -->
             <div id="clientTabPayment" style="display: none;">
                 <div class="pix-box">
                     <p style="font-size: 0.85rem; font-weight: 600; color: #d4af37;">Chave Pix da Barbearia Tribo:</p>
@@ -634,11 +884,21 @@
         </div>
     </div>
 
-    <!-- MODAL: Agendamento & Valores -->
+    <!-- MODAL: Agendamento & Valores Dinâmicos por Barbeiro -->
     <div id="reservationModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('reservationModal')">&times;</span>
-            <h2>Agendamento & Serviços</h2>
+            <h2>Agendar com <span id="resBarberName" style="color:#d4af37;">Gean</span></h2>
+
+            <div id="resDesiredPhotoNote" class="report-card" style="display:none;">
+                <strong style="color:#d4af37;">Referência de Corte Selecionada:</strong>
+                <p id="resDesiredPhotoTitle"></p>
+            </div>
+
+            <div class="form-group">
+                <label>Seu Nome:</label>
+                <input type="text" id="bookingClientName" placeholder="Digite seu nome">
+            </div>
 
             <div class="form-group">
                 <label>Tipo de Agendamento:</label>
@@ -665,76 +925,10 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Escolha os Procedimentos (Valores Médios):</label>
-                
-                <div class="service-category-title">Cortes & Barba</div>
-                <div class="services-grid">
-                    <label class="service-checkbox">
-                        <span><input type="checkbox" class="srv-check" data-name="Cabelo" data-price="40" onchange="calculateTotal()"> Cabelo</span>
-                        <span class="service-price">R$ 40</span>
-                    </label>
-                    <label class="service-checkbox">
-                        <span><input type="checkbox" class="srv-check" data-name="Barba" data-price="30" onchange="calculateTotal()"> Barba</span>
-                        <span class="service-price">R$ 30</span>
-                    </label>
-                    <label class="service-checkbox">
-                        <span><input type="checkbox" class="srv-check" data-name="Bigode" data-price="15" onchange="calculateTotal()"> Bigode</span>
-                        <span class="service-price">R$ 15</span>
-                    </label>
-                    <label class="service-checkbox">
-                        <span><input type="checkbox" class="srv-check" data-name="Barboterapia" data-price="50" onchange="calculateTotal()"> Barboterapia</span>
-                        <span class="service-price">R$ 50</span>
-                    </label>
-                </div>
-
-                <div class="service-category-title">Química & Estilo</div>
-                <div class="services-grid">
-                    <label class="service-checkbox">
-                        <span><input type="checkbox" class="srv-check" data-name="Relaxamento" data-price="60" onchange="calculateTotal()"> Relaxamento</span>
-                        <span class="service-price">R$ 60</span>
-                    </label>
-                    <label class="service-checkbox">
-                        <span><input type="checkbox" class="srv-check" data-name="Progressiva" data-price="90" onchange="calculateTotal()"> Progressiva</span>
-                        <span class="service-price">R$ 90</span>
-                    </label>
-                    <label class="service-checkbox">
-                        <span><input type="checkbox" class="srv-check" data-name="Luzes" data-price="110" onchange="calculateTotal()"> Luzes</span>
-                        <span class="service-price">R$ 110</span>
-                    </label>
-                    <label class="service-checkbox">
-                        <span><input type="checkbox" class="srv-check" data-name="Platinado" data-price="150" onchange="calculateTotal()"> Platinado</span>
-                        <span class="service-price">R$ 150</span>
-                    </label>
-                    <label class="service-checkbox">
-                        <span><input type="checkbox" class="srv-check" data-name="Penteado" data-price="30" onchange="calculateTotal()"> Penteado</span>
-                        <span class="service-price">R$ 30</span>
-                    </label>
-                    <label class="service-checkbox">
-                        <span><input type="checkbox" class="srv-check" data-name="Escovamento" data-price="30" onchange="calculateTotal()"> Escovamento</span>
-                        <span class="service-price">R$ 30</span>
-                    </label>
-                </div>
-
-                <div class="service-category-title">Estética & Cuidados</div>
-                <div class="services-grid">
-                    <label class="service-checkbox">
-                        <span><input type="checkbox" class="srv-check" data-name="Sobrancelha" data-price="20" onchange="calculateTotal()"> Sobrancelha</span>
-                        <span class="service-price">R$ 20</span>
-                    </label>
-                    <label class="service-checkbox">
-                        <span><input type="checkbox" class="srv-check" data-name="Limpeza de Pele" data-price="55" onchange="calculateTotal()"> Limpeza Pele</span>
-                        <span class="service-price">R$ 55</span>
-                    </label>
-                    <label class="service-checkbox">
-                        <span><input type="checkbox" class="srv-check" data-name="Esfoliação" data-price="35" onchange="calculateTotal()"> Esfoliação</span>
-                        <span class="service-price">R$ 35</span>
-                    </label>
-                </div>
-            </div>
+            <div id="dynamicServicesContainer"></div>
 
             <div class="total-box">
-                <span>Valor Total Estimado:</span>
+                <span>Valor Total (<span id="totalBarberName">Gean</span>):</span>
                 <span id="totalValue">R$ 0,00</span>
             </div>
 
@@ -742,44 +936,69 @@
         </div>
     </div>
 
-    <!-- MODAL: Combos Fixos por Mês -->
+    <!-- MODAL: Combos Fixos por Barbeiro -->
     <div id="combosModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('combosModal')">&times;</span>
-            <h2>Combos Fixos Mensais</h2>
-            <div class="report-card">
-                <strong style="color: #d4af37;">Combo Tribo VIP (R$ 160/mês)</strong>
-                <p>Corte ilimitado + Barboterapia quinzenal + Sobrancelha.</p>
-            </div>
-            <div class="report-card">
-                <strong style="color: #d4af37;">Combo Executivo (R$ 110/mês)</strong>
-                <p>2 Cortes por mês + Barba semanal + Esfoliação.</p>
-            </div>
-            <div class="report-card">
-                <strong style="color: #d4af37;">Combo Pai & Filho (R$ 180/mês)</strong>
-                <p>Agendamento fixo mensal para ambos.</p>
-            </div>
+            <h2>Combos Mensais — <span id="combosBarberName" style="color:#d4af37;">Gean</span></h2>
+            <div id="dynamicCombosList"></div>
             <button class="btn-submit" onclick="closeModal('combosModal')">Fechar</button>
         </div>
     </div>
 
-    <!-- MODAL: Painel do Administrador -->
+    <!-- MODAL: Painel do Administrador (Gráficos Coloridos + Editar Valores/Combos + Barbeiros) -->
     <div id="adminModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('adminModal')">&times;</span>
             <h2>Painel do Administrador</h2>
             
             <div class="sub-tabs">
-                <button class="sub-tab-btn active" onclick="switchAdminTab('barbers', this)">Barbeiros</button>
-                <button class="sub-tab-btn" onclick="switchAdminTab('clients', this)">Clientes & Fixos</button>
-                <button class="sub-tab-btn" onclick="switchAdminTab('financial', this)">Fechamento</button>
+                <button class="sub-tab-btn active" onclick="switchAdminTab('financial', this)">Gráficos</button>
+                <button class="sub-tab-btn" onclick="switchAdminTab('editPrices', this)">Editar Valores</button>
+                <button class="sub-tab-btn" onclick="switchAdminTab('barbers', this)">Barbeiros</button>
+                <button class="sub-tab-btn" onclick="switchAdminTab('clients', this)">Agenda</button>
             </div>
 
-            <!-- Aba Adicionar/Gerenciar Barbeiros -->
-            <div id="tabBarbers">
+            <!-- Aba 1: Gráficos de Barras Coloridas -->
+            <div id="tabFinancial">
+                <div class="sub-tabs" style="margin-bottom: 10px;">
+                    <button class="sub-tab-btn active" onclick="renderCharts('week', this)">Semana</button>
+                    <button class="sub-tab-btn" onclick="renderCharts('month', this)">Mês</button>
+                    <button class="sub-tab-btn" onclick="renderCharts('barber', this)">Por Barbeiro</button>
+                </div>
+
+                <div class="chart-box">
+                    <div style="font-size:0.82rem; font-weight:600; color:#d4af37; margin-bottom:4px;" id="chartTitle">Faturamento da Semana (R$)</div>
+                    <div class="bar-chart-container" id="coloredBarChart"></div>
+                </div>
+
+                <div class="report-card" id="financialSummaryCard">
+                    <strong style="color: #d4af37;">Resumo Financeiro:</strong>
+                    <p>Faturamento Total no Período: <strong>R$ 1.840,00</strong></p>
+                </div>
+            </div>
+
+            <!-- Aba 2: Editar Valores e Combos de Cada Barbeiro -->
+            <div id="tabEditPrices" style="display: none;">
+                <div class="form-group">
+                    <label>Selecione o Barbeiro para Editar Tabela:</label>
+                    <select id="adminEditBarberSelect" onchange="loadAdminPriceEditor()"></select>
+                </div>
+
+                <div class="service-category-title">Valores dos Serviços (R$)</div>
+                <div id="adminServicesPriceInputs" class="services-grid"></div>
+
+                <div class="service-category-title">Editar Combos Mensais</div>
+                <div id="adminCombosInputs"></div>
+
+                <button type="button" class="btn-submit" onclick="saveAdminPricesAndCombos()">💾 Salvar Alterações de Preços e Combos</button>
+            </div>
+
+            <!-- Aba 3: Gerenciar Barbeiros no Carrossel -->
+            <div id="tabBarbers" style="display: none;">
                 <div class="form-group">
                     <label>Nome do Barbeiro:</label>
-                    <input type="text" id="newBarberName" placeholder="Ex: Gean ou Miro">
+                    <input type="text" id="newBarberName" placeholder="Ex: Lucas">
                 </div>
                 <div class="form-group">
                     <label>Escolher Foto do Barbeiro:</label>
@@ -789,33 +1008,21 @@
                     <label>Ou Link da Foto (opcional):</label>
                     <input type="text" id="newBarberUrl" placeholder="https://...">
                 </div>
-                <button class="btn-submit" onclick="addBarber()">Adicionar ao Carrossel</button>
+                <button class="btn-submit" onclick="addBarber()">Adicionar Barbeiro</button>
 
-                <div class="service-category-title" style="margin-top: 16px;">Barbeiros na Tela Principal</div>
+                <div class="service-category-title" style="margin-top: 14px;">Barbeiros Cadastrados</div>
                 <div id="adminBarberList"></div>
             </div>
 
-            <!-- Aba Clientes & Fixos -->
+            <!-- Aba 4: Clientes & Agendamentos -->
             <div id="tabClients" style="display: none;">
                 <div class="report-card">
                     <strong style="color: #d4af37;">Clientes Cadastrados:</strong>
-                    <p id="adminClientList">Nenhum cliente cadastrado ainda.</p>
+                    <p id="adminClientList">Carlos Silva (Ativo)</p>
                 </div>
                 <div class="report-card">
-                    <strong style="color: #d4af37;">Agendamentos Registrados:</strong>
-                    <p id="adminFixedList">Nenhum agendamento registrado ainda.</p>
-                </div>
-            </div>
-
-            <!-- Aba Fechamento -->
-            <div id="tabFinancial" style="display: none;">
-                <div class="sub-tabs" style="margin-bottom: 10px;">
-                    <button class="sub-tab-btn active" onclick="switchFinancial('week', this)">Por Semana</button>
-                    <button class="sub-tab-btn" onclick="switchFinancial('month', this)">Por Mês</button>
-                </div>
-                <div class="report-card" id="financialReportContent">
-                    <strong style="color: #d4af37;">Fechamento da Semana:</strong>
-                    <p>Total de Atendimentos: 14<br>Faturamento Estimado: R$ 1.120,00</p>
+                    <strong style="color: #d4af37;">Agendamentos & Status:</strong>
+                    <div id="adminFixedList" style="margin-top:6px;"></div>
                 </div>
             </div>
         </div>
@@ -825,35 +1032,105 @@
         const ADMIN_PASS = '6367';
         let selectedTime = '';
         let currentBarberIndex = 0;
+        let selectedDesiredCut = null;
 
+        const defaultServices = [
+            { name: 'Cabelo', category: 'Cortes & Barba', price: 40 },
+            { name: 'Barba', category: 'Cortes & Barba', price: 30 },
+            { name: 'Bigode', category: 'Cortes & Barba', price: 15 },
+            { name: 'Barboterapia', category: 'Cortes & Barba', price: 50 },
+            { name: 'Relaxamento', category: 'Química & Estilo', price: 60 },
+            { name: 'Progressiva', category: 'Química & Estilo', price: 90 },
+            { name: 'Luzes', category: 'Química & Estilo', price: 110 },
+            { name: 'Platinado', category: 'Química & Estilo', price: 150 },
+            { name: 'Penteado', category: 'Química & Estilo', price: 30 },
+            { name: 'Escovamento', category: 'Química & Estilo', price: 30 },
+            { name: 'Sobrancelha', category: 'Estética & Cuidados', price: 20 },
+            { name: 'Limpeza de Pele', category: 'Estética & Cuidados', price: 55 },
+            { name: 'Esfoliação', category: 'Estética & Cuidados', price: 35 }
+        ];
+
+        // Cada barbeiro possui sua própria tabela de preços e combos
         let barbers = [
             {
                 name: 'Gean',
-                photo: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=500&q=80'
+                photo: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=500&q=80',
+                services: JSON.parse(JSON.stringify(defaultServices)),
+                combos: [
+                    { title: 'Combo Tribo Master (Gean)', price: 165, desc: 'Corte ilimitado + Barboterapia quinzenal + Sobrancelha.' },
+                    { title: 'Combo Executivo Gean', price: 115, desc: '2 Cortes por mês + Barba semanal + Esfoliação.' },
+                    { title: 'Combo Pai & Filho', price: 185, desc: 'Agendamento fixo mensal para pai e filho.' }
+                ]
             },
             {
                 name: 'Miro',
-                photo: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=500&q=80'
-            },
-            {
-                name: 'Equipe Tribo',
-                photo: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=500&q=80'
+                photo: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=500&q=80',
+                services: defaultServices.map(s => ({ ...s, price: Math.max(15, s.price - 5) })),
+                combos: [
+                    { title: 'Combo Estilo Miro', price: 150, desc: 'Corte ilimitado + Barba completa + Sobrancelha.' },
+                    { title: 'Combo Mensal Prático', price: 100, desc: '2 Cortes por mês + 2 Barbas.' },
+                    { title: 'Combo Química & Corte', price: 170, desc: '1 Corte + Relaxamento ou Hidratação mensal.' }
+                ]
             }
         ];
+
+        // Histórico de agendamentos
+        let appointments = [
+            {
+                id: 1,
+                client: 'Carlos Silva',
+                barber: 'Gean',
+                type: 'Mensal Fixo',
+                date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+                time: '15:00',
+                services: 'Cabelo, Barba',
+                total: 'R$ 70,00',
+                status: 'Aguardando OK',
+                desiredCut: 'Degradê Navalhado'
+            },
+            {
+                id: 2,
+                client: 'Rafael Costa',
+                barber: 'Miro',
+                type: 'Avulso',
+                date: new Date().toISOString().split('T')[0],
+                time: '10:30',
+                services: 'Cabelo, Sobrancelha',
+                total: 'R$ 50,00',
+                status: 'Confirmado (OK)',
+                desiredCut: ''
+            }
+        ];
+
+        // Galeria de cortes feitos (visível para cliente e barbeiro)
+        let cutPhotos = [
+            {
+                client: 'Carlos Silva',
+                barber: 'Gean',
+                style: 'Degradê Navalhado',
+                date: '10/11/2026',
+                image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=500&q=80'
+            },
+            {
+                client: 'Portfólio Miro',
+                barber: 'Miro',
+                style: 'Social Texturizado + Barba',
+                date: '14/11/2026',
+                image: 'https://images.unsplash.com/photo-1593702288056-7927b442d0fa?auto=format&fit=crop&w=500&q=80'
+            }
+        ];
+
+        function getCurrentBarber() {
+            return barbers[currentBarberIndex] || barbers[0];
+        }
 
         function renderCarousel() {
             const stage = document.getElementById('barberStage');
             const nameLabel = document.getElementById('currentBarberName');
             stage.innerHTML = '';
 
-            if (barbers.length === 0) {
-                nameLabel.textContent = 'Nenhum barbeiro';
-                return;
-            }
-
-            if (currentBarberIndex >= barbers.length) {
-                currentBarberIndex = 0;
-            }
+            if (barbers.length === 0) return;
+            if (currentBarberIndex >= barbers.length) currentBarberIndex = 0;
 
             const total = barbers.length;
             const prevIndex = (currentBarberIndex - 1 + total) % total;
@@ -865,7 +1142,7 @@
 
                 if (idx === currentBarberIndex) {
                     card.className = 'barber-card center';
-                    card.onclick = () => {};
+                    card.onclick = () => openReservationModal();
                 } else if (total > 1 && idx === prevIndex) {
                     card.className = 'barber-card left';
                     card.onclick = prevBarber;
@@ -881,22 +1158,263 @@
                 stage.appendChild(card);
             });
 
-            nameLabel.textContent = barbers[currentBarberIndex].name;
+            const active = getCurrentBarber();
+            nameLabel.textContent = active.name;
+            document.getElementById('btnBarberTag').textContent = active.name;
+            document.getElementById('btnComboBarberTag').textContent = active.name;
             renderAdminBarberList();
         }
 
         function prevBarber() {
-            if (barbers.length === 0) return;
             currentBarberIndex = (currentBarberIndex - 1 + barbers.length) % barbers.length;
             renderCarousel();
         }
 
         function nextBarber() {
-            if (barbers.length === 0) return;
             currentBarberIndex = (currentBarberIndex + 1) % barbers.length;
             renderCarousel();
         }
 
+        // Abrir agendamento já carregando os preços do barbeiro selecionado
+        function openReservationModal() {
+            const barber = getCurrentBarber();
+            document.getElementById('resBarberName').textContent = barber.name;
+            document.getElementById('totalBarberName').textContent = barber.name;
+
+            if (selectedDesiredCut) {
+                document.getElementById('resDesiredPhotoNote').style.display = 'block';
+                document.getElementById('resDesiredPhotoTitle').textContent = `${selectedDesiredCut.style} (Ref. ${selectedDesiredCut.barber})`;
+            } else {
+                document.getElementById('resDesiredPhotoNote').style.display = 'none';
+            }
+
+            const container = document.getElementById('dynamicServicesContainer');
+            container.innerHTML = '';
+            const categories = ['Cortes & Barba', 'Química & Estilo', 'Estética & Cuidados'];
+
+            categories.forEach(cat => {
+                const catServices = barber.services.filter(s => s.category === cat);
+                if (catServices.length > 0) {
+                    const title = document.createElement('div');
+                    title.className = 'service-category-title';
+                    title.textContent = cat;
+                    container.appendChild(title);
+
+                    const grid = document.createElement('div');
+                    grid.className = 'services-grid';
+                    catServices.forEach(srv => {
+                        const label = document.createElement('label');
+                        label.className = 'service-checkbox';
+                        label.innerHTML = `
+                            <span><input type="checkbox" class="srv-check" data-name="${srv.name}" data-price="${srv.price}" onchange="calculateTotal()"> ${srv.name}</span>
+                            <span class="service-price">R$ ${srv.price}</span>
+                        `;
+                        grid.appendChild(label);
+                    });
+                    container.appendChild(grid);
+                }
+            });
+
+            calculateTotal();
+            openModal('reservationModal');
+        }
+
+        // Abrir combos específicos do barbeiro selecionado
+        function openCombosModal() {
+            const barber = getCurrentBarber();
+            document.getElementById('combosBarberName').textContent = barber.name;
+            const list = document.getElementById('dynamicCombosList');
+            list.innerHTML = '';
+
+            barber.combos.forEach(combo => {
+                const card = document.createElement('div');
+                card.className = 'report-card';
+                card.innerHTML = `
+                    <strong style="color: #d4af37;">${combo.title} — R$ ${combo.price}/mês</strong>
+                    <p style="margin-top:4px;">${combo.desc}</p>
+                `;
+                list.appendChild(card);
+            });
+
+            openModal('combosModal');
+        }
+
+        // Galeria de Cortes (Cliente escolhe foto para próximo corte)
+        function openClientModal() {
+            renderClientCutsGallery();
+            openModal('clientModal');
+        }
+
+        function renderClientCutsGallery() {
+            const grid = document.getElementById('clientCutsGallery');
+            grid.innerHTML = '';
+
+            cutPhotos.forEach((item, idx) => {
+                const isSelected = selectedDesiredCut && selectedDesiredCut.style === item.style && selectedDesiredCut.image === item.image;
+                const card = document.createElement('div');
+                card.className = 'cut-photo-card' + (isSelected ? ' selected-cut' : '');
+                card.onclick = () => selectDesiredCut(idx);
+                card.innerHTML = `
+                    <img src="${item.image}" alt="${item.style}">
+                    <div class="cut-photo-info">
+                        <strong style="color:#fff;">${item.style}</strong><br>
+                        <span style="color:#bbb;">Barbeiro: ${item.barber}</span><br>
+                        <span class="cut-badge">${isSelected ? '✓ Próximo Corte' : 'Usar no Próximo Corte'}</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function selectDesiredCut(index) {
+            selectedDesiredCut = cutPhotos[index];
+            document.getElementById('desiredCutSelectedBox').style.display = 'block';
+            document.getElementById('desiredCutSelectedText').textContent = `${selectedDesiredCut.style} — Barbeiro ${selectedDesiredCut.barber}`;
+            renderClientCutsGallery();
+            alert(`Corte "${selectedDesiredCut.style}" definido como referência para o seu próximo agendamento!`);
+        }
+
+        // Área do Barbeiro (Agenda, Cortes Feitos e Upload Foto Pós-Corte)
+        function openBarberPanel() {
+            const barber = getCurrentBarber();
+            document.getElementById('barberPanelTitleName').textContent = barber.name;
+            renderBarberSchedule();
+            renderBarberSavedCuts();
+            openModal('barberPanelModal');
+        }
+
+        function switchBarberPanelTab(tab, btn) {
+            document.querySelectorAll('#barberPanelModal .sub-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('barberTabSchedule').style.display = tab === 'schedule' ? 'block' : 'none';
+            document.getElementById('barberTabDone').style.display = tab === 'done' ? 'block' : 'none';
+        }
+
+        function renderBarberSchedule() {
+            const listEl = document.getElementById('barberAppointmentsList');
+            const filterDate = document.getElementById('barberFilterDate').value;
+            listEl.innerHTML = '';
+
+            const filtered = appointments.filter(ap => !filterDate || ap.date === filterDate);
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = '<div class="report-card">Nenhum horário marcado para esta data.</div>';
+                return;
+            }
+
+            filtered.forEach(ap => {
+                let badgeClass = 'status-pending';
+                if (ap.status.includes('Confirmado')) badgeClass = 'status-confirmed';
+                if (ap.status.includes('Remarcado')) badgeClass = 'status-rescheduled';
+
+                const card = document.createElement('div');
+                card.className = 'report-card';
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong style="color:#d4af37;">${ap.client} (${ap.barber})</strong>
+                        <span class="status-badge ${badgeClass}">${ap.status}</span>
+                    </div>
+                    <p style="margin-top:4px;">📅 Dia: <strong>${ap.date}</strong> às <strong>${ap.time}</strong> (${ap.type})</p>
+                    <p>✂️ Serviços: ${ap.services} — <strong>${ap.total}</strong></p>
+                    ${ap.desiredCut ? `<p style="color:#f1c40f;">🖼️ Ref. Corte Desejado: ${ap.desiredCut}</p>` : ''}
+                `;
+                listEl.appendChild(card);
+            });
+        }
+
+        function savePostCutPhoto() {
+            const client = document.getElementById('postCutClientName').value.trim() || 'Cliente Tribo';
+            const style = document.getElementById('postCutStyleName').value.trim();
+            const fileInput = document.getElementById('postCutPhotoFile');
+            const barber = getCurrentBarber();
+
+            if (!style) {
+                alert('Informe o estilo do corte realizado.');
+                return;
+            }
+
+            const finishSavePhoto = (imgUrl) => {
+                cutPhotos.unshift({
+                    client,
+                    barber: barber.name,
+                    style,
+                    date: new Date().toLocaleDateString('pt-BR'),
+                    image: imgUrl
+                });
+                document.getElementById('postCutClientName').value = '';
+                document.getElementById('postCutStyleName').value = '';
+                fileInput.value = '';
+                renderBarberSavedCuts();
+                alert('Foto do corte salva! Agora tanto você quanto o cliente podem visualizar na galeria.');
+            };
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => finishSavePhoto(e.target.result);
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                finishSavePhoto('https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=500&q=80');
+            }
+        }
+
+        function renderBarberSavedCuts() {
+            const grid = document.getElementById('barberSavedCutsGrid');
+            grid.innerHTML = '';
+            cutPhotos.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'cut-photo-card';
+                card.innerHTML = `
+                    <img src="${item.image}" alt="${item.style}">
+                    <div class="cut-photo-info">
+                        <strong style="color:#d4af37;">${item.style}</strong><br>
+                        <span>Cliente: ${item.client}</span><br>
+                        <span style="color:#aaa;">${item.barber} • ${item.date}</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Lembrete Automático 1 Dia Antes + Notificação
+        function triggerOneDayBeforeReminder() {
+            closeModal('barberPanelModal');
+            const nextAp = appointments[0];
+            if (!nextAp) return;
+
+            const banner = document.getElementById('reminderBanner');
+            document.getElementById('reminderText').innerHTML = `🔔 <strong>Lembrete (1 dia antes):</strong> Olá ${nextAp.client}, seu corte com <strong>${nextAp.barber}</strong> é amanhã (${nextAp.date}) às <strong>${nextAp.time}</strong>!`;
+            banner.style.display = 'block';
+
+            if ('Notification' in window) {
+                if (Notification.permission === 'granted') {
+                    new Notification('Barbearia Tribo - Lembrete de Corte', {
+                        body: `Seu corte com ${nextAp.barber} é amanhã às ${nextAp.time}. Toque no app para dar OK ou remarcar.`
+                    });
+                } else if (Notification.permission !== 'denied') {
+                    Notification.requestPermission();
+                }
+            }
+        }
+
+        function confirmBookingStatus(newStatus) {
+            if (appointments[0]) {
+                appointments[0].status = newStatus;
+            }
+            document.getElementById('reminderBanner').style.display = 'none';
+            renderAdminAppointments();
+            alert(`Status atualizado para "${newStatus}"! O barbeiro já foi avisado na agenda.`);
+        }
+
+        function openRescheduleFromReminder() {
+            if (appointments[0]) {
+                appointments[0].status = 'Remarcado pelo Cliente';
+            }
+            document.getElementById('reminderBanner').style.display = 'none';
+            renderAdminAppointments();
+            openReservationModal();
+        }
+
+        // Painel Admin & Gráficos Coloridos
         function openAdminAccess() {
             document.getElementById('adminPasswordInput').value = '';
             openModal('adminPasswordModal');
@@ -907,11 +1425,144 @@
             const pass = document.getElementById('adminPasswordInput').value.trim();
             if (pass === ADMIN_PASS) {
                 closeModal('adminPasswordModal');
+                renderCharts('week');
+                populateAdminBarberSelect();
                 renderAdminBarberList();
+                renderAdminAppointments();
                 openModal('adminModal');
             } else {
-                alert('Senha incorreta! Tente novamente.');
+                alert('Senha incorreta!');
             }
+        }
+
+        function renderCharts(mode, btn) {
+            if (btn) {
+                btn.parentElement.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+
+            const chartEl = document.getElementById('coloredBarChart');
+            const titleEl = document.getElementById('chartTitle');
+            const summaryEl = document.getElementById('financialSummaryCard');
+            chartEl.innerHTML = '';
+
+            let data = [];
+            if (mode === 'week') {
+                titleEl.textContent = 'Faturamento Semanal por Dia (R$)';
+                data = [
+                    { label: 'Ter', val: 280, color: '#3498db' },
+                    { label: 'Qua', val: 340, color: '#9b59b6' },
+                    { label: 'Qui', val: 410, color: '#e67e22' },
+                    { label: 'Sex', val: 620, color: '#2ecc71' },
+                    { label: 'Sáb', val: 790, color: '#d4af37' }
+                ];
+                summaryEl.innerHTML = `<strong style="color:#d4af37;">Fechamento da Semana:</strong><p>Total: <strong>R$ 2.440,00</strong> (46 atendimentos)</p>`;
+            } else if (mode === 'month') {
+                titleEl.textContent = 'Faturamento Mensal por Semana (R$)';
+                data = [
+                    { label: 'Sem 1', val: 2150, color: '#1abc9c' },
+                    { label: 'Sem 2', val: 2480, color: '#3498db' },
+                    { label: 'Sem 3', val: 2320, color: '#e74c3c' },
+                    { label: 'Sem 4', val: 2890, color: '#d4af37' }
+                ];
+                summaryEl.innerHTML = `<strong style="color:#d4af37;">Fechamento do Mês:</strong><p>Total: <strong>R$ 9.840,00</strong> (184 atendimentos)</p>`;
+            } else {
+                titleEl.textContent = 'Faturamento por Barbeiro (R$)';
+                const colors = ['#d4af37', '#2ecc71', '#3498db', '#e67e22'];
+                data = barbers.map((b, i) => ({
+                    label: b.name,
+                    val: i === 0 ? 5240 : (i === 1 ? 4600 : 2100),
+                    color: colors[i % colors.length]
+                }));
+                summaryEl.innerHTML = `<strong style="color:#d4af37;">Comparativo da Equipe:</strong><p>Desempenho individual atualizado em tempo real.</p>`;
+            }
+
+            const maxVal = Math.max(...data.map(d => d.val), 1);
+            data.forEach(item => {
+                const heightPct = Math.round((item.val / maxVal) * 100);
+                const col = document.createElement('div');
+                col.className = 'bar-col';
+                col.innerHTML = `
+                    <div class="bar-value-text">R$${item.val}</div>
+                    <div class="bar-fill" style="height:${heightPct}%; background:${item.color};"></div>
+                    <div class="bar-label-text">${item.label}</div>
+                `;
+                chartEl.appendChild(col);
+            });
+        }
+
+        function populateAdminBarberSelect() {
+            const sel = document.getElementById('adminEditBarberSelect');
+            sel.innerHTML = '';
+            barbers.forEach((b, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.style.background = '#222';
+                opt.textContent = b.name;
+                sel.appendChild(opt);
+            });
+            loadAdminPriceEditor();
+        }
+
+        function loadAdminPriceEditor() {
+            const idx = parseInt(document.getElementById('adminEditBarberSelect').value || 0, 10);
+            const barber = barbers[idx];
+            if (!barber) return;
+
+            const srvContainer = document.getElementById('adminServicesPriceInputs');
+            srvContainer.innerHTML = '';
+            barber.services.forEach((s, sIdx) => {
+                const div = document.createElement('div');
+                div.className = 'form-group';
+                div.style.marginBottom = '4px';
+                div.innerHTML = `
+                    <label>${s.name} (R$)</label>
+                    <input type="number" id="editSrv_${sIdx}" value="${s.price}">
+                `;
+                srvContainer.appendChild(div);
+            });
+
+            const comboContainer = document.getElementById('adminCombosInputs');
+            comboContainer.innerHTML = '';
+            barber.combos.forEach((c, cIdx) => {
+                const card = document.createElement('div');
+                card.className = 'report-card';
+                card.innerHTML = `
+                    <div class="form-group" style="margin-bottom:6px;">
+                        <label>Nome do Combo ${cIdx + 1}:</label>
+                        <input type="text" id="editComboTitle_${cIdx}" value="${c.title}">
+                    </div>
+                    <div class="form-group" style="margin-bottom:6px;">
+                        <label>Valor Mensal (R$):</label>
+                        <input type="number" id="editComboPrice_${cIdx}" value="${c.price}">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label>Descrição:</label>
+                        <input type="text" id="editComboDesc_${cIdx}" value="${c.desc}">
+                    </div>
+                `;
+                comboContainer.appendChild(card);
+            });
+        }
+
+        function saveAdminPricesAndCombos() {
+            const idx = parseInt(document.getElementById('adminEditBarberSelect').value || 0, 10);
+            const barber = barbers[idx];
+            if (!barber) return;
+
+            barber.services.forEach((s, sIdx) => {
+                const val = parseFloat(document.getElementById(`editSrv_${sIdx}`).value);
+                if (!isNaN(val) && val >= 0) s.price = val;
+            });
+
+            barber.combos.forEach((c, cIdx) => {
+                c.title = document.getElementById(`editComboTitle_${cIdx}`).value.trim() || c.title;
+                const p = parseFloat(document.getElementById(`editComboPrice_${cIdx}`).value);
+                if (!isNaN(p) && p >= 0) c.price = p;
+                c.desc = document.getElementById(`editComboDesc_${cIdx}`).value.trim() || c.desc;
+            });
+
+            alert(`Tabela de valores e combos de ${barber.name} atualizada com sucesso!`);
         }
 
         function addBarber() {
@@ -927,23 +1578,30 @@
 
             const finishAdd = (photoSrc) => {
                 if (!photoSrc) {
-                    alert('Selecione uma foto ou informe o link da imagem.');
+                    alert('Selecione uma foto ou informe o link.');
                     return;
                 }
-                barbers.push({ name, photo: photoSrc });
+                barbers.push({
+                    name,
+                    photo: photoSrc,
+                    services: JSON.parse(JSON.stringify(defaultServices)),
+                    combos: [
+                        { title: `Combo Mensal ${name}`, price: 155, desc: 'Corte ilimitado + Barba quinzenal.' },
+                        { title: `Combo Prático ${name}`, price: 105, desc: '2 Cortes + 2 Barbas no mês.' }
+                    ]
+                });
                 currentBarberIndex = barbers.length - 1;
                 renderCarousel();
+                populateAdminBarberSelect();
                 nameInput.value = '';
                 fileInput.value = '';
                 urlInput.value = '';
-                alert(`Barbeiro "${name}" adicionado na tela principal!`);
+                alert(`Barbeiro "${name}" adicionado com tabela própria de valores e combos!`);
             };
 
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    finishAdd(e.target.result);
-                };
+                reader.onload = e => finishAdd(e.target.result);
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
                 finishAdd(urlInput.value.trim());
@@ -952,14 +1610,13 @@
 
         function removeBarber(index) {
             if (barbers.length <= 1) {
-                alert('É necessário manter pelo menos 1 barbeiro no carrossel.');
+                alert('Mantenha pelo menos 1 barbeiro cadastrado.');
                 return;
             }
             barbers.splice(index, 1);
-            if (currentBarberIndex >= barbers.length) {
-                currentBarberIndex = 0;
-            }
+            if (currentBarberIndex >= barbers.length) currentBarberIndex = 0;
             renderCarousel();
+            populateAdminBarberSelect();
         }
 
         function renderAdminBarberList() {
@@ -980,6 +1637,20 @@
             });
         }
 
+        function renderAdminAppointments() {
+            const box = document.getElementById('adminFixedList');
+            if (!box) return;
+            box.innerHTML = '';
+            appointments.forEach(ap => {
+                const div = document.createElement('div');
+                div.style.marginBottom = '8px';
+                div.style.paddingBottom = '6px';
+                div.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
+                div.innerHTML = `• <strong>${ap.client}</strong> com <strong>${ap.barber}</strong> — ${ap.date} às ${ap.time} (${ap.total}) <br><span style="color:#d4af37;">Status: ${ap.status}</span>`;
+                box.appendChild(div);
+            });
+        }
+
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
         }
@@ -992,6 +1663,7 @@
             document.querySelectorAll('#clientModal .sub-tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             document.getElementById('clientTabProfile').style.display = tab === 'profile' ? 'block' : 'none';
+            document.getElementById('clientTabCuts').style.display = tab === 'cuts' ? 'block' : 'none';
             document.getElementById('clientTabPayment').style.display = tab === 'payment' ? 'block' : 'none';
         }
 
@@ -1003,11 +1675,11 @@
 
         function saveCard() {
             const card = document.getElementById('cardNumber').value;
-            if(card.length >= 12) {
-                alert('Cartão finalizado em ' + card.slice(-4) + ' cadastrado com segurança!');
+            if (card.length >= 12) {
+                alert('Cartão finalizado em ' + card.slice(-4) + ' cadastrado!');
                 closeModal('clientModal');
             } else {
-                alert('Por favor, insira um número de cartão válido.');
+                alert('Insira um número de cartão válido.');
             }
         }
 
@@ -1026,56 +1698,63 @@
         }
 
         function saveClient() {
-            const name = document.getElementById('clientName').value;
-            if(name) {
+            const name = document.getElementById('clientName').value.trim();
+            if (name) {
                 document.getElementById('adminClientList').innerHTML = `• ${name} (Ativo)`;
-                alert('Perfil de ' + name + ' salvo com sucesso!');
+                document.getElementById('bookingClientName').value = name;
+                alert('Perfil de ' + name + ' salvo!');
                 closeModal('clientModal');
             } else {
-                alert('Por favor, digite o nome do cliente.');
+                alert('Digite o nome do cliente.');
             }
         }
 
         function saveReservation() {
+            const clientName = document.getElementById('bookingClientName').value.trim() || 'Cliente';
             const date = document.getElementById('reservationDate').value;
             const type = document.getElementById('bookingType').value;
             const total = document.getElementById('totalValue').innerText;
-            
+            const barber = getCurrentBarber();
+
             let selectedServices = [];
             document.querySelectorAll('.srv-check:checked').forEach(cb => {
                 selectedServices.push(cb.getAttribute('data-name'));
             });
 
-            if(date && selectedTime && selectedServices.length > 0) {
+            if (date && selectedTime && selectedServices.length > 0) {
                 const servicesText = selectedServices.join(', ');
-                document.getElementById('adminFixedList').innerHTML = `• <strong>${type}</strong> - Dia: ${date} às ${selectedTime}<br>Serviços: ${servicesText} (${total})`;
-                alert(`Agendamento confirmado para ${date} às ${selectedTime}!\nServiços: ${servicesText}\nTotal: ${total}`);
+                appointments.unshift({
+                    id: Date.now(),
+                    client: clientName,
+                    barber: barber.name,
+                    type,
+                    date,
+                    time: selectedTime,
+                    services: servicesText,
+                    total,
+                    status: 'Aguardando OK (1 dia antes)',
+                    desiredCut: selectedDesiredCut ? selectedDesiredCut.style : ''
+                });
+
+                renderAdminAppointments();
+                alert(`Agendamento confirmado com ${barber.name} para ${date} às ${selectedTime}!\nEnviaremos o lembrete automático 1 dia antes.`);
                 closeModal('reservationModal');
             } else {
-                alert('Por favor, escolha a data, selecione um horário e marque pelo menos um procedimento.');
+                alert('Escolha a data, selecione um horário e marque pelo menos um procedimento.');
             }
         }
 
         function switchAdminTab(tab, btn) {
             document.querySelectorAll('#adminModal > .modal-content > .sub-tabs .sub-tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            document.getElementById('tabFinancial').style.display = tab === 'financial' ? 'block' : 'none';
+            document.getElementById('tabEditPrices').style.display = tab === 'editPrices' ? 'block' : 'none';
             document.getElementById('tabBarbers').style.display = tab === 'barbers' ? 'block' : 'none';
             document.getElementById('tabClients').style.display = tab === 'clients' ? 'block' : 'none';
-            document.getElementById('tabFinancial').style.display = tab === 'financial' ? 'block' : 'none';
-        }
-
-        function switchFinancial(period, btn) {
-            btn.parentElement.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const content = document.getElementById('financialReportContent');
-            if(period === 'week') {
-                content.innerHTML = `<strong style="color: #d4af37;">Fechamento da Semana:</strong><p>Total de Atendimentos: 14<br>Faturamento Estimado: R$ 1.120,00</p>`;
-            } else {
-                content.innerHTML = `<strong style="color: #d4af37;">Fechamento do Mês:</strong><p>Total de Atendimentos: 58<br>Faturamento Estimado: R$ 4.640,00</p>`;
-            }
         }
 
         renderCarousel();
+        renderAdminAppointments();
     </script>
 </body>
 </html>
