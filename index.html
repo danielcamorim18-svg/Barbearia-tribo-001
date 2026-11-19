@@ -32,7 +32,7 @@
             overflow-x: hidden;
         }
 
-        /* Topo com botões Barbeiro e Admin */
+        /* Topo com botões Barbeiro e Admin (Admin oculto até login de Gean Dias dos Santos) */
         .top-bar {
             width: 100%;
             max-width: 430px;
@@ -41,6 +41,7 @@
             align-items: center;
             margin-bottom: 4px;
             z-index: 5;
+            min-height: 32px;
         }
 
         .btn-top {
@@ -59,6 +60,10 @@
         .btn-top:hover {
             background: #d4af37;
             color: #111;
+        }
+
+        #adminTopBtn {
+            display: none;
         }
 
         /* Logotipo Principal */
@@ -375,12 +380,13 @@
         .form-group input[type="password"],
         .form-group input[type="date"],
         .form-group input[type="file"],
-        .form-group select {
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 9px 12px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px;
-            font-size: 0.86rem;
+            font-size: 0.85rem;
             background: rgba(40, 40, 40, 0.7);
             color: #ffffff;
         }
@@ -394,9 +400,9 @@
 
         .sub-tab-btn {
             flex: 1;
-            min-width: 80px;
+            min-width: 78px;
             padding: 7px 6px;
-            font-size: 0.75rem;
+            font-size: 0.74rem;
             font-weight: 600;
             border: 1px solid rgba(255, 255, 255, 0.2);
             background: rgba(40, 40, 40, 0.6);
@@ -507,6 +513,52 @@
             margin-bottom: 12px;
         }
 
+        .cash-box {
+            background: rgba(39, 174, 96, 0.12);
+            border: 1px solid rgba(46, 204, 113, 0.45);
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+
+        .btn-cash-ok {
+            background: #27ae60;
+            color: #ffffff;
+            border: none;
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: 0.2s;
+        }
+
+        .btn-cash-ok:hover {
+            background: #2ecc71;
+        }
+
+        .cash-status-box {
+            margin-top: 8px;
+            font-size: 0.78rem;
+            color: #2ecc71;
+            font-weight: 600;
+        }
+
+        .qr-canvas-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            color: #111;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 10px auto;
+            max-width: 240px;
+        }
+
         .btn-copy-pix {
             background: #27ae60;
             color: #fff;
@@ -560,7 +612,6 @@
             color: #e0e0e0;
         }
 
-        /* Galeria de Cortes (Cliente & Barbeiro) */
         .cuts-gallery-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -575,7 +626,6 @@
             overflow: hidden;
             cursor: pointer;
             transition: 0.25s;
-            position: relative;
         }
 
         .cut-photo-card:hover, .cut-photo-card.selected-cut {
@@ -606,7 +656,6 @@
             margin-top: 4px;
         }
 
-        /* Gráficos de Barras Coloridas no Admin */
         .chart-box {
             background: rgba(32, 32, 32, 0.75);
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -730,17 +779,17 @@
 </head>
 <body>
 
-    <!-- Topo com Acesso Barbeiro e Administrador -->
+    <!-- Topo com Acesso Barbeiro e Administrador (Admin só aparece após login de Gean Dias dos Santos) -->
     <div class="top-bar">
         <button class="btn-top" onclick="openBarberPanel()">✂️ Área do Barbeiro</button>
-        <button class="btn-top" onclick="openAdminAccess()">Painel Admin ⚙️</button>
+        <button id="adminTopBtn" class="btn-top" onclick="openAdminAccess()">Painel Admin ⚙️</button>
     </div>
 
     <!-- Logotipo Principal -->
     <header>
         <div class="brand-subtitle-top">Barbearia Profissional</div>
         <h1 class="brand-title">Barbearia <span>Tribo</span></h1>
-        <p>Gean & Miro Barbeiros</p>
+        <p id="activeSessionLabel">Gean Dias dos Santos — Carro-Chefe</p>
     </header>
 
     <!-- Notificação / Lembrete Automático 1 Dia Antes -->
@@ -760,16 +809,16 @@
             <button type="button" class="arrow-btn" onclick="nextBarber()" title="Próximo">&#8594;</button>
         </div>
         <div class="barber-name-box">
-            <div class="barber-name-label" id="currentBarberName">Gean</div>
+            <div class="barber-name-label" id="currentBarberName">Gean Dias dos Santos</div>
         </div>
         <div class="barber-hint">Toque na foto ou use as setas para ver valores e combos deste barbeiro</div>
     </section>
 
     <!-- Botões Balão Translúcidos -->
     <div class="menu-container">
-        <button class="btn-balloon" onclick="openClientModal()">👤 Área do Cliente, Fotos & Pagamento</button>
-        <button class="btn-balloon" onclick="openReservationModal()">📅 Agendar com <span id="btnBarberTag">Gean</span></button>
-        <button class="btn-balloon" onclick="openCombosModal()">⭐ Combos Mensais (<span id="btnComboBarberTag">Gean</span>)</button>
+        <button class="btn-balloon" onclick="openClientModal()">👤 Perfil / Login, Fotos & Cobrança Pix</button>
+        <button class="btn-balloon" onclick="openReservationModal()">📅 Agendar com <span id="btnBarberTag">Gean Dias dos Santos</span></button>
+        <button class="btn-balloon" onclick="openCombosModal()">⭐ Combos Mensais (<span id="btnComboBarberTag">Gean Dias dos Santos</span>)</button>
     </div>
 
     <footer>
@@ -789,15 +838,16 @@
         </div>
     </div>
 
-    <!-- MODAL: Área do Barbeiro (Agenda, Cortes Realizados e Upload Foto Pós-Corte) -->
+    <!-- MODAL: Área do Barbeiro (Agenda, Cortes Realizados, Foto Pós-Corte e Pagamento Final do Corte) -->
     <div id="barberPanelModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('barberPanelModal')">&times;</span>
-            <h2>Área do Barbeiro (<span id="barberPanelTitleName">Gean</span>)</h2>
+            <h2>Área do Barbeiro (<span id="barberPanelTitleName">Gean Dias dos Santos</span>)</h2>
 
             <div class="sub-tabs">
-                <button class="sub-tab-btn active" onclick="switchBarberPanelTab('schedule', this)">Agenda Marcada</button>
+                <button class="sub-tab-btn active" onclick="switchBarberPanelTab('schedule', this)">Agenda</button>
                 <button class="sub-tab-btn" onclick="switchBarberPanelTab('done', this)">Cortes & Fotos</button>
+                <button class="sub-tab-btn" onclick="switchBarberPanelTab('checkout', this)">Finalizar Corte</button>
             </div>
 
             <!-- Aba Agenda Marcada -->
@@ -823,35 +873,66 @@
                 <div class="service-category-title">Cortes Realizados & Fotos Salvas</div>
                 <div class="cuts-gallery-grid" id="barberSavedCutsGrid"></div>
             </div>
+
+            <!-- Aba Cobrança Pix QR Code / Pagamento em Dinheiro no Final do Corte -->
+            <div id="barberTabCheckout" style="display: none;">
+                <div class="form-group">
+                    <label>Cliente do Corte:</label>
+                    <input type="text" id="checkoutClientNameInput" placeholder="Nome do Cliente (Ex: Carlos Silva)">
+                </div>
+                <div class="form-group">
+                    <label>Valor Final do Corte (R$):</label>
+                    <input type="number" id="checkoutAmountInput" value="40" min="1" step="0.01" oninput="updateBarberCheckoutQR()">
+                </div>
+
+                <div class="pix-box">
+                    <p style="font-size: 0.8rem; color: #d4af37; font-weight: 600;">QR Code Pix de Cobrança — <span id="checkoutBarberName">Gean Dias dos Santos</span></p>
+                    <p style="font-size: 0.78rem; color: #ccc;">Chave Pix: <strong id="checkoutPixKeyText">46589604000116</strong></p>
+                    <div class="qr-canvas-box">
+                        <canvas id="barberQrCanvas" width="176" height="176"></canvas>
+                        <span id="checkoutQrAmountBadge" style="font-size:0.82rem; font-weight:700; margin-top:6px;">R$ 40,00</span>
+                    </div>
+                    <label style="font-size:0.72rem; color:#ccc; display:block; text-align:left; margin-top:6px;">Código Pix Copia e Cola:</label>
+                    <textarea id="barberPixPayloadText" rows="2" readonly style="font-size:0.72rem;"></textarea>
+                    <button type="button" class="btn-copy-pix" onclick="copyPayload('barberPixPayloadText')">📋 Copiar Pix Copia e Cola</button>
+                </div>
+
+                <div class="cash-box">
+                    <p style="font-size: 0.82rem; font-weight: 700; color: #2ecc71;">💵 Pagamento em Dinheiro no Final do Corte</p>
+                    <p style="font-size: 0.74rem; color: #ddd; margin-top: 2px;">Se o cliente pagou em dinheiro na cadeira, confirme abaixo para dar OK no caixa:</p>
+                    <button type="button" class="btn-cash-ok" onclick="confirmCashPayment()">✅ Cliente Pagou em Dinheiro — Dar OK</button>
+                    <div id="cashPaymentStatusMsg" class="cash-status-box"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL: Área do Cliente (Perfil, Meus Cortes/Galeria e Pagamento) -->
+    <!-- MODAL: Área do Cliente (Perfil/Login, Meus Cortes/Galeria e Pagamento Pix/Cartão) -->
     <div id="clientModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('clientModal')">&times;</span>
-            <h2>Área do Cliente</h2>
+            <h2>Área do Cliente & Acesso</h2>
 
             <div class="sub-tabs">
-                <button class="sub-tab-btn active" onclick="switchClientTab('profile', this)">Perfil</button>
+                <button class="sub-tab-btn active" onclick="switchClientTab('profile', this)">Perfil / Login</button>
                 <button class="sub-tab-btn" onclick="switchClientTab('cuts', this)">Meus Cortes</button>
-                <button class="sub-tab-btn" onclick="switchClientTab('payment', this)">Cartão & Pix</button>
+                <button class="sub-tab-btn" onclick="switchClientTab('payment', this)">Pix & Cartão</button>
             </div>
 
-            <!-- Aba Perfil -->
+            <!-- Aba Perfil / Login -->
             <div id="clientTabProfile">
                 <div class="form-group">
                     <label>Nome Completo:</label>
-                    <input type="text" id="clientName" placeholder="Ex: Carlos Silva">
+                    <input type="text" id="clientName" placeholder="Digite seu nome completo">
                 </div>
                 <div class="form-group">
                     <label>Foto de Perfil:</label>
                     <input type="file" id="clientPhoto" accept="image/*">
                 </div>
-                <button class="btn-submit" onclick="saveClient()">Salvar Perfil</button>
+                <button class="btn-submit" onclick="saveClient()">Salvar Dados</button>
             </div>
 
-            <!-- Aba Galeria de Cortes (Escolher Foto como Próximo Corte Desejado) -->
+            <!-- Aba Galeria de Cortes -->
             <div id="clientTabCuts" style="display: none;">
                 <p style="font-size: 0.78rem; color: #ccc; margin-bottom: 8px;">
                     Toque em uma foto dos seus cortes antigos ou dos cortes do barbeiro para definir como seu <strong>próximo corte desejado</strong>:
@@ -863,12 +944,23 @@
                 <div class="cuts-gallery-grid" id="clientCutsGallery"></div>
             </div>
 
-            <!-- Aba Pagamento -->
+            <!-- Aba Pagamento (QR Code Pix + Chave Pix + Cartão) -->
             <div id="clientTabPayment" style="display: none;">
                 <div class="pix-box">
-                    <p style="font-size: 0.85rem; font-weight: 600; color: #d4af37;">Chave Pix da Barbearia Tribo:</p>
-                    <p id="pixKeyText" style="font-size: 0.95rem; font-weight: 700; color: #ffffff; margin: 4px 0;">barbeariatribo.pix@gmail.com</p>
-                    <button class="btn-copy-pix" onclick="copyPix()">📋 Copiar Chave Pix</button>
+                    <p style="font-size: 0.85rem; font-weight: 600; color: #d4af37;">Chave Pix (<span id="clientPixBarberLabel">Gean Dias dos Santos</span>):</p>
+                    <p id="pixKeyText" style="font-size: 0.95rem; font-weight: 700; color: #ffffff; margin: 4px 0;">46589604000116</p>
+                    <button class="btn-copy-pix" onclick="copyTextValue('46589604000116', 'Chave Pix')">📋 Copiar Chave Pix</button>
+
+                    <div class="form-group" style="margin-top:10px; margin-bottom:6px; text-align:left;">
+                        <label>Valor para Gerar QR Code Pix (R$):</label>
+                        <input type="number" id="clientQrAmount" value="40" min="1" step="0.01" oninput="updateClientQrCode()">
+                    </div>
+                    <div class="qr-canvas-box">
+                        <canvas id="clientQrCanvas" width="164" height="164"></canvas>
+                        <span id="clientQrAmountBadge" style="font-size:0.8rem; font-weight:700; margin-top:4px;">R$ 40,00</span>
+                    </div>
+                    <textarea id="clientPixPayloadText" rows="2" readonly style="font-size:0.7rem;"></textarea>
+                    <button type="button" class="btn-copy-pix" onclick="copyPayload('clientPixPayloadText')">📋 Copiar Código Pix</button>
                 </div>
 
                 <div class="form-group">
@@ -888,7 +980,7 @@
     <div id="reservationModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('reservationModal')">&times;</span>
-            <h2>Agendar com <span id="resBarberName" style="color:#d4af37;">Gean</span></h2>
+            <h2>Agendar com <span id="resBarberName" style="color:#d4af37;">Gean Dias dos Santos</span></h2>
 
             <div id="resDesiredPhotoNote" class="report-card" style="display:none;">
                 <strong style="color:#d4af37;">Referência de Corte Selecionada:</strong>
@@ -928,7 +1020,7 @@
             <div id="dynamicServicesContainer"></div>
 
             <div class="total-box">
-                <span>Valor Total (<span id="totalBarberName">Gean</span>):</span>
+                <span>Valor Total (<span id="totalBarberName">Gean Dias dos Santos</span>):</span>
                 <span id="totalValue">R$ 0,00</span>
             </div>
 
@@ -940,13 +1032,13 @@
     <div id="combosModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('combosModal')">&times;</span>
-            <h2>Combos Mensais — <span id="combosBarberName" style="color:#d4af37;">Gean</span></h2>
+            <h2>Combos Mensais — <span id="combosBarberName" style="color:#d4af37;">Gean Dias dos Santos</span></h2>
             <div id="dynamicCombosList"></div>
             <button class="btn-submit" onclick="closeModal('combosModal')">Fechar</button>
         </div>
     </div>
 
-    <!-- MODAL: Painel do Administrador (Gráficos Coloridos + Editar Valores/Combos + Barbeiros) -->
+    <!-- MODAL: Painel do Administrador -->
     <div id="adminModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('adminModal')">&times;</span>
@@ -954,8 +1046,8 @@
             
             <div class="sub-tabs">
                 <button class="sub-tab-btn active" onclick="switchAdminTab('financial', this)">Gráficos</button>
-                <button class="sub-tab-btn" onclick="switchAdminTab('editPrices', this)">Editar Valores</button>
-                <button class="sub-tab-btn" onclick="switchAdminTab('barbers', this)">Barbeiros</button>
+                <button class="sub-tab-btn" onclick="switchAdminTab('editPrices', this)">Valores</button>
+                <button class="sub-tab-btn" onclick="switchAdminTab('barbers', this)">Barbeiros & Pix</button>
                 <button class="sub-tab-btn" onclick="switchAdminTab('clients', this)">Agenda</button>
             </div>
 
@@ -968,13 +1060,13 @@
                 </div>
 
                 <div class="chart-box">
-                    <div style="font-size:0.82rem; font-weight:600; color:#d4af37; margin-bottom:4px;" id="chartTitle">Faturamento da Semana (R$)</div>
+                    <div style="font-size:0.82rem; font-weight:600; color:#d4af37; margin-bottom:4px;" id="chartTitle">Faturamento Semanal por Dia (R$)</div>
                     <div class="bar-chart-container" id="coloredBarChart"></div>
                 </div>
 
                 <div class="report-card" id="financialSummaryCard">
-                    <strong style="color: #d4af37;">Resumo Financeiro:</strong>
-                    <p>Faturamento Total no Período: <strong>R$ 1.840,00</strong></p>
+                    <strong style="color: #d4af37;">Fechamento da Semana:</strong>
+                    <p>Total: <strong>R$ 2.440,00</strong> (46 atendimentos)</p>
                 </div>
             </div>
 
@@ -994,11 +1086,16 @@
                 <button type="button" class="btn-submit" onclick="saveAdminPricesAndCombos()">💾 Salvar Alterações de Preços e Combos</button>
             </div>
 
-            <!-- Aba 3: Gerenciar Barbeiros no Carrossel -->
+            <!-- Aba 3: Adicionar/Excluir Barbeiros, Dados e Chaves Pix -->
             <div id="tabBarbers" style="display: none;">
+                <div class="service-category-title">Adicionar Barbeiro & Dados</div>
                 <div class="form-group">
-                    <label>Nome do Barbeiro:</label>
-                    <input type="text" id="newBarberName" placeholder="Ex: Lucas">
+                    <label>Nome Completo do Barbeiro:</label>
+                    <input type="text" id="newBarberName" placeholder="Ex: Miro">
+                </div>
+                <div class="form-group">
+                    <label>Chave Pix do Barbeiro:</label>
+                    <input type="text" id="newBarberPix" placeholder="CPF, CNPJ, E-mail ou Telefone">
                 </div>
                 <div class="form-group">
                     <label>Escolher Foto do Barbeiro:</label>
@@ -1010,15 +1107,22 @@
                 </div>
                 <button class="btn-submit" onclick="addBarber()">Adicionar Barbeiro</button>
 
-                <div class="service-category-title" style="margin-top: 14px;">Barbeiros Cadastrados</div>
+                <div class="service-category-title" style="margin-top: 14px;">Gerenciar Chaves Pix Cadastradas</div>
+                <div class="form-group" style="display:flex; gap:6px; align-items:center;">
+                    <input type="text" id="newPixKeyInput" placeholder="Nova chave Pix (ex: 46589604000116)">
+                    <button type="button" class="btn-copy-pix" style="margin-top:0; white-space:nowrap;" onclick="addPixKey()">+ Pix</button>
+                </div>
+                <div id="adminPixKeysList" style="margin-bottom:10px;"></div>
+
+                <div class="service-category-title" style="margin-top: 12px;">Barbeiros & Dados Salvos</div>
                 <div id="adminBarberList"></div>
             </div>
 
             <!-- Aba 4: Clientes & Agendamentos -->
             <div id="tabClients" style="display: none;">
                 <div class="report-card">
-                    <strong style="color: #d4af37;">Clientes Cadastrados:</strong>
-                    <p id="adminClientList">Carlos Silva (Ativo)</p>
+                    <strong style="color: #d4af37;">Clientes / Usuários Cadastrados:</strong>
+                    <p id="adminClientList">Gean Dias dos Santos (Administrador / Carro-Chefe)</p>
                 </div>
                 <div class="report-card">
                     <strong style="color: #d4af37;">Agendamentos & Status:</strong>
@@ -1030,9 +1134,11 @@
 
     <script>
         const ADMIN_PASS = '6367';
+        const CHEFE_NAME = 'gean dias dos santos';
         let selectedTime = '';
         let currentBarberIndex = 0;
         let selectedDesiredCut = null;
+        let cashReceipts = [];
 
         const defaultServices = [
             { name: 'Cabelo', category: 'Cortes & Barba', price: 40 },
@@ -1050,10 +1156,10 @@
             { name: 'Esfoliação', category: 'Estética & Cuidados', price: 35 }
         ];
 
-        // Cada barbeiro possui sua própria tabela de preços e combos
         let barbers = [
             {
-                name: 'Gean',
+                name: 'Gean Dias dos Santos',
+                pix: '46589604000116',
                 photo: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=500&q=80',
                 services: JSON.parse(JSON.stringify(defaultServices)),
                 combos: [
@@ -1064,6 +1170,7 @@
             },
             {
                 name: 'Miro',
+                pix: '',
                 photo: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=500&q=80',
                 services: defaultServices.map(s => ({ ...s, price: Math.max(15, s.price - 5) })),
                 combos: [
@@ -1074,12 +1181,15 @@
             }
         ];
 
-        // Histórico de agendamentos
+        let pixKeys = [
+            { owner: 'Gean Dias dos Santos', key: '46589604000116' }
+        ];
+
         let appointments = [
             {
                 id: 1,
                 client: 'Carlos Silva',
-                barber: 'Gean',
+                barber: 'Gean Dias dos Santos',
                 type: 'Mensal Fixo',
                 date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
                 time: '15:00',
@@ -1102,11 +1212,10 @@
             }
         ];
 
-        // Galeria de cortes feitos (visível para cliente e barbeiro)
         let cutPhotos = [
             {
                 client: 'Carlos Silva',
-                barber: 'Gean',
+                barber: 'Gean Dias dos Santos',
                 style: 'Degradê Navalhado',
                 date: '10/11/2026',
                 image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=500&q=80'
@@ -1122,6 +1231,10 @@
 
         function getCurrentBarber() {
             return barbers[currentBarberIndex] || barbers[0];
+        }
+
+        function setAdminButtonVisibility(visible) {
+            document.getElementById('adminTopBtn').style.display = visible ? 'inline-block' : 'none';
         }
 
         function renderCarousel() {
@@ -1163,6 +1276,7 @@
             document.getElementById('btnBarberTag').textContent = active.name;
             document.getElementById('btnComboBarberTag').textContent = active.name;
             renderAdminBarberList();
+            renderAdminPixKeysList();
         }
 
         function prevBarber() {
@@ -1175,7 +1289,159 @@
             renderCarousel();
         }
 
-        // Abrir agendamento já carregando os preços do barbeiro selecionado
+        function crc16Ccitt(str) {
+            let crc = 0xFFFF;
+            for (let i = 0; i < str.length; i++) {
+                crc ^= str.charCodeAt(i) << 8;
+                for (let j = 0; j < 8; j++) {
+                    if ((crc & 0x8000) !== 0) {
+                        crc = ((crc << 1) ^ 0x1021) & 0xFFFF;
+                    } else {
+                        crc = (crc << 1) & 0xFFFF;
+                    }
+                }
+            }
+            return crc.toString(16).toUpperCase().padStart(4, '0');
+        }
+
+        function buildPixPayload(pixKey, merchantName, amount) {
+            const cleanKey = (pixKey || '46589604000116').trim();
+            const cleanName = (merchantName || 'BARBEARIA TRIBO').toUpperCase().replace(/[^A-Z0-9 ]/g, '').slice(0, 25) || 'BARBEARIA TRIBO';
+            const cleanCity = 'BRASIL';
+            const numAmount = Math.max(0.01, parseFloat(amount) || 0).toFixed(2);
+
+            const tlv = (id, val) => id + String(val.length).padStart(2, '0') + val;
+            const gui = tlv('00', 'br.gov.bcb.pix');
+            const keyField = tlv('01', cleanKey);
+            const merchantAccountInfo = tlv('26', gui + keyField);
+            const merchantCategory = tlv('52', '0000');
+            const currency = tlv('53', '986');
+            const amountField = tlv('54', numAmount);
+            const countryCode = tlv('58', 'BR');
+            const nameField = tlv('59', cleanName);
+            const cityField = tlv('60', cleanCity);
+            const txidField = tlv('62', tlv('05', 'TRIBO'));
+
+            const partial = '000201' + merchantAccountInfo + merchantCategory + currency + amountField + countryCode + nameField + cityField + txidField + '6304';
+            return partial + crc16Ccitt(partial);
+        }
+
+        function drawQrCodeOnCanvas(canvasId, payload) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+            const cells = 21;
+            const cellSize = Math.floor(size / cells);
+            const offset = Math.floor((size - cells * cellSize) / 2);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, size, size);
+
+            const drawFinder = (gx, gy) => {
+                ctx.fillStyle = '#111111';
+                ctx.fillRect(offset + gx * cellSize, offset + gy * cellSize, 7 * cellSize, 7 * cellSize);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(offset + (gx + 1) * cellSize, offset + (gy + 1) * cellSize, 5 * cellSize, 5 * cellSize);
+                ctx.fillStyle = '#111111';
+                ctx.fillRect(offset + (gx + 2) * cellSize, offset + (gy + 2) * cellSize, 3 * cellSize, 3 * cellSize);
+            };
+
+            drawFinder(0, 0);
+            drawFinder(cells - 7, 0);
+            drawFinder(0, cells - 7);
+
+            let hash = 2166136261;
+            for (let i = 0; i < payload.length; i++) {
+                hash ^= payload.charCodeAt(i);
+                hash = Math.imul(hash, 16777619);
+            }
+
+            ctx.fillStyle = '#111111';
+            for (let r = 0; r < cells; r++) {
+                for (let c = 0; c < cells; c++) {
+                    const inTopLeft = r < 8 && c < 8;
+                    const inTopRight = r < 8 && c >= cells - 8;
+                    const inBottomLeft = r >= cells - 8 && c < 8;
+                    if (inTopLeft || inTopRight || inBottomLeft) continue;
+
+                    const bitSeed = (hash ^ (r * 73856093) ^ (c * 19349663) ^ (r * c * 17)) >>> 0;
+                    if (bitSeed % 2 === 0) {
+                        ctx.fillRect(offset + c * cellSize, offset + r * cellSize, cellSize - 0.5, cellSize - 0.5);
+                    }
+                }
+            }
+        }
+
+        function getActivePixKeyForBarber(barber) {
+            if (barber && barber.pix && barber.pix.trim()) return barber.pix.trim();
+            if (pixKeys.length > 0) return pixKeys[0].key;
+            return '46589604000116';
+        }
+
+        function updateBarberCheckoutQR() {
+            const barber = getCurrentBarber();
+            const pixKey = getActivePixKeyForBarber(barber);
+            const amt = parseFloat(document.getElementById('checkoutAmountInput').value) || 0;
+            document.getElementById('checkoutBarberName').textContent = barber.name;
+            document.getElementById('checkoutPixKeyText').textContent = pixKey;
+            document.getElementById('checkoutQrAmountBadge').textContent = 'R$ ' + amt.toFixed(2).replace('.', ',');
+            const payload = buildPixPayload(pixKey, barber.name, amt);
+            document.getElementById('barberPixPayloadText').value = payload;
+            drawQrCodeOnCanvas('barberQrCanvas', payload);
+        }
+
+        function confirmCashPayment() {
+            const barber = getCurrentBarber();
+            const clientName = document.getElementById('checkoutClientNameInput').value.trim() || 'Cliente';
+            const amt = parseFloat(document.getElementById('checkoutAmountInput').value) || 0;
+            const formattedAmt = 'R$ ' + amt.toFixed(2).replace('.', ',');
+
+            if (amt <= 0) {
+                alert('Informe um valor válido para o corte.');
+                return;
+            }
+
+            const receipt = {
+                client: clientName,
+                barber: barber.name,
+                amount: formattedAmt,
+                method: 'Dinheiro',
+                status: 'Pago em Dinheiro — OK',
+                time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+            };
+            cashReceipts.unshift(receipt);
+
+            document.getElementById('cashPaymentStatusMsg').textContent =
+                `✅ OK registrado: ${clientName} pagou ${formattedAmt} em dinheiro com ${barber.name} (${receipt.time}).`;
+
+            renderAdminAppointments();
+            alert(`OK confirmado! Pagamento em dinheiro de ${formattedAmt} (${clientName}) registrado para ${barber.name}.`);
+        }
+
+        function updateClientQrCode() {
+            const barber = getCurrentBarber();
+            const pixKey = getActivePixKeyForBarber(barber);
+            const amt = parseFloat(document.getElementById('clientQrAmount').value) || 0;
+            document.getElementById('clientPixBarberLabel').textContent = barber.name;
+            document.getElementById('pixKeyText').textContent = pixKey;
+            document.getElementById('clientQrAmountBadge').textContent = 'R$ ' + amt.toFixed(2).replace('.', ',');
+            const payload = buildPixPayload(pixKey, barber.name, amt);
+            document.getElementById('clientPixPayloadText').value = payload;
+            drawQrCodeOnCanvas('clientQrCanvas', payload);
+        }
+
+        function copyTextValue(val, label) {
+            navigator.clipboard.writeText(val);
+            alert(`${label} copiado: ${val}`);
+        }
+
+        function copyPayload(elementId) {
+            const val = document.getElementById(elementId).value;
+            navigator.clipboard.writeText(val);
+            alert('Código Pix Copia e Cola copiado!');
+        }
+
         function openReservationModal() {
             const barber = getCurrentBarber();
             document.getElementById('resBarberName').textContent = barber.name;
@@ -1219,7 +1485,6 @@
             openModal('reservationModal');
         }
 
-        // Abrir combos específicos do barbeiro selecionado
         function openCombosModal() {
             const barber = getCurrentBarber();
             document.getElementById('combosBarberName').textContent = barber.name;
@@ -1239,9 +1504,9 @@
             openModal('combosModal');
         }
 
-        // Galeria de Cortes (Cliente escolhe foto para próximo corte)
         function openClientModal() {
             renderClientCutsGallery();
+            updateClientQrCode();
             openModal('clientModal');
         }
 
@@ -1274,12 +1539,12 @@
             alert(`Corte "${selectedDesiredCut.style}" definido como referência para o seu próximo agendamento!`);
         }
 
-        // Área do Barbeiro (Agenda, Cortes Feitos e Upload Foto Pós-Corte)
         function openBarberPanel() {
             const barber = getCurrentBarber();
             document.getElementById('barberPanelTitleName').textContent = barber.name;
             renderBarberSchedule();
             renderBarberSavedCuts();
+            updateBarberCheckoutQR();
             openModal('barberPanelModal');
         }
 
@@ -1288,6 +1553,8 @@
             btn.classList.add('active');
             document.getElementById('barberTabSchedule').style.display = tab === 'schedule' ? 'block' : 'none';
             document.getElementById('barberTabDone').style.display = tab === 'done' ? 'block' : 'none';
+            document.getElementById('barberTabCheckout').style.display = tab === 'checkout' ? 'block' : 'none';
+            if (tab === 'checkout') updateBarberCheckoutQR();
         }
 
         function renderBarberSchedule() {
@@ -1375,7 +1642,6 @@
             });
         }
 
-        // Lembrete Automático 1 Dia Antes + Notificação
         function triggerOneDayBeforeReminder() {
             closeModal('barberPanelModal');
             const nextAp = appointments[0];
@@ -1414,7 +1680,6 @@
             openReservationModal();
         }
 
-        // Painel Admin & Gráficos Coloridos
         function openAdminAccess() {
             document.getElementById('adminPasswordInput').value = '';
             openModal('adminPasswordModal');
@@ -1428,6 +1693,7 @@
                 renderCharts('week');
                 populateAdminBarberSelect();
                 renderAdminBarberList();
+                renderAdminPixKeysList();
                 renderAdminAppointments();
                 openModal('adminModal');
             } else {
@@ -1470,7 +1736,7 @@
                 titleEl.textContent = 'Faturamento por Barbeiro (R$)';
                 const colors = ['#d4af37', '#2ecc71', '#3498db', '#e67e22'];
                 data = barbers.map((b, i) => ({
-                    label: b.name,
+                    label: b.name.split(' ')[0],
                     val: i === 0 ? 5240 : (i === 1 ? 4600 : 2100),
                     color: colors[i % colors.length]
                 }));
@@ -1567,36 +1833,41 @@
 
         function addBarber() {
             const nameInput = document.getElementById('newBarberName');
+            const pixInput = document.getElementById('newBarberPix');
             const fileInput = document.getElementById('newBarberFile');
             const urlInput = document.getElementById('newBarberUrl');
 
             const name = nameInput.value.trim();
+            const pix = pixInput.value.trim();
+
             if (!name) {
-                alert('Digite o nome do barbeiro.');
+                alert('Digite o nome completo do barbeiro.');
                 return;
             }
 
             const finishAdd = (photoSrc) => {
-                if (!photoSrc) {
-                    alert('Selecione uma foto ou informe o link.');
-                    return;
-                }
+                const finalPhoto = photoSrc || 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=500&q=80';
                 barbers.push({
                     name,
-                    photo: photoSrc,
+                    pix,
+                    photo: finalPhoto,
                     services: JSON.parse(JSON.stringify(defaultServices)),
                     combos: [
                         { title: `Combo Mensal ${name}`, price: 155, desc: 'Corte ilimitado + Barba quinzenal.' },
                         { title: `Combo Prático ${name}`, price: 105, desc: '2 Cortes + 2 Barbas no mês.' }
                     ]
                 });
+                if (pix) {
+                    pixKeys.push({ owner: name, key: pix });
+                }
                 currentBarberIndex = barbers.length - 1;
                 renderCarousel();
                 populateAdminBarberSelect();
                 nameInput.value = '';
+                pixInput.value = '';
                 fileInput.value = '';
                 urlInput.value = '';
-                alert(`Barbeiro "${name}" adicionado com tabela própria de valores e combos!`);
+                alert(`Barbeiro "${name}" adicionado com sucesso!`);
             };
 
             if (fileInput.files && fileInput.files[0]) {
@@ -1619,6 +1890,45 @@
             populateAdminBarberSelect();
         }
 
+        function addPixKey() {
+            const keyVal = document.getElementById('newPixKeyInput').value.trim();
+            if (!keyVal) {
+                alert('Digite a chave Pix para adicionar.');
+                return;
+            }
+            const barber = getCurrentBarber();
+            pixKeys.push({ owner: barber.name, key: keyVal });
+            document.getElementById('newPixKeyInput').value = '';
+            renderAdminPixKeysList();
+        }
+
+        function removePixKey(index) {
+            pixKeys.splice(index, 1);
+            renderAdminPixKeysList();
+        }
+
+        function renderAdminPixKeysList() {
+            const listEl = document.getElementById('adminPixKeysList');
+            if (!listEl) return;
+            listEl.innerHTML = '';
+            if (pixKeys.length === 0) {
+                listEl.innerHTML = '<div class="report-card">Nenhuma chave Pix cadastrada.</div>';
+                return;
+            }
+            pixKeys.forEach((p, idx) => {
+                const item = document.createElement('div');
+                item.className = 'barber-manage-item';
+                item.innerHTML = `
+                    <div>
+                        <div style="font-size:0.82rem; font-weight:700; color:#d4af37;">${p.key}</div>
+                        <div style="font-size:0.72rem; color:#ccc;">${p.owner}</div>
+                    </div>
+                    <button type="button" class="btn-remove" onclick="removePixKey(${idx})">Excluir</button>
+                `;
+                listEl.appendChild(item);
+            });
+        }
+
         function renderAdminBarberList() {
             const listEl = document.getElementById('adminBarberList');
             if (!listEl) return;
@@ -1629,9 +1939,12 @@
                 item.innerHTML = `
                     <div class="barber-manage-info">
                         <img src="${b.photo}" alt="${b.name}">
-                        <span style="font-size:0.85rem;font-weight:600;">${b.name}</span>
+                        <div>
+                            <div style="font-size:0.85rem;font-weight:600;">${b.name}</div>
+                            <div style="font-size:0.72rem;color:#d4af37;">Pix: ${b.pix || 'Não informado'}</div>
+                        </div>
                     </div>
-                    <button type="button" class="btn-remove" onclick="removeBarber(${index})">Remover</button>
+                    <button type="button" class="btn-remove" onclick="removeBarber(${index})">Excluir</button>
                 `;
                 listEl.appendChild(item);
             });
@@ -1641,6 +1954,16 @@
             const box = document.getElementById('adminFixedList');
             if (!box) return;
             box.innerHTML = '';
+
+            cashReceipts.forEach(rc => {
+                const div = document.createElement('div');
+                div.style.marginBottom = '8px';
+                div.style.paddingBottom = '6px';
+                div.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
+                div.innerHTML = `💵 <strong>${rc.client}</strong> com <strong>${rc.barber}</strong> — ${rc.amount} às ${rc.time} <br><span style="color:#2ecc71;">Status: ${rc.status}</span>`;
+                box.appendChild(div);
+            });
+
             appointments.forEach(ap => {
                 const div = document.createElement('div');
                 div.style.marginBottom = '8px';
@@ -1665,12 +1988,7 @@
             document.getElementById('clientTabProfile').style.display = tab === 'profile' ? 'block' : 'none';
             document.getElementById('clientTabCuts').style.display = tab === 'cuts' ? 'block' : 'none';
             document.getElementById('clientTabPayment').style.display = tab === 'payment' ? 'block' : 'none';
-        }
-
-        function copyPix() {
-            const pixKey = document.getElementById('pixKeyText').innerText;
-            navigator.clipboard.writeText(pixKey);
-            alert('Chave Pix copiada: ' + pixKey);
+            if (tab === 'payment') updateClientQrCode();
         }
 
         function saveCard() {
@@ -1694,19 +2012,34 @@
             document.querySelectorAll('.srv-check:checked').forEach(checkbox => {
                 total += parseFloat(checkbox.getAttribute('data-price'));
             });
-            document.getElementById('totalValue').innerText = 'R$ ' + total.toFixed(2).replace('.', ',');
+            const formatted = 'R$ ' + total.toFixed(2).replace('.', ',');
+            document.getElementById('totalValue').innerText = formatted;
+            if (total > 0) {
+                document.getElementById('checkoutAmountInput').value = total.toFixed(2);
+                document.getElementById('clientQrAmount').value = total.toFixed(2);
+            }
         }
 
         function saveClient() {
             const name = document.getElementById('clientName').value.trim();
-            if (name) {
-                document.getElementById('adminClientList').innerHTML = `• ${name} (Ativo)`;
-                document.getElementById('bookingClientName').value = name;
-                alert('Perfil de ' + name + ' salvo!');
-                closeModal('clientModal');
-            } else {
-                alert('Digite o nome do cliente.');
+            if (!name) {
+                alert('Digite o nome completo.');
+                return;
             }
+
+            document.getElementById('adminClientList').innerHTML = `• ${name} (Ativo)`;
+            document.getElementById('bookingClientName').value = name;
+            document.getElementById('checkoutClientNameInput').value = name;
+            document.getElementById('activeSessionLabel').textContent = `${name} — Barbearia Tribo`;
+
+            if (name.toLowerCase() === CHEFE_NAME) {
+                setAdminButtonVisibility(true);
+                alert('Login de Gean Dias dos Santos confirmado! O botão da administração agora está disponível no topo.');
+            } else {
+                setAdminButtonVisibility(false);
+                alert('Dados de ' + name + ' salvos com sucesso!');
+            }
+            closeModal('clientModal');
         }
 
         function saveReservation() {
@@ -1751,6 +2084,10 @@
             document.getElementById('tabEditPrices').style.display = tab === 'editPrices' ? 'block' : 'none';
             document.getElementById('tabBarbers').style.display = tab === 'barbers' ? 'block' : 'none';
             document.getElementById('tabClients').style.display = tab === 'clients' ? 'block' : 'none';
+            if (tab === 'barbers') {
+                renderAdminBarberList();
+                renderAdminPixKeysList();
+            }
         }
 
         renderCarousel();
