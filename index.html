@@ -650,7 +650,6 @@
             margin-top: 4px;
         }
 
-        /* Gráficos Profissionais em Cores por Barbeiro */
         .chart-box {
             background: rgba(28, 28, 32, 0.85);
             border: 1px solid rgba(255, 255, 255, 0.14);
@@ -1046,13 +1045,24 @@
         </div>
     </div>
 
-    <!-- MODAL: Combos Fixos por Barbeiro -->
+    <!-- MODAL: Combos por Barbeiro (com opção de editar na hora) -->
     <div id="combosModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('combosModal')">&times;</span>
             <h2>Combos — <span id="combosBarberName" style="color:#d4af37;">Gean Dias dos Santos</span></h2>
-            <div id="dynamicCombosList"></div>
-            <button class="btn-submit" onclick="closeModal('combosModal')">Fechar</button>
+
+            <div id="combosViewMode">
+                <div id="dynamicCombosList"></div>
+                <button type="button" class="btn-secondary" onclick="toggleComboEditMode(true)">✏️ Editar Combos na Hora</button>
+                <button class="btn-submit" onclick="closeModal('combosModal')">Fechar</button>
+            </div>
+
+            <div id="combosEditMode" style="display: none;">
+                <div id="inlineComboEditorList"></div>
+                <button type="button" class="btn-secondary" onclick="addInlineComboItem()">+ Adicionar Novo Combo</button>
+                <button type="button" class="btn-submit" onclick="saveInlineCombos()">💾 Salvar Combos do Barbeiro</button>
+                <button type="button" class="btn-secondary" onclick="toggleComboEditMode(false)">Cancelar</button>
+            </div>
         </div>
     </div>
 
@@ -1174,7 +1184,15 @@
             { name: 'Esfoliação', category: 'Estética & Cuidados', price: 35 }
         ];
 
-        // Combos do Gean ajustados: Mensal 160, Quinzenal Master 170, Executivo 200, Pai e Filho 240
+        const miroServicesFromPhoto = [
+            { name: 'Barba', category: 'Cortes & Barba', price: 15 },
+            { name: 'Corte de Cabelo', category: 'Cortes & Barba', price: 35 },
+            { name: 'Pézinho', category: 'Cortes & Barba', price: 10 },
+            { name: 'Luzes', category: 'Química & Estilo', price: 30 },
+            { name: 'Nevol', category: 'Química & Estilo', price: 50 },
+            { name: 'Sobrancelha', category: 'Estética & Cuidados', price: 10 }
+        ];
+
         let barbers = [
             {
                 name: 'Gean Dias dos Santos',
@@ -1194,7 +1212,7 @@
                 name: 'Miro',
                 pix: '',
                 photo: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=500&q=80',
-                services: defaultServices.map(s => ({ ...s, price: Math.max(15, s.price - 5) })),
+                services: JSON.parse(JSON.stringify(miroServicesFromPhoto)),
                 combos: [
                     { title: 'Combo Mensal', price: 150, desc: 'Plano mensal de cortes e barba com o barbeiro Miro.' },
                     { title: 'Combo Quinzenal Master', price: 160, desc: 'Atendimento quinzenal com alinhamento e estilo.' },
@@ -1230,8 +1248,8 @@
                 type: 'Avulso',
                 date: new Date().toISOString().split('T')[0],
                 time: '10:30',
-                services: 'Cabelo, Sobrancelha',
-                total: 'R$ 50,00',
+                services: 'Corte de Cabelo, Sobrancelha',
+                total: 'R$ 45,00',
                 status: 'Confirmado (OK)',
                 desiredCut: ''
             }
@@ -1516,7 +1534,7 @@
             openModal('reservationModal');
         }
 
-        function openCombosModal() {
+        function renderCombosList() {
             const barber = getCurrentBarber();
             document.getElementById('combosBarberName').textContent = barber.name;
             const list = document.getElementById('dynamicCombosList');
@@ -1526,13 +1544,101 @@
                 const card = document.createElement('div');
                 card.className = 'report-card';
                 card.innerHTML = `
-                    <strong style="color: #d4af37;">${combo.title} — R$ ${combo.price}/mês</strong>
+                    <strong style="color: #d4af37;">${combo.title} — R$ ${combo.price}</strong>
                     <p style="margin-top:4px;">${combo.desc}</p>
                 `;
                 list.appendChild(card);
             });
+        }
 
+        function openCombosModal() {
+            renderCombosList();
+            toggleComboEditMode(false);
             openModal('combosModal');
+        }
+
+        function toggleComboEditMode(editing) {
+            document.getElementById('combosViewMode').style.display = editing ? 'none' : 'block';
+            document.getElementById('combosEditMode').style.display = editing ? 'block' : 'none';
+            if (editing) {
+                renderInlineComboEditor();
+            }
+        }
+
+        function renderInlineComboEditor() {
+            const barber = getCurrentBarber();
+            const container = document.getElementById('inlineComboEditorList');
+            container.innerHTML = '';
+
+            barber.combos.forEach((c, idx) => {
+                const card = document.createElement('div');
+                card.className = 'report-card';
+                card.innerHTML = `
+                    <div class="form-group" style="margin-bottom:6px;">
+                        <label>Nome do Combo:</label>
+                        <input type="text" class="inline-combo-title" value="${c.title}">
+                    </div>
+                    <div class="form-group" style="margin-bottom:6px;">
+                        <label>Valor (R$):</label>
+                        <input type="number" class="inline-combo-price" value="${c.price}">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label>Descrição:</label>
+                        <input type="text" class="inline-combo-desc" value="${c.desc}">
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function addInlineComboItem() {
+            const container = document.getElementById('inlineComboEditorList');
+            const card = document.createElement('div');
+            card.className = 'report-card';
+            card.innerHTML = `
+                <div class="form-group" style="margin-bottom:6px;">
+                    <label>Nome do Combo:</label>
+                    <input type="text" class="inline-combo-title" placeholder="Ex: Combo Mensal">
+                </div>
+                <div class="form-group" style="margin-bottom:6px;">
+                    <label>Valor (R$):</label>
+                    <input type="number" class="inline-combo-price" value="160">
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label>Descrição:</label>
+                    <input type="text" class="inline-combo-desc" placeholder="Detalhes do combo">
+                </div>
+            `;
+            container.appendChild(card);
+        }
+
+        function saveInlineCombos() {
+            const barber = getCurrentBarber();
+            const titles = document.querySelectorAll('.inline-combo-title');
+            const prices = document.querySelectorAll('.inline-combo-price');
+            const descs = document.querySelectorAll('.inline-combo-desc');
+
+            const updated = [];
+            titles.forEach((tInput, i) => {
+                const title = tInput.value.trim();
+                const price = parseFloat(prices[i].value);
+                const desc = descs[i].value.trim();
+                if (title) {
+                    updated.push({
+                        title,
+                        price: isNaN(price) ? 0 : price,
+                        desc
+                    });
+                }
+            });
+
+            if (updated.length > 0) {
+                barber.combos = updated;
+            }
+            renderCombosList();
+            populateAdminBarberSelect();
+            toggleComboEditMode(false);
+            alert(`Combos de ${barber.name} atualizados!`);
         }
 
         function openClientModal() {
@@ -1770,7 +1876,6 @@
 
             const palette = ['#00b894', '#0984e3', '#e17055', '#d4af37', '#a29bfe'];
 
-            // Levantamento total da empresa no período selecionado
             let companyTotal = 0;
             barbers.forEach(b => {
                 const series = currentChartPeriod === 'week' ? b.revenueWeek : b.revenueMonth;
@@ -1866,7 +1971,7 @@
                         <input type="text" id="editComboTitle_${cIdx}" value="${c.title}">
                     </div>
                     <div class="form-group" style="margin-bottom:6px;">
-                        <label>Valor Mensal (R$):</label>
+                        <label>Valor (R$):</label>
                         <input type="number" id="editComboPrice_${cIdx}" value="${c.price}">
                     </div>
                     <div class="form-group" style="margin-bottom:0;">
