@@ -32,7 +32,6 @@
             overflow-x: hidden;
         }
 
-        /* Topo com botões Barbeiro e Admin (Admin oculto até login de Gean Dias dos Santos) */
         .top-bar {
             width: 100%;
             max-width: 430px;
@@ -66,7 +65,6 @@
             display: none;
         }
 
-        /* Logotipo Principal */
         header {
             text-align: center;
             margin-bottom: 8px;
@@ -100,7 +98,6 @@
             color: #cccccc;
         }
 
-        /* Banner de Notificação / Lembrete 1 Dia Antes */
         .reminder-banner {
             display: none;
             width: 100%;
@@ -145,7 +142,6 @@
             cursor: pointer;
         }
 
-        /* Carrossel de Barbeiros */
         .carousel-section {
             width: 100%;
             max-width: 420px;
@@ -270,7 +266,6 @@
             margin-top: 2px;
         }
 
-        /* Menu Principal */
         .menu-container {
             width: 100%;
             max-width: 420px;
@@ -307,7 +302,6 @@
             transform: translateY(-2px);
         }
 
-        /* Modais */
         .modal {
             display: none;
             position: fixed;
@@ -328,7 +322,7 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(212, 175, 55, 0.35);
             width: 100%;
-            max-width: 450px;
+            max-width: 460px;
             max-height: 90vh;
             overflow-y: auto;
             border-radius: 20px;
@@ -656,21 +650,49 @@
             margin-top: 4px;
         }
 
+        /* Gráficos Profissionais em Cores por Barbeiro */
         .chart-box {
-            background: rgba(32, 32, 32, 0.75);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 12px;
+            background: rgba(28, 28, 32, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 14px;
             padding: 14px;
             margin-bottom: 12px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            gap: 8px;
+        }
+
+        .chart-total-pill {
+            background: rgba(212, 175, 55, 0.18);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            color: #d4af37;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 12px;
+            white-space: nowrap;
         }
 
         .bar-chart-container {
             display: flex;
             align-items: flex-end;
             justify-content: space-around;
-            height: 145px;
+            height: 148px;
             padding-top: 22px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+            background: repeating-linear-gradient(
+                to top,
+                rgba(255, 255, 255, 0.06) 0px,
+                rgba(255, 255, 255, 0.06) 1px,
+                transparent 1px,
+                transparent 36px
+            );
             gap: 8px;
         }
 
@@ -686,7 +708,7 @@
         .bar-value-text {
             font-size: 0.65rem;
             font-weight: 700;
-            color: #fff;
+            color: #ffffff;
             margin-bottom: 4px;
         }
 
@@ -694,15 +716,17 @@
             width: 100%;
             max-width: 34px;
             border-radius: 8px 8px 0 0;
-            transition: height 0.5s ease;
-            min-height: 12px;
+            transition: height 0.45s ease;
+            min-height: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
         }
 
         .bar-label-text {
             font-size: 0.68rem;
-            color: #ccc;
+            color: #cccccc;
             margin-top: 6px;
             text-align: center;
+            font-weight: 500;
         }
 
         .status-badge {
@@ -779,7 +803,7 @@
 </head>
 <body>
 
-    <!-- Topo com Acesso Barbeiro e Administrador (Admin só aparece após login de Gean Dias dos Santos) -->
+    <!-- Topo com Acesso Barbeiro e Administrador -->
     <div class="top-bar">
         <button class="btn-top" onclick="openBarberPanel()">✂️ Área do Barbeiro</button>
         <button id="adminTopBtn" class="btn-top" onclick="openAdminAccess()">Painel Admin ⚙️</button>
@@ -825,7 +849,7 @@
         &copy; 2026 Barbearia Tribo - Todos os direitos reservados.
     </footer>
 
-    <!-- MODAL: Senha do Administrador -->
+    <!-- MODAL: Senha do Administrador (6763) -->
     <div id="adminPasswordModal" class="modal">
         <div class="modal-content" style="max-width: 340px;">
             <span class="close-btn" onclick="closeModal('adminPasswordModal')">&times;</span>
@@ -838,7 +862,7 @@
         </div>
     </div>
 
-    <!-- MODAL: Área do Barbeiro (Agenda, Cortes Realizados, Foto Pós-Corte e Pagamento Final do Corte) -->
+    <!-- MODAL: Área do Barbeiro -->
     <div id="barberPanelModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('barberPanelModal')">&times;</span>
@@ -850,7 +874,6 @@
                 <button class="sub-tab-btn" onclick="switchBarberPanelTab('checkout', this)">Finalizar Corte</button>
             </div>
 
-            <!-- Aba Agenda Marcada -->
             <div id="barberTabSchedule">
                 <div class="form-group">
                     <label>Filtrar por Dia (opcional):</label>
@@ -860,7 +883,6 @@
                 <button type="button" class="btn-secondary" onclick="triggerOneDayBeforeReminder()">🔔 Simular Aviso 1 Dia Antes ao Cliente</button>
             </div>
 
-            <!-- Aba Cortes Feitos + Adicionar Foto do Resultado -->
             <div id="barberTabDone" style="display: none;">
                 <div class="form-group">
                     <label>Registrar Foto Após o Corte:</label>
@@ -874,7 +896,6 @@
                 <div class="cuts-gallery-grid" id="barberSavedCutsGrid"></div>
             </div>
 
-            <!-- Aba Cobrança Pix QR Code / Pagamento em Dinheiro no Final do Corte -->
             <div id="barberTabCheckout" style="display: none;">
                 <div class="form-group">
                     <label>Cliente do Corte:</label>
@@ -907,7 +928,7 @@
         </div>
     </div>
 
-    <!-- MODAL: Área do Cliente (Perfil/Login, Meus Cortes/Galeria e Pagamento Pix/Cartão) -->
+    <!-- MODAL: Área do Cliente -->
     <div id="clientModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('clientModal')">&times;</span>
@@ -919,7 +940,6 @@
                 <button class="sub-tab-btn" onclick="switchClientTab('payment', this)">Pix & Cartão</button>
             </div>
 
-            <!-- Aba Perfil / Login -->
             <div id="clientTabProfile">
                 <div class="form-group">
                     <label>Nome Completo:</label>
@@ -932,7 +952,6 @@
                 <button class="btn-submit" onclick="saveClient()">Salvar Dados</button>
             </div>
 
-            <!-- Aba Galeria de Cortes -->
             <div id="clientTabCuts" style="display: none;">
                 <p style="font-size: 0.78rem; color: #ccc; margin-bottom: 8px;">
                     Toque em uma foto dos seus cortes antigos ou dos cortes do barbeiro para definir como seu <strong>próximo corte desejado</strong>:
@@ -944,7 +963,6 @@
                 <div class="cuts-gallery-grid" id="clientCutsGallery"></div>
             </div>
 
-            <!-- Aba Pagamento (QR Code Pix + Chave Pix + Cartão) -->
             <div id="clientTabPayment" style="display: none;">
                 <div class="pix-box">
                     <p style="font-size: 0.85rem; font-weight: 600; color: #d4af37;">Chave Pix (<span id="clientPixBarberLabel">Gean Dias dos Santos</span>):</p>
@@ -1032,7 +1050,7 @@
     <div id="combosModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('combosModal')">&times;</span>
-            <h2>Combos Mensais — <span id="combosBarberName" style="color:#d4af37;">Gean Dias dos Santos</span></h2>
+            <h2>Combos — <span id="combosBarberName" style="color:#d4af37;">Gean Dias dos Santos</span></h2>
             <div id="dynamicCombosList"></div>
             <button class="btn-submit" onclick="closeModal('combosModal')">Fechar</button>
         </div>
@@ -1051,23 +1069,22 @@
                 <button class="sub-tab-btn" onclick="switchAdminTab('clients', this)">Agenda</button>
             </div>
 
-            <!-- Aba 1: Gráficos de Barras Coloridas -->
+            <!-- Aba 1: Gráficos Profissionais em Cores por Barbeiro (Semana ou Mês) -->
             <div id="tabFinancial">
                 <div class="sub-tabs" style="margin-bottom: 10px;">
-                    <button class="sub-tab-btn active" onclick="renderCharts('week', this)">Semana</button>
-                    <button class="sub-tab-btn" onclick="renderCharts('month', this)">Mês</button>
-                    <button class="sub-tab-btn" onclick="renderCharts('barber', this)">Por Barbeiro</button>
+                    <button id="periodWeekBtn" class="sub-tab-btn active" onclick="setChartPeriod('week', this)">Por Semana</button>
+                    <button id="periodMonthBtn" class="sub-tab-btn" onclick="setChartPeriod('month', this)">Por Mês</button>
                 </div>
 
-                <div class="chart-box">
-                    <div style="font-size:0.82rem; font-weight:600; color:#d4af37; margin-bottom:4px;" id="chartTitle">Faturamento Semanal por Dia (R$)</div>
-                    <div class="bar-chart-container" id="coloredBarChart"></div>
+                <div class="form-group">
+                    <label>Visualizar Gráfico de:</label>
+                    <select id="adminChartBarberSelect" onchange="renderBarberPerformanceCharts()">
+                        <option value="ALL" style="background:#222;">Todos os Barbeiros (Empresa + Individuais)</option>
+                    </select>
                 </div>
 
-                <div class="report-card" id="financialSummaryCard">
-                    <strong style="color: #d4af37;">Fechamento da Semana:</strong>
-                    <p>Total: <strong>R$ 2.440,00</strong> (46 atendimentos)</p>
-                </div>
+                <div class="report-card" id="companyOverviewCard"></div>
+                <div id="individualBarberChartsContainer"></div>
             </div>
 
             <!-- Aba 2: Editar Valores e Combos de Cada Barbeiro -->
@@ -1080,7 +1097,7 @@
                 <div class="service-category-title">Valores dos Serviços (R$)</div>
                 <div id="adminServicesPriceInputs" class="services-grid"></div>
 
-                <div class="service-category-title">Editar Combos Mensais</div>
+                <div class="service-category-title">Editar Combos</div>
                 <div id="adminCombosInputs"></div>
 
                 <button type="button" class="btn-submit" onclick="saveAdminPricesAndCombos()">💾 Salvar Alterações de Preços e Combos</button>
@@ -1125,7 +1142,7 @@
                     <p id="adminClientList">Gean Dias dos Santos (Administrador / Carro-Chefe)</p>
                 </div>
                 <div class="report-card">
-                    <strong style="color: #d4af37;">Agendamentos & Status:</strong>
+                    <strong style="color: #d4af37;">Agendamentos & Pagamentos:</strong>
                     <div id="adminFixedList" style="margin-top:6px;"></div>
                 </div>
             </div>
@@ -1133,12 +1150,13 @@
     </div>
 
     <script>
-        const ADMIN_PASS = '6367';
+        const ADMIN_PASS = '6763';
         const CHEFE_NAME = 'gean dias dos santos';
         let selectedTime = '';
         let currentBarberIndex = 0;
         let selectedDesiredCut = null;
         let cashReceipts = [];
+        let currentChartPeriod = 'week';
 
         const defaultServices = [
             { name: 'Cabelo', category: 'Cortes & Barba', price: 40 },
@@ -1156,6 +1174,7 @@
             { name: 'Esfoliação', category: 'Estética & Cuidados', price: 35 }
         ];
 
+        // Combos do Gean ajustados: Mensal 160, Quinzenal Master 170, Executivo 200, Pai e Filho 240
         let barbers = [
             {
                 name: 'Gean Dias dos Santos',
@@ -1163,10 +1182,13 @@
                 photo: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=500&q=80',
                 services: JSON.parse(JSON.stringify(defaultServices)),
                 combos: [
-                    { title: 'Combo Tribo Master (Gean)', price: 165, desc: 'Corte ilimitado + Barboterapia quinzenal + Sobrancelha.' },
-                    { title: 'Combo Executivo Gean', price: 115, desc: '2 Cortes por mês + Barba semanal + Esfoliação.' },
-                    { title: 'Combo Pai & Filho', price: 185, desc: 'Agendamento fixo mensal para pai e filho.' }
-                ]
+                    { title: 'Combo Mensal', price: 160, desc: 'Plano mensal de cuidados e manutenção na barbearia.' },
+                    { title: 'Combo Quinzenal Master', price: 170, desc: 'Atendimento quinzenal completo com acabamento especial.' },
+                    { title: 'Combo Executivo', price: 200, desc: 'Pacote executivo com corte, barba e cuidados faciais.' },
+                    { title: 'Combo Pai & Filho', price: 240, desc: 'Pacote mensal programado para pai e filho.' }
+                ],
+                revenueWeek: [240, 290, 360, 510, 640],
+                revenueMonth: [1820, 2050, 1940, 2290]
             },
             {
                 name: 'Miro',
@@ -1174,10 +1196,13 @@
                 photo: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=500&q=80',
                 services: defaultServices.map(s => ({ ...s, price: Math.max(15, s.price - 5) })),
                 combos: [
-                    { title: 'Combo Estilo Miro', price: 150, desc: 'Corte ilimitado + Barba completa + Sobrancelha.' },
-                    { title: 'Combo Mensal Prático', price: 100, desc: '2 Cortes por mês + 2 Barbas.' },
-                    { title: 'Combo Química & Corte', price: 170, desc: '1 Corte + Relaxamento ou Hidratação mensal.' }
-                ]
+                    { title: 'Combo Mensal', price: 150, desc: 'Plano mensal de cortes e barba com o barbeiro Miro.' },
+                    { title: 'Combo Quinzenal Master', price: 160, desc: 'Atendimento quinzenal com alinhamento e estilo.' },
+                    { title: 'Combo Executivo', price: 185, desc: 'Pacote executivo com corte, barba e sobrancelha.' },
+                    { title: 'Combo Pai & Filho', price: 220, desc: 'Agendamento programado para pai e filho.' }
+                ],
+                revenueWeek: [180, 220, 270, 390, 480],
+                revenueMonth: [1450, 1620, 1580, 1790]
             }
         ];
 
@@ -1400,6 +1425,12 @@
             if (amt <= 0) {
                 alert('Informe um valor válido para o corte.');
                 return;
+            }
+
+            if (currentChartPeriod === 'week') {
+                barber.revenueWeek[barber.revenueWeek.length - 1] += amt;
+            } else {
+                barber.revenueMonth[barber.revenueMonth.length - 1] += amt;
             }
 
             const receipt = {
@@ -1690,7 +1721,8 @@
             const pass = document.getElementById('adminPasswordInput').value.trim();
             if (pass === ADMIN_PASS) {
                 closeModal('adminPasswordModal');
-                renderCharts('week');
+                populateChartBarberFilter();
+                renderBarberPerformanceCharts();
                 populateAdminBarberSelect();
                 renderAdminBarberList();
                 renderAdminPixKeysList();
@@ -1701,59 +1733,94 @@
             }
         }
 
-        function renderCharts(mode, btn) {
+        function setChartPeriod(period, btn) {
+            currentChartPeriod = period;
+            document.getElementById('periodWeekBtn').classList.toggle('active', period === 'week');
+            document.getElementById('periodMonthBtn').classList.toggle('active', period === 'month');
             if (btn) {
                 btn.parentElement.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
             }
+            renderBarberPerformanceCharts();
+        }
 
-            const chartEl = document.getElementById('coloredBarChart');
-            const titleEl = document.getElementById('chartTitle');
-            const summaryEl = document.getElementById('financialSummaryCard');
-            chartEl.innerHTML = '';
+        function populateChartBarberFilter() {
+            const sel = document.getElementById('adminChartBarberSelect');
+            const prevVal = sel.value || 'ALL';
+            sel.innerHTML = '<option value="ALL" style="background:#222;">Todos os Barbeiros (Empresa + Individuais)</option>';
+            barbers.forEach((b, idx) => {
+                const opt = document.createElement('option');
+                opt.value = String(idx);
+                opt.style.background = '#222';
+                opt.textContent = `Gráfico de ${b.name}`;
+                sel.appendChild(opt);
+            });
+            sel.value = prevVal;
+        }
 
-            let data = [];
-            if (mode === 'week') {
-                titleEl.textContent = 'Faturamento Semanal por Dia (R$)';
-                data = [
-                    { label: 'Ter', val: 280, color: '#3498db' },
-                    { label: 'Qua', val: 340, color: '#9b59b6' },
-                    { label: 'Qui', val: 410, color: '#e67e22' },
-                    { label: 'Sex', val: 620, color: '#2ecc71' },
-                    { label: 'Sáb', val: 790, color: '#d4af37' }
-                ];
-                summaryEl.innerHTML = `<strong style="color:#d4af37;">Fechamento da Semana:</strong><p>Total: <strong>R$ 2.440,00</strong> (46 atendimentos)</p>`;
-            } else if (mode === 'month') {
-                titleEl.textContent = 'Faturamento Mensal por Semana (R$)';
-                data = [
-                    { label: 'Sem 1', val: 2150, color: '#1abc9c' },
-                    { label: 'Sem 2', val: 2480, color: '#3498db' },
-                    { label: 'Sem 3', val: 2320, color: '#e74c3c' },
-                    { label: 'Sem 4', val: 2890, color: '#d4af37' }
-                ];
-                summaryEl.innerHTML = `<strong style="color:#d4af37;">Fechamento do Mês:</strong><p>Total: <strong>R$ 9.840,00</strong> (184 atendimentos)</p>`;
-            } else {
-                titleEl.textContent = 'Faturamento por Barbeiro (R$)';
-                const colors = ['#d4af37', '#2ecc71', '#3498db', '#e67e22'];
-                data = barbers.map((b, i) => ({
-                    label: b.name.split(' ')[0],
-                    val: i === 0 ? 5240 : (i === 1 ? 4600 : 2100),
-                    color: colors[i % colors.length]
-                }));
-                summaryEl.innerHTML = `<strong style="color:#d4af37;">Comparativo da Equipe:</strong><p>Desempenho individual atualizado em tempo real.</p>`;
-            }
+        function renderBarberPerformanceCharts() {
+            const filterVal = document.getElementById('adminChartBarberSelect').value;
+            const overviewEl = document.getElementById('companyOverviewCard');
+            const containerEl = document.getElementById('individualBarberChartsContainer');
+            containerEl.innerHTML = '';
 
-            const maxVal = Math.max(...data.map(d => d.val), 1);
-            data.forEach(item => {
-                const heightPct = Math.round((item.val / maxVal) * 100);
-                const col = document.createElement('div');
-                col.className = 'bar-col';
-                col.innerHTML = `
-                    <div class="bar-value-text">R$${item.val}</div>
-                    <div class="bar-fill" style="height:${heightPct}%; background:${item.color};"></div>
-                    <div class="bar-label-text">${item.label}</div>
+            const labels = currentChartPeriod === 'week'
+                ? ['Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+                : ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'];
+
+            const palette = ['#00b894', '#0984e3', '#e17055', '#d4af37', '#a29bfe'];
+
+            // Levantamento total da empresa no período selecionado
+            let companyTotal = 0;
+            barbers.forEach(b => {
+                const series = currentChartPeriod === 'week' ? b.revenueWeek : b.revenueMonth;
+                companyTotal += series.reduce((acc, v) => acc + v, 0);
+            });
+
+            const periodLabel = currentChartPeriod === 'week' ? 'Semanal' : 'Mensal';
+            overviewEl.innerHTML = `
+                <strong style="color:#d4af37;">Levantamento da Empresa (${periodLabel}):</strong>
+                <p style="margin-top:4px;">Faturamento Consolidado: <strong style="color:#2ecc71;">R$ ${companyTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</strong></p>
+            `;
+
+            const targetBarbers = filterVal === 'ALL'
+                ? barbers.map((b, idx) => ({ barber: b, idx }))
+                : [{ barber: barbers[parseInt(filterVal, 10)] || barbers[0], idx: parseInt(filterVal, 10) || 0 }];
+
+            targetBarbers.forEach(({ barber, idx }) => {
+                const values = currentChartPeriod === 'week' ? barber.revenueWeek : barber.revenueMonth;
+                const barberSum = values.reduce((a, b) => a + b, 0);
+                const maxVal = Math.max(...values, 1);
+
+                const box = document.createElement('div');
+                box.className = 'chart-box';
+
+                const header = document.createElement('div');
+                header.className = 'chart-header';
+                header.innerHTML = `
+                    <span style="font-size:0.84rem; font-weight:700; color:#fff;">✂️ ${barber.name} (${periodLabel})</span>
+                    <span class="chart-total-pill">R$ ${barberSum.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
                 `;
-                chartEl.appendChild(col);
+                box.appendChild(header);
+
+                const barsRow = document.createElement('div');
+                barsRow.className = 'bar-chart-container';
+
+                values.forEach((val, vIdx) => {
+                    const pct = Math.max(8, Math.round((val / maxVal) * 100));
+                    const color = palette[(idx + vIdx) % palette.length];
+                    const col = document.createElement('div');
+                    col.className = 'bar-col';
+                    col.innerHTML = `
+                        <div class="bar-value-text">R$${Math.round(val)}</div>
+                        <div class="bar-fill" style="height:${pct}%; background:${color};"></div>
+                        <div class="bar-label-text">${labels[vIdx]}</div>
+                    `;
+                    barsRow.appendChild(col);
+                });
+
+                box.appendChild(barsRow);
+                containerEl.appendChild(box);
             });
         }
 
@@ -1853,9 +1920,13 @@
                     photo: finalPhoto,
                     services: JSON.parse(JSON.stringify(defaultServices)),
                     combos: [
-                        { title: `Combo Mensal ${name}`, price: 155, desc: 'Corte ilimitado + Barba quinzenal.' },
-                        { title: `Combo Prático ${name}`, price: 105, desc: '2 Cortes + 2 Barbas no mês.' }
-                    ]
+                        { title: 'Combo Mensal', price: 160, desc: 'Plano mensal de cuidados na barbearia.' },
+                        { title: 'Combo Quinzenal Master', price: 170, desc: 'Atendimento quinzenal completo.' },
+                        { title: 'Combo Executivo', price: 200, desc: 'Pacote executivo com corte e cuidados.' },
+                        { title: 'Combo Pai & Filho', price: 240, desc: 'Pacote mensal programado para pai e filho.' }
+                    ],
+                    revenueWeek: [150, 210, 250, 320, 410],
+                    revenueMonth: [1200, 1380, 1420, 1650]
                 });
                 if (pix) {
                     pixKeys.push({ owner: name, key: pix });
@@ -1863,6 +1934,8 @@
                 currentBarberIndex = barbers.length - 1;
                 renderCarousel();
                 populateAdminBarberSelect();
+                populateChartBarberFilter();
+                renderBarberPerformanceCharts();
                 nameInput.value = '';
                 pixInput.value = '';
                 fileInput.value = '';
@@ -1888,6 +1961,8 @@
             if (currentBarberIndex >= barbers.length) currentBarberIndex = 0;
             renderCarousel();
             populateAdminBarberSelect();
+            populateChartBarberFilter();
+            renderBarberPerformanceCharts();
         }
 
         function addPixKey() {
@@ -2084,7 +2159,10 @@
             document.getElementById('tabEditPrices').style.display = tab === 'editPrices' ? 'block' : 'none';
             document.getElementById('tabBarbers').style.display = tab === 'barbers' ? 'block' : 'none';
             document.getElementById('tabClients').style.display = tab === 'clients' ? 'block' : 'none';
-            if (tab === 'barbers') {
+            if (tab === 'financial') {
+                populateChartBarberFilter();
+                renderBarberPerformanceCharts();
+            } else if (tab === 'barbers') {
                 renderAdminBarberList();
                 renderAdminPixKeysList();
             }
