@@ -65,6 +65,17 @@
             display: none;
         }
 
+        .sync-badge {
+            font-size: 0.66rem;
+            color: #2ecc71;
+            background: rgba(20, 20, 20, 0.72);
+            border: 1px solid rgba(46, 204, 113, 0.35);
+            padding: 2px 10px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
         header {
             text-align: center;
             margin-bottom: 8px;
@@ -112,10 +123,25 @@
             font-size: 0.8rem;
         }
 
+        .barber-alert-banner {
+            display: none;
+            width: 100%;
+            max-width: 420px;
+            background: rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(12px);
+            border: 1px solid #d4af37;
+            border-radius: 14px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            z-index: 6;
+            font-size: 0.78rem;
+        }
+
         .reminder-actions {
             display: flex;
             gap: 8px;
             margin-top: 8px;
+            flex-wrap: wrap;
         }
 
         .btn-ok {
@@ -139,6 +165,18 @@
             border-radius: 8px;
             font-weight: 600;
             font-size: 0.76rem;
+            cursor: pointer;
+        }
+
+        .btn-wa {
+            flex: 1;
+            background: #25d366;
+            color: #111;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.75rem;
             cursor: pointer;
         }
 
@@ -791,6 +829,31 @@
             cursor: pointer;
         }
 
+        .btn-mini-ok {
+            background: #27ae60;
+            color: #fff;
+            border: none;
+            padding: 4px 9px;
+            border-radius: 7px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 6px;
+            margin-right: 6px;
+        }
+
+        .btn-mini-wa {
+            background: #25d366;
+            color: #111;
+            border: none;
+            padding: 4px 9px;
+            border-radius: 7px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
         footer {
             font-size: 0.72rem;
             color: #888888;
@@ -813,11 +876,21 @@
         <div class="brand-subtitle-top">Barbearia Profissional</div>
         <h1 class="brand-title">Barbearia <span>Tribo</span></h1>
         <p id="activeSessionLabel">Gean Dias dos Santos — Carro-Chefe</p>
+        <div id="firebaseSyncStatus" class="sync-badge">🔄 Conectando ao Firebase...</div>
     </header>
+
+    <!-- Alerta para o Barbeiro: Novo Agendamento / Confirmação -->
+    <div id="barberAlertBanner" class="barber-alert-banner">
+        <div id="barberAlertText">✂️ <strong>Novo alerta na agenda!</strong></div>
+        <div class="reminder-actions">
+            <button type="button" class="btn-ok" onclick="openBarberPanel()">📋 Ver na Agenda</button>
+            <button type="button" class="btn-wa" onclick="sendLatestConfirmationWhatsApp()">📲 Enviar Confirmação (Dia & Corte)</button>
+        </div>
+    </div>
 
     <!-- Notificação / Lembrete Automático 1 Dia Antes -->
     <div id="reminderBanner" class="reminder-banner">
-        <div id="reminderText">🔔 <strong>Lembrete Barbearia Tribo:</strong> Seu corte é amanhã! Confirma sua presença?</div>
+        <div id="reminderText">🔔 <strong>Lembrete Barbearia Tribo (1 dia antes):</strong> Seu corte é amanhã! Confirma sua presença?</div>
         <div class="reminder-actions">
             <button type="button" class="btn-ok" onclick="confirmBookingStatus('Confirmado (OK)')">✅ Dar OK (Confirmar)</button>
             <button type="button" class="btn-reschedule" onclick="openRescheduleFromReminder()">🔄 Remarcar</button>
@@ -868,18 +941,22 @@
             <h2>Área do Barbeiro (<span id="barberPanelTitleName">Gean Dias dos Santos</span>)</h2>
 
             <div class="sub-tabs">
-                <button class="sub-tab-btn active" onclick="switchBarberPanelTab('schedule', this)">Agenda</button>
+                <button class="sub-tab-btn active" onclick="switchBarberPanelTab('schedule', this)">Agenda & Alertas</button>
                 <button class="sub-tab-btn" onclick="switchBarberPanelTab('done', this)">Cortes & Fotos</button>
                 <button class="sub-tab-btn" onclick="switchBarberPanelTab('checkout', this)">Finalizar Corte</button>
             </div>
 
             <div id="barberTabSchedule">
                 <div class="form-group">
+                    <label>WhatsApp do Barbeiro para Alertas (com DDD, ex: 11999999999):</label>
+                    <input type="text" id="barberWhatsappInput" placeholder="Ex: 11999999999" onchange="saveBarberWhatsapp()">
+                </div>
+                <div class="form-group">
                     <label>Filtrar por Dia (opcional):</label>
                     <input type="date" id="barberFilterDate" onchange="renderBarberSchedule()">
                 </div>
                 <div id="barberAppointmentsList"></div>
-                <button type="button" class="btn-secondary" onclick="triggerOneDayBeforeReminder()">🔔 Simular Aviso 1 Dia Antes ao Cliente</button>
+                <button type="button" class="btn-secondary" onclick="triggerOneDayBeforeReminder()">🔔 Simular Lembrete 1 Dia Antes & Dar OK</button>
             </div>
 
             <div id="barberTabDone" style="display: none;">
@@ -966,7 +1043,7 @@
                 <div class="pix-box">
                     <p style="font-size: 0.85rem; font-weight: 600; color: #d4af37;">Chave Pix (<span id="clientPixBarberLabel">Gean Dias dos Santos</span>):</p>
                     <p id="pixKeyText" style="font-size: 0.95rem; font-weight: 700; color: #ffffff; margin: 4px 0;">46589604000116</p>
-                    <button class="btn-copy-pix" onclick="copyTextValue('46589604000116', 'Chave Pix')">📋 Copiar Chave Pix</button>
+                    <button class="btn-copy-pix" onclick="copyTextValue(document.getElementById('pixKeyText').textContent, 'Chave Pix')">📋 Copiar Chave Pix</button>
 
                     <div class="form-group" style="margin-top:10px; margin-bottom:6px; text-align:left;">
                         <label>Valor para Gerar QR Code Pix (R$):</label>
@@ -1159,7 +1236,25 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDvm1whLzPUcFu4594rmQSKvtvx-DVg0vY",
+            authDomain: "barbearia-tribo-001.firebaseapp.com",
+            databaseURL: "https://barbearia-tribo-001-default-rtdb.firebaseio.com",
+            projectId: "barbearia-tribo-001",
+            storageBucket: "barbearia-tribo-001.firebasestorage.app",
+            messagingSenderId: "84053937864",
+            appId: "1:84053937864:web:2d859a0ec1e6d1210b1ffd",
+            measurementId: "G-7RVP3GQ41F"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const triboRef = ref(db, 'barbeariaTribo');
+
         const ADMIN_PASS = '6763';
         const CHEFE_NAME = 'gean dias dos santos';
         let selectedTime = '';
@@ -1167,6 +1262,9 @@
         let selectedDesiredCut = null;
         let cashReceipts = [];
         let currentChartPeriod = 'week';
+        let barberWhatsapp = '';
+        let latestConfirmedMessage = '';
+        let lastKnownAppointmentCount = null;
 
         const defaultServices = [
             { name: 'Cabelo', category: 'Cortes & Barba', price: 40 },
@@ -1271,6 +1369,128 @@
                 image: 'https://images.unsplash.com/photo-1593702288056-7927b442d0fa?auto=format&fit=crop&w=500&q=80'
             }
         ];
+
+        function requestNotificationPermissionIfNeeded() {
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        }
+
+        function sendDeviceNotification(title, body) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                try {
+                    new Notification(title, { body });
+                } catch (e) {
+                    console.log('Notificação local:', title, body);
+                }
+            }
+        }
+
+        function buildConfirmationMessage(ap) {
+            return `Barbearia Tribo — Agendamento Confirmado (OK)!\nCliente: ${ap.client}\nBarbeiro: ${ap.barber}\nDia: ${ap.date} às ${ap.time}\nCorte/Serviços: ${ap.services}\nValor: ${ap.total}`;
+        }
+
+        function showBarberBannerAlert(messageText, appointmentObj) {
+            if (appointmentObj) {
+                latestConfirmedMessage = buildConfirmationMessage(appointmentObj);
+            }
+            const banner = document.getElementById('barberAlertBanner');
+            document.getElementById('barberAlertText').innerHTML = messageText;
+            banner.style.display = 'block';
+        }
+
+        function sendLatestConfirmationWhatsApp() {
+            const targetAp = appointments[0];
+            const msg = latestConfirmedMessage || (targetAp ? buildConfirmationMessage(targetAp) : 'Barbearia Tribo — Agendamento confirmado!');
+            const cleanPhone = (barberWhatsapp || '').replace(/\D/g, '');
+            const url = cleanPhone
+                ? `https://wa.me/55${cleanPhone}?text=${encodeURIComponent(msg)}`
+                : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+
+        function saveBarberWhatsapp() {
+            barberWhatsapp = document.getElementById('barberWhatsappInput').value.trim();
+            syncToFirebase();
+        }
+
+        function syncToFirebase() {
+            const statusEl = document.getElementById('firebaseSyncStatus');
+            if (statusEl) statusEl.textContent = '⏳ Salvando na nuvem...';
+            set(triboRef, {
+                barbers,
+                pixKeys,
+                appointments,
+                cutPhotos,
+                cashReceipts,
+                barberWhatsapp,
+                latestConfirmedMessage,
+                updatedAt: Date.now()
+            }).then(() => {
+                if (statusEl) statusEl.textContent = '🟢 Firebase Conectado';
+            }).catch((err) => {
+                console.error('Erro Firebase:', err);
+                if (statusEl) statusEl.textContent = '⚠️ Modo Local (Verifique Regras Firebase)';
+            });
+        }
+
+        onValue(triboRef, (snapshot) => {
+            const statusEl = document.getElementById('firebaseSyncStatus');
+            if (statusEl) statusEl.textContent = '🟢 Firebase Conectado';
+            const data = snapshot.val();
+            if (!data) {
+                syncToFirebase();
+                return;
+            }
+            if (Array.isArray(data.barbers) && data.barbers.length > 0) {
+                barbers = data.barbers;
+            }
+            if (Array.isArray(data.pixKeys)) {
+                pixKeys = data.pixKeys;
+            }
+            if (Array.isArray(data.appointments)) {
+                const previousCount = lastKnownAppointmentCount;
+                const prevTopId = appointments[0] ? appointments[0].id : null;
+                appointments = data.appointments;
+                lastKnownAppointmentCount = appointments.length;
+
+                if (previousCount !== null && appointments[0] && appointments[0].id !== prevTopId) {
+                    const newest = appointments[0];
+                    const msg = `✂️ <strong>Novo Agendamento!</strong> ${newest.client} marcou <strong>${newest.services}</strong> com <strong>${newest.barber}</strong> no dia <strong>${newest.date}</strong> às <strong>${newest.time}</strong>.`;
+                    showBarberBannerAlert(msg, newest);
+                    sendDeviceNotification(
+                        `Novo Agendamento — ${newest.barber}`,
+                        `${newest.client}: ${newest.services} em ${newest.date} às ${newest.time}`
+                    );
+                }
+            }
+            if (Array.isArray(data.cutPhotos)) {
+                cutPhotos = data.cutPhotos;
+            }
+            if (Array.isArray(data.cashReceipts)) {
+                cashReceipts = data.cashReceipts;
+            }
+            if (typeof data.barberWhatsapp === 'string') {
+                barberWhatsapp = data.barberWhatsapp;
+                const waInput = document.getElementById('barberWhatsappInput');
+                if (waInput && document.activeElement !== waInput) {
+                    waInput.value = barberWhatsapp;
+                }
+            }
+            if (typeof data.latestConfirmedMessage === 'string') {
+                latestConfirmedMessage = data.latestConfirmedMessage;
+            }
+
+            renderCarousel();
+            renderAdminAppointments();
+            renderBarberSchedule();
+            renderBarberSavedCuts();
+            if (document.getElementById('adminModal').style.display === 'flex') {
+                populateChartBarberFilter();
+                renderBarberPerformanceCharts();
+                populateAdminBarberSelect();
+            }
+        });
 
         function getCurrentBarber() {
             return barbers[currentBarberIndex] || barbers[0];
@@ -1464,6 +1684,7 @@
             document.getElementById('cashPaymentStatusMsg').textContent =
                 `✅ OK registrado: ${clientName} pagou ${formattedAmt} em dinheiro com ${barber.name} (${receipt.time}).`;
 
+            syncToFirebase();
             renderAdminAppointments();
             alert(`OK confirmado! Pagamento em dinheiro de ${formattedAmt} (${clientName}) registrado para ${barber.name}.`);
         }
@@ -1492,6 +1713,7 @@
         }
 
         function openReservationModal() {
+            requestNotificationPermissionIfNeeded();
             const barber = getCurrentBarber();
             document.getElementById('resBarberName').textContent = barber.name;
             document.getElementById('totalBarberName').textContent = barber.name;
@@ -1570,7 +1792,7 @@
             const container = document.getElementById('inlineComboEditorList');
             container.innerHTML = '';
 
-            barber.combos.forEach((c, idx) => {
+            barber.combos.forEach((c) => {
                 const card = document.createElement('div');
                 card.className = 'report-card';
                 card.innerHTML = `
@@ -1635,10 +1857,11 @@
             if (updated.length > 0) {
                 barber.combos = updated;
             }
+            syncToFirebase();
             renderCombosList();
             populateAdminBarberSelect();
             toggleComboEditMode(false);
-            alert(`Combos de ${barber.name} atualizados!`);
+            alert(`Combos de ${barber.name} salvos no Firebase!`);
         }
 
         function openClientModal() {
@@ -1677,8 +1900,10 @@
         }
 
         function openBarberPanel() {
+            requestNotificationPermissionIfNeeded();
             const barber = getCurrentBarber();
             document.getElementById('barberPanelTitleName').textContent = barber.name;
+            document.getElementById('barberWhatsappInput').value = barberWhatsapp;
             renderBarberSchedule();
             renderBarberSavedCuts();
             updateBarberCheckoutQR();
@@ -1694,8 +1919,38 @@
             if (tab === 'checkout') updateBarberCheckoutQR();
         }
 
+        function markAppointmentOk(index) {
+            const ap = appointments[index];
+            if (!ap) return;
+            ap.status = 'Confirmado (OK)';
+            latestConfirmedMessage = buildConfirmationMessage(ap);
+            syncToFirebase();
+            renderBarberSchedule();
+            renderAdminAppointments();
+            showBarberBannerAlert(
+                `✅ <strong>OK Confirmado!</strong> Dia <strong>${ap.date}</strong> às <strong>${ap.time}</strong> — Corte: <strong>${ap.services}</strong> (${ap.client}).`,
+                ap
+            );
+            sendDeviceNotification(
+                `Confirmação OK — ${ap.barber}`,
+                `${ap.client} confirmado para ${ap.date} às ${ap.time} (${ap.services}).`
+            );
+        }
+
+        function sendAppointmentWhatsApp(index) {
+            const ap = appointments[index];
+            if (!ap) return;
+            const msg = buildConfirmationMessage(ap);
+            const cleanPhone = (barberWhatsapp || '').replace(/\D/g, '');
+            const url = cleanPhone
+                ? `https://wa.me/55${cleanPhone}?text=${encodeURIComponent(msg)}`
+                : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+
         function renderBarberSchedule() {
             const listEl = document.getElementById('barberAppointmentsList');
+            if (!listEl) return;
             const filterDate = document.getElementById('barberFilterDate').value;
             listEl.innerHTML = '';
 
@@ -1706,7 +1961,8 @@
                 return;
             }
 
-            filtered.forEach(ap => {
+            filtered.forEach((ap) => {
+                const realIdx = appointments.findIndex(item => item.id === ap.id);
                 let badgeClass = 'status-pending';
                 if (ap.status.includes('Confirmado')) badgeClass = 'status-confirmed';
                 if (ap.status.includes('Remarcado')) badgeClass = 'status-rescheduled';
@@ -1719,8 +1975,12 @@
                         <span class="status-badge ${badgeClass}">${ap.status}</span>
                     </div>
                     <p style="margin-top:4px;">📅 Dia: <strong>${ap.date}</strong> às <strong>${ap.time}</strong> (${ap.type})</p>
-                    <p>✂️ Serviços: ${ap.services} — <strong>${ap.total}</strong></p>
+                    <p>✂️ Corte/Serviços: <strong>${ap.services}</strong> — <strong>${ap.total}</strong></p>
                     ${ap.desiredCut ? `<p style="color:#f1c40f;">🖼️ Ref. Corte Desejado: ${ap.desiredCut}</p>` : ''}
+                    <div>
+                        <button type="button" class="btn-mini-ok" onclick="markAppointmentOk(${realIdx})">✅ Dar OK</button>
+                        <button type="button" class="btn-mini-wa" onclick="sendAppointmentWhatsApp(${realIdx})">📲 Mensagem Dia & Corte</button>
+                    </div>
                 `;
                 listEl.appendChild(card);
             });
@@ -1745,11 +2005,12 @@
                     date: new Date().toLocaleDateString('pt-BR'),
                     image: imgUrl
                 });
+                syncToFirebase();
                 document.getElementById('postCutClientName').value = '';
                 document.getElementById('postCutStyleName').value = '';
                 fileInput.value = '';
                 renderBarberSavedCuts();
-                alert('Foto do corte salva! Agora tanto você quanto o cliente podem visualizar na galeria.');
+                alert('Foto do corte salva na nuvem!');
             };
 
             if (fileInput.files && fileInput.files[0]) {
@@ -1763,6 +2024,7 @@
 
         function renderBarberSavedCuts() {
             const grid = document.getElementById('barberSavedCutsGrid');
+            if (!grid) return;
             grid.innerHTML = '';
             cutPhotos.forEach(item => {
                 const card = document.createElement('div');
@@ -1780,32 +2042,39 @@
         }
 
         function triggerOneDayBeforeReminder() {
+            requestNotificationPermissionIfNeeded();
             closeModal('barberPanelModal');
             const nextAp = appointments[0];
             if (!nextAp) return;
 
             const banner = document.getElementById('reminderBanner');
-            document.getElementById('reminderText').innerHTML = `🔔 <strong>Lembrete (1 dia antes):</strong> Olá ${nextAp.client}, seu corte com <strong>${nextAp.barber}</strong> é amanhã (${nextAp.date}) às <strong>${nextAp.time}</strong>!`;
+            document.getElementById('reminderText').innerHTML = `🔔 <strong>Lembrete (1 dia antes):</strong> Corte de <strong>${nextAp.services}</strong> com <strong>${nextAp.barber}</strong> para <strong>${nextAp.client}</strong> amanhã (${nextAp.date}) às <strong>${nextAp.time}</strong>. Dar OK?`;
             banner.style.display = 'block';
 
-            if ('Notification' in window) {
-                if (Notification.permission === 'granted') {
-                    new Notification('Barbearia Tribo - Lembrete de Corte', {
-                        body: `Seu corte com ${nextAp.barber} é amanhã às ${nextAp.time}. Toque no app para dar OK ou remarcar.`
-                    });
-                } else if (Notification.permission !== 'denied') {
-                    Notification.requestPermission();
-                }
-            }
+            sendDeviceNotification(
+                `Lembrete 1 Dia Antes — ${nextAp.barber}`,
+                `${nextAp.client}: ${nextAp.services} amanhã (${nextAp.date}) às ${nextAp.time}.`
+            );
         }
 
         function confirmBookingStatus(newStatus) {
             if (appointments[0]) {
                 appointments[0].status = newStatus;
+                latestConfirmedMessage = buildConfirmationMessage(appointments[0]);
+                showBarberBannerAlert(
+                    `✅ <strong>Confirmado (OK):</strong> Dia <strong>${appointments[0].date}</strong> às <strong>${appointments[0].time}</strong> — Corte: <strong>${appointments[0].services}</strong> (${appointments[0].client}).`,
+                    appointments[0]
+                );
+                sendDeviceNotification(
+                    `Corte Confirmado (OK) — ${appointments[0].barber}`,
+                    `Dia ${appointments[0].date} às ${appointments[0].time} • Corte: ${appointments[0].services}`
+                );
             }
             document.getElementById('reminderBanner').style.display = 'none';
+            syncToFirebase();
+            renderBarberSchedule();
             renderAdminAppointments();
-            alert(`Status atualizado para "${newStatus}"! O barbeiro já foi avisado na agenda.`);
+            alert(`Status atualizado para "${newStatus}"! Mensagem com dia e corte preparada.`);
         }
 
         function openRescheduleFromReminder() {
@@ -1813,6 +2082,7 @@
                 appointments[0].status = 'Remarcado pelo Cliente';
             }
             document.getElementById('reminderBanner').style.display = 'none';
+            syncToFirebase();
             renderAdminAppointments();
             openReservationModal();
         }
@@ -2000,7 +2270,8 @@
                 c.desc = document.getElementById(`editComboDesc_${cIdx}`).value.trim() || c.desc;
             });
 
-            alert(`Tabela de valores e combos de ${barber.name} atualizada com sucesso!`);
+            syncToFirebase();
+            alert(`Tabela de valores e combos de ${barber.name} salva na nuvem!`);
         }
 
         function addBarber() {
@@ -2037,6 +2308,7 @@
                     pixKeys.push({ owner: name, key: pix });
                 }
                 currentBarberIndex = barbers.length - 1;
+                syncToFirebase();
                 renderCarousel();
                 populateAdminBarberSelect();
                 populateChartBarberFilter();
@@ -2045,7 +2317,7 @@
                 pixInput.value = '';
                 fileInput.value = '';
                 urlInput.value = '';
-                alert(`Barbeiro "${name}" adicionado com sucesso!`);
+                alert(`Barbeiro "${name}" adicionado e salvo na nuvem!`);
             };
 
             if (fileInput.files && fileInput.files[0]) {
@@ -2064,6 +2336,7 @@
             }
             barbers.splice(index, 1);
             if (currentBarberIndex >= barbers.length) currentBarberIndex = 0;
+            syncToFirebase();
             renderCarousel();
             populateAdminBarberSelect();
             populateChartBarberFilter();
@@ -2079,11 +2352,13 @@
             const barber = getCurrentBarber();
             pixKeys.push({ owner: barber.name, key: keyVal });
             document.getElementById('newPixKeyInput').value = '';
+            syncToFirebase();
             renderAdminPixKeysList();
         }
 
         function removePixKey(index) {
             pixKeys.splice(index, 1);
+            syncToFirebase();
             renderAdminPixKeysList();
         }
 
@@ -2236,7 +2511,7 @@
 
             if (date && selectedTime && selectedServices.length > 0) {
                 const servicesText = selectedServices.join(', ');
-                appointments.unshift({
+                const newAp = {
                     id: Date.now(),
                     client: clientName,
                     barber: barber.name,
@@ -2247,10 +2522,26 @@
                     total,
                     status: 'Aguardando OK (1 dia antes)',
                     desiredCut: selectedDesiredCut ? selectedDesiredCut.style : ''
-                });
+                };
+                appointments.unshift(newAp);
+                lastKnownAppointmentCount = appointments.length;
+                latestConfirmedMessage = buildConfirmationMessage(newAp);
 
+                syncToFirebase();
+                renderBarberSchedule();
                 renderAdminAppointments();
-                alert(`Agendamento confirmado com ${barber.name} para ${date} às ${selectedTime}!\nEnviaremos o lembrete automático 1 dia antes.`);
+
+                sendDeviceNotification(
+                    `Novo Agendamento — ${barber.name}`,
+                    `${clientName}: ${servicesText} em ${date} às ${selectedTime}.`
+                );
+
+                showBarberBannerAlert(
+                    `✂️ <strong>Novo Agendamento!</strong> ${clientName} agendou <strong>${servicesText}</strong> com <strong>${barber.name}</strong> dia <strong>${date}</strong> às <strong>${selectedTime}</strong>.`,
+                    newAp
+                );
+
+                alert(`Agendamento confirmado com ${barber.name} para ${date} às ${selectedTime}!\nAlerta disparado e mensagem de confirmação do dia e corte preparada.`);
                 closeModal('reservationModal');
             } else {
                 alert('Escolha a data, selecione um horário e marque pelo menos um procedimento.');
@@ -2272,6 +2563,49 @@
                 renderAdminPixKeysList();
             }
         }
+
+        window.prevBarber = prevBarber;
+        window.nextBarber = nextBarber;
+        window.openBarberPanel = openBarberPanel;
+        window.openAdminAccess = openAdminAccess;
+        window.verifyAdminPassword = verifyAdminPassword;
+        window.openClientModal = openClientModal;
+        window.openReservationModal = openReservationModal;
+        window.openCombosModal = openCombosModal;
+        window.closeModal = closeModal;
+        window.switchBarberPanelTab = switchBarberPanelTab;
+        window.renderBarberSchedule = renderBarberSchedule;
+        window.triggerOneDayBeforeReminder = triggerOneDayBeforeReminder;
+        window.savePostCutPhoto = savePostCutPhoto;
+        window.updateBarberCheckoutQR = updateBarberCheckoutQR;
+        window.copyPayload = copyPayload;
+        window.copyTextValue = copyTextValue;
+        window.confirmCashPayment = confirmCashPayment;
+        window.switchClientTab = switchClientTab;
+        window.saveClient = saveClient;
+        window.updateClientQrCode = updateClientQrCode;
+        window.saveCard = saveCard;
+        window.selectTime = selectTime;
+        window.calculateTotal = calculateTotal;
+        window.saveReservation = saveReservation;
+        window.toggleComboEditMode = toggleComboEditMode;
+        window.addInlineComboItem = addInlineComboItem;
+        window.saveInlineCombos = saveInlineCombos;
+        window.switchAdminTab = switchAdminTab;
+        window.setChartPeriod = setChartPeriod;
+        window.renderBarberPerformanceCharts = renderBarberPerformanceCharts;
+        window.loadAdminPriceEditor = loadAdminPriceEditor;
+        window.saveAdminPricesAndCombos = saveAdminPricesAndCombos;
+        window.addBarber = addBarber;
+        window.removeBarber = removeBarber;
+        window.addPixKey = addPixKey;
+        window.removePixKey = removePixKey;
+        window.confirmBookingStatus = confirmBookingStatus;
+        window.openRescheduleFromReminder = openRescheduleFromReminder;
+        window.markAppointmentOk = markAppointmentOk;
+        window.sendAppointmentWhatsApp = sendAppointmentWhatsApp;
+        window.sendLatestConfirmationWhatsApp = sendLatestConfirmationWhatsApp;
+        window.saveBarberWhatsapp = saveBarberWhatsapp;
 
         renderCarousel();
         renderAdminAppointments();
