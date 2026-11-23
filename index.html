@@ -669,7 +669,7 @@
             <button type="button" class="arrow-btn" onclick="nextBarber()" aria-label="Próximo">→</button>
         </div>
 
-        <div class="barber-name-badge" id="activeBarberBadge">Miro</div>
+        <div class="barber-name-badge" id="activeBarberBadge">Gean</div>
         <div class="barber-hint">Toque na foto ou use as setas para ver valores e combos deste barbeiro</div>
     </section>
 
@@ -680,17 +680,17 @@
         </button>
 
         <button type="button" class="btn-balloon" id="scheduleMainBtn" onclick="openBookingModal()">
-            📅 Agendar com <span id="scheduleBarberName">Miro</span>
+            📅 Agendar com <span id="scheduleBarberName">Gean</span>
         </button>
 
         <button type="button" class="btn-balloon" id="combosMainBtn" onclick="openCombosModal()">
-            ★ Combos Mensais ( <span id="combosBarberName">Miro</span> )
+            ★ Combos Mensais ( <span id="combosBarberName">Gean</span> )
         </button>
 
         <!-- Combos na tela inicial (preços individuais do barbeiro selecionado) -->
         <div class="balloon-box">
             <div class="balloon-box-title">
-                <span>★ Combos &amp; Planos (<span id="homeCombosBarber">Miro</span>)</span>
+                <span>★ Combos &amp; Planos (<span id="homeCombosBarber">Gean</span>)</span>
                 <small style="color:#ccc; font-weight:400;">Toque para agendar</small>
             </div>
             <div class="combos-list-grid" id="homeCombosGrid"></div>
@@ -699,7 +699,7 @@
         <!-- Clientes Agendados logo abaixo de Combos para ambos os barbeiros -->
         <div class="balloon-box" id="homeAppointmentsBox">
             <div class="balloon-box-title">
-                <span>📋 Clientes Agendados (<span id="homeApptBarber">Miro</span>)</span>
+                <span>📋 Clientes Agendados (<span id="homeApptBarber">Gean</span>)</span>
                 <small style="color:#ccc; font-weight:400;">Acesso rápido</small>
             </div>
             <div id="homeAppointmentsList"></div>
@@ -736,7 +736,7 @@
     <div class="modal" id="bookingModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('bookingModal')">&times;</span>
-            <h2>📅 Agendar com <span id="modalBookingBarberName">Miro</span></h2>
+            <h2>📅 Agendar com <span id="modalBookingBarberName">Gean</span></h2>
 
             <div class="form-group">
                 <label for="apptClientName">Nome do Cliente</label>
@@ -773,7 +773,7 @@
     <div class="modal" id="combosModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('combosModal')">&times;</span>
-            <h2>★ Combos Mensais (<span id="modalCombosBarberName">Miro</span>)</h2>
+            <h2>★ Combos Mensais (<span id="modalCombosBarberName">Gean</span>)</h2>
             <div id="combosModalList"></div>
         </div>
     </div>
@@ -782,13 +782,12 @@
     <div class="modal" id="barberAreaModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('barberAreaModal')">&times;</span>
-            <h2>✂️ Área do Barbeiro — <span id="barberAreaName">Miro</span></h2>
+            <h2>✂️ Área do Barbeiro — <span id="barberAreaName">Gean</span></h2>
 
-            <!-- Foto de Perfil que vai para o Carrossel -->
             <div class="form-group">
                 <label>Foto de Perfil no Carrossel</label>
                 <div class="barber-photo-editor">
-                    <img id="barberAreaPhotoPreview" src="icon-192.png" alt="Foto do barbeiro">
+                    <img id="barberAreaPhotoPreview" src="icon-512.png" alt="Foto do barbeiro">
                     <div style="flex:1;">
                         <input type="file" id="barberProfilePhotoInput" accept="image/*" onchange="handleBarberProfilePhotoUpload(event)">
                         <small style="display:block; color:#bbb; font-size:0.68rem; margin-top:4px;">
@@ -798,21 +797,18 @@
                 </div>
             </div>
 
-            <!-- Chave Pix Central -->
             <div class="form-group">
                 <label for="barberAreaPixInput">Chave Pix Central deste Barbeiro</label>
                 <input type="text" id="barberAreaPixInput" placeholder="CPF, CNPJ, telefone, e-mail ou chave Pix">
                 <button type="button" class="btn-gold" onclick="savePixFromBarberArea()">Salvar Chave Pix</button>
             </div>
 
-            <!-- Configuração de Preços e Valores por Barbeiro -->
             <div style="font-size:0.82rem; font-weight:700; color:#e5b832; margin:12px 0 8px;">
-                💰 Preços e Valores (<span id="barberPricesOwnerLabel">Miro</span>)
+                💰 Preços e Valores (<span id="barberPricesOwnerLabel">Gean</span>)
             </div>
             <div id="barberPricesEditorList"></div>
             <button type="button" class="btn-gold" onclick="saveBarberPrices()">Salvar Valores deste Barbeiro</button>
 
-            <!-- Clientes Agendados -->
             <div style="font-size:0.82rem; font-weight:700; color:#e5b832; margin:14px 0 8px;">Clientes Agendados</div>
             <div id="barberAreaAppointments"></div>
         </div>
@@ -938,7 +934,7 @@
         const SLOTS = ["09:00", "10:00", "11:00", "14:00", "16:00", "18:00"];
 
         let state = {
-            currentIndex: 1,
+            currentIndex: 0,
             barbers: BARBERS_LIST.map(b => ({ ...b, prices: { ...b.prices } })),
             appointments: [],
             clientCuts: [],
@@ -952,6 +948,9 @@
         function normalizeBarber(b) {
             const base = { ...b };
             base.prices = { ...buildDefaultPrices(1), ...(b.prices || {}) };
+            if (!base.id) {
+                base.id = (base.name || "barbeiro").toLowerCase().replace(/[^a-z0-9]/g, "");
+            }
             if (base.id === "gean" && !base.pixKey) {
                 base.pixKey = "46589604000116";
             }
@@ -962,11 +961,11 @@
         }
 
         function loadSavedState() {
-            const raw = localStorage.getItem("barbearia_tribo_ui_v3");
+            const raw = localStorage.getItem("barbearia_tribo_ui_v4");
             if (raw) {
                 try {
                     const parsed = JSON.parse(raw);
-                    const list = Array.isArray(parsed.barbers) && parsed.barbers.length
+                    const list = Array.isArray(parsed.barbers) && parsed.barbers.length >= 2
                         ? parsed.barbers.map(normalizeBarber)
                         : state.barbers.map(normalizeBarber);
                     state = {
@@ -979,10 +978,13 @@
                 } catch (e) {}
             }
             state.barbers = state.barbers.map(normalizeBarber);
+            if (typeof state.currentIndex !== "number" || state.currentIndex < 0 || state.currentIndex >= state.barbers.length) {
+                state.currentIndex = 0;
+            }
         }
 
         function persistState() {
-            localStorage.setItem("barbearia_tribo_ui_v3", JSON.stringify(state));
+            localStorage.setItem("barbearia_tribo_ui_v4", JSON.stringify(state));
         }
 
         function subscribeFirebase() {
@@ -992,7 +994,7 @@
                 if (snap.exists()) {
                     const val = snap.val();
                     const list = Array.isArray(val) ? val : Object.values(val);
-                    if (list.length) {
+                    if (list.length >= 2) {
                         state.barbers = list.map(normalizeBarber);
                         persistState();
                         renderHome();
@@ -1032,7 +1034,10 @@
         }
 
         function currentBarber() {
-            if (state.currentIndex >= state.barbers.length) state.currentIndex = 0;
+            if (!state.barbers.length) state.barbers = BARBERS_LIST.map(normalizeBarber);
+            if (state.currentIndex < 0 || state.currentIndex >= state.barbers.length) {
+                state.currentIndex = 0;
+            }
             return state.barbers[state.currentIndex];
         }
 
@@ -1043,14 +1048,23 @@
             return Number.isFinite(raw) && raw >= 0 ? raw : fallback;
         }
 
+        function isGeanActive(barber) {
+            const b = barber || currentBarber();
+            return b.id === "gean" || (b.name || "").trim().toLowerCase() === "gean";
+        }
+
         function prevBarber() {
-            state.currentIndex = (state.currentIndex - 1 + state.barbers.length) % state.barbers.length;
+            const total = state.barbers.length;
+            if (!total) return;
+            state.currentIndex = (state.currentIndex - 1 + total) % total;
             persistState();
             renderHome();
         }
 
         function nextBarber() {
-            state.currentIndex = (state.currentIndex + 1) % state.barbers.length;
+            const total = state.barbers.length;
+            if (!total) return;
+            state.currentIndex = (state.currentIndex + 1) % total;
             persistState();
             renderHome();
         }
@@ -1065,6 +1079,8 @@
                 let cls = "hidden";
                 if (idx === state.currentIndex) {
                     cls = "center";
+                } else if (total === 2) {
+                    cls = idx === (state.currentIndex + 1) % total ? "right" : "hidden";
                 } else if (idx === (state.currentIndex - 1 + total) % total) {
                     cls = "left";
                 } else if (idx === (state.currentIndex + 1) % total) {
@@ -1073,9 +1089,13 @@
                 div.className = `barber-card ${cls}`;
                 div.innerHTML = `<img src="${b.photo || 'icon-192.png'}" alt="${b.name}">`;
                 div.onclick = () => {
-                    state.currentIndex = idx;
-                    persistState();
-                    renderHome();
+                    if (idx === state.currentIndex) {
+                        nextBarber();
+                    } else {
+                        state.currentIndex = idx;
+                        persistState();
+                        renderHome();
+                    }
                 };
                 stage.appendChild(div);
             });
@@ -1091,9 +1111,12 @@
             document.getElementById("homeCombosBarber").textContent = active.name;
             document.getElementById("homeApptBarber").textContent = active.name;
 
+            // Botão Admin aparece SOMENTE quando o Gean está selecionado; some ao ir para outro barbeiro
             const adminBtn = document.getElementById("adminCornerButton");
-            adminBtn.style.display = active.id === "gean" ? "inline-flex" : "none";
-            if (active.id !== "gean") {
+            if (isGeanActive(active)) {
+                adminBtn.style.display = "inline-flex";
+            } else {
+                adminBtn.style.display = "none";
                 closeModal("adminDashboardModal");
                 closeModal("adminPassModal");
             }
@@ -1285,7 +1308,6 @@
             openBookingModal();
         }
 
-        // Perfil, Chave Pix Central e Histórico de Cortes
         function openProfilePixModal() {
             const sel = document.getElementById("profileBarberSelect");
             sel.innerHTML = state.barbers.map((b, i) => `<option value="${i}" ${i === state.currentIndex ? "selected" : ""}>${b.name}</option>`).join("");
@@ -1311,7 +1333,6 @@
             notify(`Aviso para ${b.name}: chave Pix central salva para cobrança e resgate!`);
         }
 
-        // Área do Barbeiro: Foto de Perfil do Carrossel, Chave Pix e Preços/Valores
         function compressImageToDataUrl(file, maxSize = 360, quality = 0.78) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -1412,7 +1433,6 @@
             notify(`Aviso para ${active.name}: preços e valores atualizados no seu perfil!`);
         }
 
-        // Gerador Pix EMV (BR Code) com CRC16 autêntico
         function crc16(str) {
             let crc = 0xffff;
             for (let i = 0; i < str.length; i++) {
@@ -1623,7 +1643,7 @@
         }
 
         function openAdminGate() {
-            if (currentBarber().id !== "gean") return;
+            if (!isGeanActive(currentBarber())) return;
             document.getElementById("adminPassField").value = "";
             document.getElementById("adminPassModal").style.display = "flex";
         }
