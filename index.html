@@ -20,17 +20,18 @@
 
   <style>
     :root {
-      --bg-dark: #0e0e0e;
-      --panel-bg: rgba(20, 20, 20, 0.84);
-      --panel-border: rgba(212, 175, 55, 0.35);
+      --glass-bg: rgba(16, 16, 16, 0.36);
+      --glass-hover: rgba(25, 25, 25, 0.52);
+      --glass-border: rgba(255, 255, 255, 0.24);
       --gold: #d4af37;
-      --gold-bright: #f2cf5b;
-      --text: #f7f4eb;
-      --muted: #b8b09c;
+      --gold-bright: #f5d365;
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.78);
       --success: #2ecc71;
-      --danger: #e74c3c;
-      --warning: #f39c12;
-      --radius: 18px;
+      --danger: #ff6b6b;
+      --warning: #f7b731;
+      --bubble-radius: 26px;
+      --pill-radius: 999px;
     }
 
     * {
@@ -42,43 +43,43 @@
 
     body {
       min-height: 100vh;
-      background-color: var(--bg-dark);
       color: var(--text);
       position: relative;
       overflow-x: hidden;
-      padding-bottom: 48px;
+      padding-bottom: 56px;
+      background-color: #0b0b0b;
     }
 
-    /* Fundo temático escuro com sobreposição suave */
-    .bg-backdrop {
+    /* Fundo fotográfico em tela cheia visível atrás dos elementos translúcidos */
+    .bg-photo {
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at 50% 10%, rgba(212, 175, 55, 0.16), transparent 55%),
-        linear-gradient(180deg, rgba(10, 10, 10, 0.78) 0%, rgba(14, 14, 14, 0.94) 100%),
-        url("icon-512.png") center/cover no-repeat;
-      filter: blur(2px);
+        linear-gradient(180deg, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.45) 100%),
+        url("icon-512.png") center center / cover no-repeat;
       z-index: -1;
+      pointer-events: none;
     }
 
     .container {
-      max-width: 640px;
+      max-width: 620px;
       margin: 0 auto;
-      padding: 16px;
+      padding: 14px;
     }
 
-    /* Cabeçalho */
+    /* Topo translúcido estilo balão */
     header.topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding: 12px 16px;
-      border-radius: var(--radius);
-      background: var(--panel-bg);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--panel-border);
-      margin-bottom: 16px;
+      padding: 10px 14px;
+      border-radius: var(--pill-radius);
+      background: var(--glass-bg);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid var(--glass-border);
+      margin-bottom: 14px;
       position: sticky;
       top: 10px;
       z-index: 30;
@@ -87,65 +88,68 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .brand img {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      border: 1px solid var(--gold);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
       object-fit: cover;
     }
 
     .brand h1 {
-      font-size: 1.15rem;
-      letter-spacing: 0.6px;
-      color: var(--gold-bright);
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--text);
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75);
     }
 
     .brand small {
       display: block;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--muted);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     }
 
     .top-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .pill-btn {
-      background: rgba(212, 175, 55, 0.14);
-      color: var(--gold-bright);
-      border: 1px solid var(--panel-border);
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 0.8rem;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text);
+      border: 1px solid var(--glass-border);
+      padding: 7px 13px;
+      border-radius: var(--pill-radius);
+      font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .pill-btn:hover {
-      background: rgba(212, 175, 55, 0.28);
-      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.22);
     }
 
     .pill-btn.active {
-      background: var(--gold);
-      color: #111;
+      background: rgba(212, 175, 55, 0.72);
+      border-color: var(--gold-bright);
+      color: #111111;
     }
 
-    /* Carrossel / Seleção de Barbeiro */
-    .barber-card {
-      background: var(--panel-bg);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--panel-border);
-      border-radius: var(--radius);
-      padding: 18px;
-      margin-bottom: 16px;
+    /* Bloco translúcido estilo balão */
+    .bubble-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--bubble-radius);
+      padding: 16px;
+      margin-bottom: 14px;
       position: relative;
     }
 
@@ -156,10 +160,10 @@
       right: 14px;
       display: none;
       z-index: 5;
-      background: rgba(212, 175, 55, 0.2);
-      color: var(--gold-bright);
-      border: 1px solid var(--gold);
-      border-radius: 999px;
+      background: rgba(212, 175, 55, 0.42);
+      color: #ffffff;
+      border: 1px solid var(--gold-bright);
+      border-radius: var(--pill-radius);
       padding: 6px 12px;
       font-size: 0.76rem;
       font-weight: 700;
@@ -169,24 +173,24 @@
     #adminCornerBtn.visible {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
     }
 
     .carousel-box {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
 
     .nav-arrow {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      border: 1px solid var(--panel-border);
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--gold-bright);
-      font-size: 1.2rem;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.14);
+      color: var(--text);
+      font-size: 1.25rem;
       cursor: pointer;
       flex-shrink: 0;
     }
@@ -197,94 +201,86 @@
     }
 
     .barber-photo {
-      width: 118px;
-      height: 118px;
-      border-radius: 26px;
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
       object-fit: cover;
-      border: 2px solid var(--gold);
-      margin: 0 auto 10px;
+      border: 2px solid var(--gold-bright);
+      margin: 0 auto 8px;
       display: block;
-      background: #1c1c1c;
+      background: rgba(0, 0, 0, 0.4);
     }
 
     .barber-name {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
-      color: var(--text);
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
     }
 
     .barber-role {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--muted);
-      margin-top: 2px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     }
 
     .pix-badge {
       margin-top: 8px;
       display: inline-block;
-      font-size: 0.78rem;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(212, 175, 55, 0.12);
-      border: 1px solid rgba(212, 175, 55, 0.3);
+      font-size: 0.76rem;
+      padding: 5px 12px;
+      border-radius: var(--pill-radius);
+      background: rgba(212, 175, 55, 0.25);
+      border: 1px solid rgba(245, 211, 101, 0.55);
       color: var(--gold-bright);
       word-break: break-all;
     }
 
-    /* Seções */
-    .section {
-      background: var(--panel-bg);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--panel-border);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-
     .section-title {
-      font-size: 1rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: var(--gold-bright);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.85);
     }
 
     .grid-options {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 10px;
     }
 
+    /* Botões em formato balão translúcido */
     .option-item {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
-      padding: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--bubble-radius);
+      padding: 12px 14px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .option-item:hover,
     .option-item.selected {
-      border-color: var(--gold);
-      background: rgba(212, 175, 55, 0.16);
+      border-color: var(--gold-bright);
+      background: rgba(212, 175, 55, 0.34);
     }
 
     .option-item strong {
       display: block;
-      font-size: 0.92rem;
-      margin-bottom: 4px;
+      font-size: 0.9rem;
+      margin-bottom: 3px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     }
 
     .option-item span {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       color: var(--gold-bright);
       font-weight: 700;
     }
 
-    /* Lista de Agendamentos (logo abaixo de Combos) */
     .appointments-list {
       display: flex;
       flex-direction: column;
@@ -292,10 +288,10 @@
     }
 
     .appt-card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 14px;
-      padding: 12px;
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid var(--glass-border);
+      border-radius: 22px;
+      padding: 12px 14px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -310,25 +306,27 @@
     }
 
     .appt-meta {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--muted);
     }
 
     .status-tag {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 999px;
+      padding: 4px 10px;
+      border-radius: var(--pill-radius);
       text-transform: uppercase;
     }
 
     .status-pendente {
-      background: rgba(243, 156, 18, 0.2);
+      background: rgba(247, 183, 49, 0.28);
+      border: 1px solid var(--warning);
       color: var(--warning);
     }
 
     .status-pago {
-      background: rgba(46, 204, 113, 0.2);
+      background: rgba(46, 204, 113, 0.28);
+      border: 1px solid var(--success);
       color: var(--success);
     }
 
@@ -339,100 +337,103 @@
     }
 
     .btn {
-      border: none;
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-size: 0.86rem;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--pill-radius);
+      padding: 9px 15px;
+      font-size: 0.84rem;
       font-weight: 700;
       cursor: pointer;
-      transition: transform 0.15s ease, opacity 0.2s ease;
+      transition: transform 0.15s ease, background 0.2s ease;
     }
 
     .btn:active {
-      transform: scale(0.98);
+      transform: scale(0.97);
     }
 
     .btn-gold {
-      background: var(--gold);
-      color: #111;
+      background: rgba(212, 175, 55, 0.72);
+      border-color: var(--gold-bright);
+      color: #111111;
     }
 
     .btn-outline {
-      background: transparent;
-      border: 1px solid var(--panel-border);
+      background: rgba(255, 255, 255, 0.12);
       color: var(--text);
     }
 
     .btn-success {
-      background: var(--success);
+      background: rgba(46, 204, 113, 0.72);
+      border-color: var(--success);
       color: #0b1910;
     }
 
     .btn-danger {
-      background: rgba(231, 76, 60, 0.18);
-      border: 1px solid rgba(231, 76, 60, 0.5);
-      color: #ff8b7e;
+      background: rgba(255, 107, 107, 0.25);
+      border-color: var(--danger);
+      color: #ffd6d6;
     }
 
-    /* Formulários */
     .form-group {
       margin-bottom: 10px;
     }
 
     .form-group label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--muted);
       margin-bottom: 4px;
+      padding-left: 6px;
     }
 
     input, select, textarea {
       width: 100%;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      background: rgba(15, 15, 15, 0.9);
+      padding: 10px 14px;
+      border-radius: var(--pill-radius);
+      border: 1px solid var(--glass-border);
+      background: rgba(0, 0, 0, 0.42);
       color: var(--text);
-      font-size: 0.92rem;
+      font-size: 0.9rem;
     }
 
-    /* Histórico Meus Cortes */
+    input[type="file"] {
+      border-radius: 18px;
+    }
+
     .cuts-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
       gap: 10px;
       margin-top: 10px;
     }
 
     .cut-card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
       overflow: hidden;
       padding: 8px;
     }
 
     .cut-card img {
       width: 100%;
-      height: 120px;
+      height: 115px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 14px;
       margin-bottom: 6px;
-      background: #1a1a1a;
     }
 
     .cut-card small {
       display: block;
       color: var(--muted);
-      font-size: 0.75rem;
+      font-size: 0.74rem;
     }
 
-    /* Modal */
+    /* Modais translúcidos */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.78);
-      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(5px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -446,12 +447,13 @@
 
     .modal {
       width: 100%;
-      max-width: 460px;
+      max-width: 450px;
       max-height: 90vh;
       overflow-y: auto;
-      background: #161616;
-      border: 1px solid var(--gold);
-      border-radius: var(--radius);
+      background: rgba(22, 22, 22, 0.78);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--gold-bright);
+      border-radius: var(--bubble-radius);
       padding: 18px;
     }
 
@@ -465,7 +467,7 @@
       justify-content: center;
       padding: 12px;
       background: #ffffff;
-      border-radius: 14px;
+      border-radius: 18px;
       margin: 12px auto;
       width: fit-content;
     }
@@ -473,30 +475,29 @@
     .pix-code-box {
       font-family: monospace;
       font-size: 0.74rem;
-      background: #0d0d0d;
-      border: 1px dashed var(--gold);
-      padding: 8px;
-      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px dashed var(--gold-bright);
+      padding: 8px 12px;
+      border-radius: 14px;
       word-break: break-all;
       color: var(--gold-bright);
       margin-bottom: 10px;
     }
 
-    /* Banner de Aviso ao Barbeiro */
     .toast {
       position: fixed;
       bottom: 16px;
       left: 50%;
-      transform: translateX(-50%) translateY(120%);
-      background: #1d1d1d;
+      transform: translateX(-50%) translateY(130%);
+      background: rgba(20, 20, 20, 0.86);
+      backdrop-filter: blur(8px);
       color: var(--text);
-      border: 1px solid var(--gold);
-      padding: 12px 16px;
-      border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+      border: 1px solid var(--gold-bright);
+      padding: 11px 18px;
+      border-radius: var(--pill-radius);
       z-index: 90;
       max-width: 92vw;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       transition: transform 0.28s ease;
     }
 
@@ -506,9 +507,10 @@
 
     footer {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 18px;
       font-size: 0.8rem;
       color: var(--muted);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
     }
 
     footer a {
@@ -522,15 +524,15 @@
   </style>
 </head>
 <body>
-  <div class="bg-backdrop"></div>
+  <div class="bg-photo"></div>
 
   <div class="container">
     <header class="topbar">
       <div class="brand">
         <img src="icon-192.png" alt="Barbearia Tribo" />
         <div>
-          <h1>BARBEARIA TRIBO</h1>
-          <small id="syncStatus">Conectando ao Firebase...</small>
+          <h1>Barbearia Tribo</h1>
+          <small id="syncStatus">Conectando...</small>
         </div>
       </div>
 
@@ -540,13 +542,10 @@
       </div>
     </header>
 
-    <!-- VISÃO PRINCIPAL: AGENDAMENTO + PAINEL DO BARBEIRO -->
     <main id="bookingView">
       <!-- Carrossel de Barbeiros -->
-      <section class="barber-card">
-        <button id="adminCornerBtn" type="button" onclick="openAdminModal()">
-          ⚙️ Admin
-        </button>
+      <section class="bubble-panel">
+        <button id="adminCornerBtn" type="button" onclick="openAdminModal()">⚙️ Admin</button>
 
         <div class="carousel-box">
           <button class="nav-arrow" type="button" onclick="prevBarber()" aria-label="Barbeiro anterior">‹</button>
@@ -554,27 +553,26 @@
           <div class="barber-profile">
             <img id="barberPhoto" class="barber-photo" src="icon-512.png" alt="Foto do Barbeiro" />
             <div id="barberName" class="barber-name">Gean</div>
-            <div id="barberRole" class="barber-role">Barbeiro Principal • Barbearia Tribo</div>
+            <div id="barberRole" class="barber-role">Barbeiro • Barbearia Tribo</div>
             <div id="barberPixBadge" class="pix-badge">Chave Pix: configurando...</div>
           </div>
 
           <button class="nav-arrow" type="button" onclick="nextBarber()" aria-label="Próximo barbeiro">›</button>
         </div>
 
-        <!-- Configuração da Chave Pix Central do Barbeiro Logado/Selecionado -->
-        <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
-          <div class="form-group" style="margin-bottom: 6px;">
-            <label for="barberPixInput">Chave Pix deste barbeiro (salva como chave central para QR Code e cobranças)</label>
+        <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.14);">
+          <div class="form-group" style="margin-bottom: 4px;">
+            <label for="barberPixInput">Chave Pix central deste barbeiro (para QR Code e cobranças)</label>
             <div class="btn-row">
-              <input type="text" id="barberPixInput" placeholder="Ex: CNPJ, CPF, telefone, e-mail ou chave aleatória" style="flex: 1;" />
-              <button class="btn btn-gold" type="button" onclick="saveBarberPix()">Salvar Chave</button>
+              <input type="text" id="barberPixInput" placeholder="CPF, CNPJ, telefone, e-mail ou chave Pix" style="flex: 1;" />
+              <button class="btn btn-gold" type="button" onclick="saveBarberPix()">Salvar Pix</button>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Serviços -->
-      <section class="section">
+      <section class="bubble-panel">
         <div class="section-title">
           <span>✂️ Serviços</span>
           <small id="selectedServiceLabel" style="color: var(--muted); font-weight: 400;"></small>
@@ -583,57 +581,57 @@
       </section>
 
       <!-- Combos -->
-      <section class="section">
+      <section class="bubble-panel">
         <div class="section-title">
           <span>🔥 Combos</span>
-          <small style="color: var(--muted); font-weight: 400;">Pacotes especiais</small>
+          <small style="color: var(--muted); font-weight: 400;">Pacotes</small>
         </div>
         <div class="grid-options" id="combosList"></div>
       </section>
 
-      <!-- Clientes Agendados (Logo abaixo de Combos para ambos os barbeiros) -->
-      <section class="section" id="appointmentsSection">
+      <!-- Clientes Agendados (Logo abaixo de Combos para ambos) -->
+      <section class="bubble-panel" id="appointmentsSection">
         <div class="section-title">
           <span>📅 Clientes Agendados (<span id="activeBarberApptTitle">Gean</span>)</span>
-          <small style="color: var(--muted); font-weight: 400;">Acesso rápido do barbeiro</small>
+          <small style="color: var(--muted); font-weight: 400;">Acesso rápido</small>
         </div>
         <div class="appointments-list" id="appointmentsList"></div>
       </section>
 
       <!-- Novo Agendamento -->
-      <section class="section">
+      <section class="bubble-panel">
         <div class="section-title">
-          <span>📝 Fazer Agendamento</span>
+          <span>📝 Novo Agendamento</span>
         </div>
         <form id="bookingForm" onsubmit="createAppointment(event)">
           <div class="form-group">
             <label for="clientName">Nome do Cliente</label>
-            <input type="text" id="clientName" required placeholder="Digite o nome completo" />
+            <input type="text" id="clientName" required placeholder="Nome do cliente" />
           </div>
           <div class="form-group">
             <label for="clientPhone">Telefone / WhatsApp</label>
             <input type="tel" id="clientPhone" required placeholder="(11) 99999-9999" />
           </div>
           <div class="form-group">
-            <label for="apptTime">Horário</label>
+            <label for="apptTime">Data e Horário</label>
             <input type="datetime-local" id="apptTime" required />
           </div>
           <div class="form-group">
             <label for="apptNotes">Observação do corte (opcional)</label>
-            <input type="text" id="apptNotes" placeholder="Ex: degradê navalhado, barba alinhada..." />
+            <input type="text" id="apptNotes" placeholder="Ex: degradê, barba..." />
           </div>
           <button type="submit" class="btn btn-gold" style="width: 100%;">Confirmar Agendamento</button>
         </form>
       </section>
     </main>
 
-    <!-- VISÃO: MEUS CORTES (HISTÓRICO DO CLIENTE) -->
-    <section id="myCutsView" class="section hidden">
+    <!-- VISÃO: MEUS CORTES -->
+    <section id="myCutsView" class="bubble-panel hidden">
       <div class="section-title">
         <span>📸 Meus Cortes</span>
       </div>
-      <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 10px;">
-        Busque pelo nome ou telefone do cliente para ver os cortes salvos no histórico e repetir o estilo quando quiser.
+      <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 10px;">
+        Pesquise pelo nome ou telefone do cliente para escolher um corte salvo no histórico.
       </p>
       <div class="form-group">
         <input type="text" id="cutSearchInput" oninput="renderClientCuts()" placeholder="Buscar cliente por nome ou telefone..." />
@@ -641,17 +639,14 @@
       <div id="cutsHistoryContainer" class="cuts-grid"></div>
     </section>
 
-    <!-- PAINEL ADMINISTRADOR (PROTEGIDO POR SENHA 6763) -->
-    <section id="adminPanel" class="section hidden" style="border-color: var(--gold-bright);">
+    <!-- PAINEL ADMIN (SENHA 6763) -->
+    <section id="adminPanel" class="bubble-panel hidden" style="border-color: var(--gold-bright);">
       <div class="section-title">
-        <span>🛡️ Painel do Administrador</span>
+        <span>🛡️ Administrador</span>
         <button class="pill-btn" type="button" onclick="closeAdminPanel()">Fechar</button>
       </div>
-      <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 12px;">
-        Acesso autenticado. Resumo de atendimentos e pagamentos (Pix e Dinheiro) por barbeiro:
-      </p>
-      <div id="adminSummary" style="margin-bottom: 12px;"></div>
-      <button class="btn btn-outline" type="button" onclick="exportBackupJson()">Exportar Resumo JSON</button>
+      <div id="adminSummary" style="margin-bottom: 10px;"></div>
+      <button class="btn btn-outline" type="button" onclick="exportBackupJson()">Exportar JSON</button>
     </section>
 
     <footer>
@@ -659,16 +654,13 @@
     </footer>
   </div>
 
-  <!-- MODAL SENHA ADMIN (6763) -->
+  <!-- MODAL SENHA ADMIN -->
   <div class="modal-backdrop" id="adminAuthModal">
     <div class="modal">
-      <h3>Acesso do Administrador</h3>
-      <p style="font-size: 0.84rem; color: var(--muted); margin-bottom: 10px;">
-        Digite a senha de administração para liberar os controles.
-      </p>
+      <h3>Senha do Administrador</h3>
       <div class="form-group">
-        <label for="adminPasswordInput">Senha</label>
-        <input type="password" id="adminPasswordInput" inputmode="numeric" maxlength="10" placeholder="Digite a senha" />
+        <label for="adminPasswordInput">Digite a senha</label>
+        <input type="password" id="adminPasswordInput" inputmode="numeric" maxlength="10" placeholder="••••" />
       </div>
       <div class="btn-row">
         <button class="btn btn-gold" type="button" onclick="verifyAdminPassword()">Entrar</button>
@@ -677,66 +669,51 @@
     </div>
   </div>
 
-  <!-- MODAL COBRANÇA (PIX AUTÊNTICO OU DINHEIRO) + FOTO DO CORTE -->
+  <!-- MODAL COBRANÇA + FOTO DO CORTE -->
   <div class="modal-backdrop" id="checkoutModal">
     <div class="modal">
-      <h3 id="checkoutTitle">Cobrança do Atendimento</h3>
-      <p id="checkoutSubtitle" style="font-size: 0.85rem; color: var(--muted); margin-bottom: 10px;"></p>
+      <h3 id="checkoutTitle">Cobrança</h3>
+      <p id="checkoutSubtitle" style="font-size: 0.82rem; color: var(--muted); margin-bottom: 10px;"></p>
 
       <div class="form-group">
-        <label for="checkoutAmount">Valor a cobrar (R$)</label>
+        <label for="checkoutAmount">Valor (R$)</label>
         <input type="number" id="checkoutAmount" step="0.01" min="1" />
       </div>
 
       <div class="form-group">
         <label>Forma de pagamento</label>
         <div class="btn-row">
-          <button type="button" class="btn btn-gold" id="payMethodPixBtn" onclick="selectPaymentMethod('pix')">
-            💠 Gerar QR Code Pix
-          </button>
-          <button type="button" class="btn btn-outline" id="payMethodCashBtn" onclick="selectPaymentMethod('cash')">
-            💵 Pagou em Dinheiro
-          </button>
+          <button type="button" class="btn btn-gold" onclick="selectPaymentMethod('pix')">💠 QR Code Pix</button>
+          <button type="button" class="btn btn-outline" onclick="selectPaymentMethod('cash')">💵 Pagou em Dinheiro</button>
         </div>
       </div>
 
-      <!-- Área QR Code Pix Autêntico -->
       <div id="pixQrSection" class="hidden">
         <div id="qrContainer"></div>
         <div class="pix-code-box" id="pixPayloadText"></div>
         <div class="btn-row" style="margin-bottom: 10px;">
-          <button type="button" class="btn btn-outline" onclick="copyPixPayload()">Copiar Pix Copia e Cola</button>
-          <button type="button" class="btn btn-success" onclick="confirmPayment('pix')">Confirmar Pix Recebido</button>
+          <button type="button" class="btn btn-outline" onclick="copyPixPayload()">Copiar Pix</button>
+          <button type="button" class="btn btn-success" onclick="confirmPayment('pix')">Confirmar Pix</button>
         </div>
       </div>
 
-      <!-- Área Pagamento em Dinheiro -->
       <div id="cashSection" class="hidden" style="margin-bottom: 10px;">
         <button type="button" class="btn btn-success" style="width: 100%;" onclick="confirmPayment('cash')">
-          Confirmar Recebimento em Dinheiro
+          Confirmar Dinheiro
         </button>
       </div>
 
-      <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 12px 0;" />
-
-      <!-- Pergunta sobre foto do corte e continuidade -->
-      <div id="photoPromptSection" class="hidden">
-        <p style="font-size: 0.9rem; font-weight: 700; color: var(--gold-bright); margin-bottom: 6px;">
-          Pagamento registrado! Deseja tirar uma foto do corte e salvar no histórico do cliente?
+      <div id="photoPromptSection" class="hidden" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--glass-border);">
+        <p style="font-size: 0.88rem; font-weight: 700; color: var(--gold-bright); margin-bottom: 6px;">
+          Deseja tirar uma foto do corte e salvar no histórico do cliente?
         </p>
-        <p style="font-size: 0.8rem; color: var(--muted); margin-bottom: 10px;">
-          Se salvar, o cliente poderá escolher esse modelo depois em <strong>Meus Cortes</strong>. Se não quiser, voltamos para a tela inicial.
-        </p>
-
         <div class="form-group">
-          <label for="cutPhotoInput">Foto do corte (câmera ou galeria)</label>
           <input type="file" id="cutPhotoInput" accept="image/*" capture="environment" onchange="previewCutPhoto(event)" />
         </div>
-        <img id="cutPhotoPreview" src="" alt="Prévia do corte" style="width: 100%; max-height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; display: none;" />
-
+        <img id="cutPhotoPreview" src="" alt="Prévia do corte" style="width: 100%; max-height: 170px; object-fit: cover; border-radius: 14px; margin-bottom: 10px; display: none;" />
         <div class="btn-row">
-          <button type="button" class="btn btn-gold" onclick="saveCutToClientHistory()">Salvar Foto no Histórico</button>
-          <button type="button" class="btn btn-outline" onclick="skipPhotoAndReturnHome()">Não, voltar à tela inicial</button>
+          <button type="button" class="btn btn-gold" onclick="saveCutToClientHistory()">Salvar Foto</button>
+          <button type="button" class="btn btn-outline" onclick="skipPhotoAndReturnHome()">Não, voltar ao início</button>
         </div>
       </div>
 
@@ -746,13 +723,9 @@
     </div>
   </div>
 
-  <!-- TOAST DE AVISO AO BARBEIRO -->
   <div id="toastBox" class="toast"></div>
 
   <script>
-    // =========================================================================
-    // 1. CONFIGURAÇÃO FIREBASE REALTIME DATABASE
-    // =========================================================================
     const firebaseConfig = {
       databaseURL: "https://barbearia-tribo-001-default-rtdb.firebaseio.com"
     };
@@ -763,23 +736,19 @@
         firebase.initializeApp(firebaseConfig);
       }
       db = firebase.database();
-      document.getElementById("syncStatus").textContent = "Online • Firebase conectado";
+      document.getElementById("syncStatus").textContent = "Online";
     } catch (e) {
-      document.getElementById("syncStatus").textContent = "Modo Local • Sincronização offline";
+      document.getElementById("syncStatus").textContent = "Modo Local";
     }
 
-    // =========================================================================
-    // 2. DADOS INICIAIS (BARBEIROS, SERVIÇOS, COMBOS E SENHA ADMIN)
-    // =========================================================================
     const ADMIN_PASSCODE = "6763";
 
     const barbers = [
       {
         id: "gean",
         name: "Gean",
-        role: "Barbeiro Principal • Barbearia Tribo",
+        role: "Barbeiro • Barbearia Tribo",
         photo: "icon-512.png",
-        isAdminEligible: true,
         defaultPix: "46589604000116"
       },
       {
@@ -787,7 +756,6 @@
         name: "Miro",
         role: "Barbeiro • Barbearia Tribo",
         photo: "icon-192.png",
-        isAdminEligible: false,
         defaultPix: ""
       }
     ];
@@ -817,9 +785,6 @@
       activeCheckoutApptId: null
     };
 
-    // =========================================================================
-    // 3. PERSISTÊNCIA LOCAL + FIREBASE
-    // =========================================================================
     function loadLocalState() {
       const saved = localStorage.getItem("barbearia_tribo_state_v1");
       if (saved) {
@@ -830,15 +795,11 @@
             ...parsed,
             pixKeys: { ...state.pixKeys, ...(parsed.pixKeys || {}) }
           };
-        } catch (err) {
-          console.warn("Erro ao ler estado local", err);
-        }
+        } catch (err) {}
       }
-      barbers.forEach((b) => {
-        if (!state.pixKeys[b.id] && b.defaultPix) {
-          state.pixKeys[b.id] = b.defaultPix;
-        }
-      });
+      if (!state.pixKeys.gean) {
+        state.pixKeys.gean = "46589604000116";
+      }
     }
 
     function saveLocalState() {
@@ -850,11 +811,8 @@
 
       db.ref("pixKeys").on("value", (snap) => {
         if (snap.exists()) {
-          const remotePix = snap.val() || {};
-          state.pixKeys = { ...state.pixKeys, ...remotePix };
-          if (!state.pixKeys.gean) {
-            state.pixKeys.gean = "46589604000116";
-          }
+          state.pixKeys = { ...state.pixKeys, ...(snap.val() || {}) };
+          if (!state.pixKeys.gean) state.pixKeys.gean = "46589604000116";
           saveLocalState();
           renderBarberSection();
         }
@@ -864,14 +822,12 @@
         if (snap.exists()) {
           const val = snap.val();
           state.appointments = Object.keys(val).map((k) => ({ id: k, ...val[k] }));
-          saveLocalState();
-          renderAppointments();
-          renderAdminSummary();
         } else {
           state.appointments = [];
-          renderAppointments();
-          renderAdminSummary();
         }
+        saveLocalState();
+        renderAppointments();
+        renderAdminSummary();
       });
 
       db.ref("clientCuts").on("value", (snap) => {
@@ -884,18 +840,13 @@
       });
     }
 
-    // =========================================================================
-    // 4. AVISOS (TOAST) E NAVEGAÇÃO
-    // =========================================================================
     let toastTimer = null;
     function notifyBarber(message) {
       const box = document.getElementById("toastBox");
       box.textContent = message;
       box.classList.add("show");
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        box.classList.remove("show");
-      }, 4200);
+      toastTimer = setTimeout(() => box.classList.remove("show"), 4000);
     }
 
     function switchView(view) {
@@ -918,9 +869,6 @@
       }
     }
 
-    // =========================================================================
-    // 5. CARROSSEL DE BARBEIROS + BOTÃO ADMIN CONDICIONAL AO GEAN
-    // =========================================================================
     function getActiveBarber() {
       return barbers[state.currentBarberIndex] || barbers[0];
     }
@@ -944,7 +892,6 @@
       document.getElementById("barberRole").textContent = barber.role;
       document.getElementById("activeBarberApptTitle").textContent = barber.name;
 
-      // Botão de Admin aparece APENAS quando o barbeiro ativo é o Gean
       const adminBtn = document.getElementById("adminCornerBtn");
       if (barber.id === "gean") {
         adminBtn.classList.add("visible");
@@ -963,21 +910,13 @@
     function saveBarberPix() {
       const barber = getActiveBarber();
       const inputVal = document.getElementById("barberPixInput").value.trim();
-
       state.pixKeys[barber.id] = inputVal;
       saveLocalState();
-
-      if (db) {
-        db.ref(`pixKeys/${barber.id}`).set(inputVal);
-      }
-
+      if (db) db.ref(`pixKeys/${barber.id}`).set(inputVal);
       renderBarberSection();
-      notifyBarber(`Aviso para ${barber.name}: chave Pix salva como chave central para cobranças e QR Code!`);
+      notifyBarber(`Aviso para ${barber.name}: chave Pix salva como chave central!`);
     }
 
-    // =========================================================================
-    // 6. SERVIÇOS, COMBOS E AGENDAMENTOS
-    // =========================================================================
     function renderCatalog() {
       const servicesEl = document.getElementById("servicesList");
       const combosEl = document.getElementById("combosList");
@@ -1011,7 +950,7 @@
       });
 
       document.getElementById("selectedServiceLabel").textContent = state.selectedItem
-        ? `Selecionado: ${state.selectedItem.title}`
+        ? state.selectedItem.title
         : "";
     }
 
@@ -1023,7 +962,6 @@
       const time = document.getElementById("apptTime").value;
       const notes = document.getElementById("apptNotes").value.trim();
       const item = state.selectedItem || services[0];
-
       if (!name || !phone || !time) return;
 
       const newAppt = {
@@ -1043,15 +981,12 @@
 
       state.appointments.unshift(newAppt);
       saveLocalState();
-
-      if (db) {
-        db.ref(`appointments/${newAppt.id}`).set(newAppt);
-      }
+      if (db) db.ref(`appointments/${newAppt.id}`).set(newAppt);
 
       document.getElementById("bookingForm").reset();
       renderAppointments();
       renderAdminSummary();
-      notifyBarber(`Aviso para ${barber.name}: novo agendamento de ${name} (${item.title})!`);
+      notifyBarber(`Aviso para ${barber.name}: agendamento de ${name} confirmado!`);
     }
 
     function renderAppointments() {
@@ -1060,7 +995,7 @@
       const filtered = state.appointments.filter((a) => a.barberId === barber.id);
 
       if (!filtered.length) {
-        listEl.innerHTML = `<p style="font-size: 0.85rem; color: var(--muted);">Nenhum cliente agendado para ${barber.name} no momento.</p>`;
+        listEl.innerHTML = `<p style="font-size: 0.82rem; color: var(--muted);">Nenhum agendamento para ${barber.name}.</p>`;
         return;
       }
 
@@ -1076,19 +1011,15 @@
             <div>
               <strong>${appt.clientName}</strong>
               <div class="appt-meta">${appt.serviceTitle} • R$ ${Number(appt.amount).toFixed(2).replace(".", ",")} • ${formattedTime}</div>
-              <div class="appt-meta">Tel: ${appt.clientPhone}${appt.notes ? " • Obs: " + appt.notes : ""}</div>
+              <div class="appt-meta">Tel: ${appt.clientPhone}${appt.notes ? " • " + appt.notes : ""}</div>
             </div>
             <span class="status-tag ${isPaid ? "status-pago" : "status-pendente"}">
               ${isPaid ? "Pago (" + (appt.paymentMethod === "cash" ? "Dinheiro" : "Pix") + ")" : "Agendado"}
             </span>
           </div>
           <div class="btn-row">
-            <button type="button" class="btn btn-gold" onclick="openCheckoutModal('${appt.id}')">
-              ${isPaid ? "Cobrar / Foto do Corte" : "Cobrar Cliente"}
-            </button>
-            <button type="button" class="btn btn-danger" onclick="deleteAppointment('${appt.id}')">
-              Remover
-            </button>
+            <button type="button" class="btn btn-gold" onclick="openCheckoutModal('${appt.id}')">Cobrar / Corte</button>
+            <button type="button" class="btn btn-danger" onclick="deleteAppointment('${appt.id}')">Excluir</button>
           </div>
         `;
         listEl.appendChild(card);
@@ -1098,85 +1029,55 @@
     function deleteAppointment(apptId) {
       state.appointments = state.appointments.filter((a) => a.id !== apptId);
       saveLocalState();
-      if (db) {
-        db.ref(`appointments/${apptId}`).remove();
-      }
+      if (db) db.ref(`appointments/${apptId}`).remove();
       renderAppointments();
       renderAdminSummary();
     }
 
-    // =========================================================================
-    // 7. GERADOR DE PIX EMV (BR CODE) + QR CODE AUTÊNTICO
-    // =========================================================================
     function crc16Ccitt(str) {
       let crc = 0xffff;
       for (let i = 0; i < str.length; i++) {
         crc ^= str.charCodeAt(i) << 8;
         for (let j = 0; j < 8; j++) {
-          if ((crc & 0x8000) !== 0) {
-            crc = ((crc << 1) ^ 0x1021) & 0xffff;
-          } else {
-            crc = (crc << 1) & 0xffff;
-          }
+          crc = (crc & 0x8000) !== 0 ? ((crc << 1) ^ 0x1021) & 0xffff : (crc << 1) & 0xffff;
         }
       }
       return crc.toString(16).toUpperCase().padStart(4, "0");
     }
 
     function emvField(id, value) {
-      const len = String(value.length).padStart(2, "0");
-      return `${id}${len}${value}`;
+      return `${id}${String(value.length).padStart(2, "0")}${value}`;
     }
 
     function buildPixPayload({ pixKey, merchantName, merchantCity, amount, txid }) {
       const cleanKey = (pixKey || "").trim();
-      const gui = emvField("00", "br.gov.bcb.pix");
-      const keyField = emvField("01", cleanKey);
-      const merchantAccountInfo = emvField("26", gui + keyField);
-
-      const mcc = emvField("52", "0000");
-      const currency = emvField("53", "986"); // BRL
+      const merchantAccountInfo = emvField("26", emvField("00", "br.gov.bcb.pix") + emvField("01", cleanKey));
       const amountNum = Number(amount);
       const amountField = amountNum > 0 ? emvField("54", amountNum.toFixed(2)) : "";
-      const countryCode = emvField("58", "BR");
 
       const safeName = (merchantName || "BARBEARIA TRIBO")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^A-Za-z0-9 ]/g, "")
-        .substring(0, 25)
-        .padEnd(3, "X");
-
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^A-Za-z0-9 ]/g, "")
+        .substring(0, 25).padEnd(3, "X");
       const safeCity = (merchantCity || "SAO PAULO")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^A-Za-z0-9 ]/g, "")
-        .substring(0, 15)
-        .padEnd(2, "X");
-
-      const nameField = emvField("59", safeName);
-      const cityField = emvField("60", safeCity);
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^A-Za-z0-9 ]/g, "")
+        .substring(0, 15).padEnd(2, "X");
       const cleanTxid = (txid || "TRIBO01").replace(/[^A-Za-z0-9]/g, "").substring(0, 25) || "TRIBO01";
-      const additionalData = emvField("62", emvField("05", cleanTxid));
 
       const partial =
         emvField("00", "01") +
         merchantAccountInfo +
-        mcc +
-        currency +
+        emvField("52", "0000") +
+        emvField("53", "986") +
         amountField +
-        countryCode +
-        nameField +
-        cityField +
-        additionalData +
+        emvField("58", "BR") +
+        emvField("59", safeName) +
+        emvField("60", safeCity) +
+        emvField("62", emvField("05", cleanTxid)) +
         "6304";
 
       return partial + crc16Ccitt(partial);
     }
 
-    // =========================================================================
-    // 8. FLUXO DE COBRANÇA (PIX / DINHEIRO) + HISTÓRICO DE CORTES
-    // =========================================================================
     let currentPhotoBase64 = "";
 
     function openCheckoutModal(apptId) {
@@ -1192,9 +1093,8 @@
       document.getElementById("cashSection").classList.add("hidden");
 
       document.getElementById("checkoutTitle").textContent = `Cobrança • ${appt.clientName}`;
-      document.getElementById("checkoutSubtitle").textContent = `Barbeiro: ${appt.barberName} • Serviço: ${appt.serviceTitle}`;
+      document.getElementById("checkoutSubtitle").textContent = `Barbeiro: ${appt.barberName} • ${appt.serviceTitle}`;
       document.getElementById("checkoutAmount").value = Number(appt.amount || 0).toFixed(2);
-
       document.getElementById("checkoutModal").classList.add("open");
     }
 
@@ -1207,7 +1107,7 @@
 
       if (method === "pix") {
         if (!barberPix) {
-          notifyBarber(`Aviso para ${appt.barberName}: cadastre sua chave Pix antes de gerar o QR Code!`);
+          notifyBarber(`Aviso para ${appt.barberName}: salve sua chave Pix antes de gerar o QR Code.`);
           return;
         }
         document.getElementById("cashSection").classList.add("hidden");
@@ -1224,11 +1124,7 @@
         document.getElementById("pixPayloadText").textContent = payload;
         const qrEl = document.getElementById("qrContainer");
         qrEl.innerHTML = "";
-        new QRCode(qrEl, {
-          text: payload,
-          width: 190,
-          height: 190
-        });
+        new QRCode(qrEl, { text: payload, width: 185, height: 185 });
       } else {
         document.getElementById("pixQrSection").classList.add("hidden");
         document.getElementById("cashSection").classList.remove("hidden");
@@ -1239,7 +1135,7 @@
       const text = document.getElementById("pixPayloadText").textContent;
       if (!text) return;
       navigator.clipboard?.writeText(text);
-      notifyBarber("Código Pix Copia e Cola copiado!");
+      notifyBarber("Pix Copia e Cola copiado!");
     }
 
     function confirmPayment(method) {
@@ -1264,11 +1160,7 @@
 
       renderAppointments();
       renderAdminSummary();
-
-      const methodLabel = method === "cash" ? "Dinheiro" : "Pix";
-      notifyBarber(`Aviso para ${appt.barberName}: pagamento em ${methodLabel} de R$ ${finalAmount.toFixed(2).replace(".", ",")} confirmado para ${appt.clientName}!`);
-
-      // Exibe pergunta sobre foto do corte no histórico do cliente
+      notifyBarber(`Aviso para ${appt.barberName}: pagamento em ${method === "cash" ? "Dinheiro" : "Pix"} confirmado!`);
       document.getElementById("photoPromptSection").classList.remove("hidden");
     }
 
@@ -1288,13 +1180,11 @@
     function saveCutToClientHistory() {
       const appt = state.appointments.find((a) => a.id === state.activeCheckoutApptId);
       if (!appt) return;
-
       if (!currentPhotoBase64) {
-        notifyBarber("Selecione ou tire uma foto do corte antes de salvar no histórico.");
+        notifyBarber("Tire ou escolha uma foto do corte para salvar.");
         return;
       }
 
-      // Localiza se já existe histórico desse cliente para vincular o corte
       const cutEntry = {
         id: "cut_" + Date.now(),
         clientName: appt.clientName,
@@ -1309,12 +1199,9 @@
 
       state.clientCuts.unshift(cutEntry);
       saveLocalState();
+      if (db) db.ref(`clientCuts/${cutEntry.id}`).set(cutEntry);
 
-      if (db) {
-        db.ref(`clientCuts/${cutEntry.id}`).set(cutEntry);
-      }
-
-      notifyBarber(`Aviso para ${appt.barberName}: foto do corte salva no histórico de ${appt.clientName}!`);
+      notifyBarber(`Aviso para ${appt.barberName}: foto salva em Meus Cortes de ${appt.clientName}!`);
       skipPhotoAndReturnHome();
     }
 
@@ -1330,14 +1217,11 @@
 
       const matches = state.clientCuts.filter((c) => {
         if (!query) return true;
-        return (
-          (c.clientName || "").toLowerCase().includes(query) ||
-          (c.clientPhone || "").toLowerCase().includes(query)
-        );
+        return (c.clientName || "").toLowerCase().includes(query) || (c.clientPhone || "").toLowerCase().includes(query);
       });
 
       if (!matches.length) {
-        container.innerHTML = `<p style="font-size: 0.85rem; color: var(--muted);">Nenhum corte encontrado no histórico.</p>`;
+        container.innerHTML = `<p style="font-size: 0.82rem; color: var(--muted);">Nenhum corte salvo.</p>`;
         return;
       }
 
@@ -1347,11 +1231,11 @@
         card.className = "cut-card";
         card.innerHTML = `
           <img src="${cut.photo}" alt="Corte de ${cut.clientName}" />
-          <strong style="font-size: 0.85rem;">${cut.clientName}</strong>
+          <strong style="font-size: 0.84rem;">${cut.clientName}</strong>
           <small>${cut.serviceTitle}</small>
           <small>Barbeiro: ${cut.barberName}</small>
-          <button type="button" class="btn btn-gold" style="width: 100%; margin-top: 6px; padding: 6px 8px; font-size: 0.76rem;" onclick="useSavedCutInBooking('${cut.id}')">
-            Escolher este corte
+          <button type="button" class="btn btn-gold" style="width: 100%; margin-top: 6px; padding: 6px; font-size: 0.75rem;" onclick="useSavedCutInBooking('${cut.id}')">
+            Usar este corte
           </button>
         `;
         container.appendChild(card);
@@ -1361,35 +1245,25 @@
     function useSavedCutInBooking(cutId) {
       const cut = state.clientCuts.find((c) => c.id === cutId);
       if (!cut) return;
-
       document.getElementById("clientName").value = cut.clientName;
       document.getElementById("clientPhone").value = cut.clientPhone;
-      document.getElementById("apptNotes").value = `Repetir corte salvo: ${cut.serviceTitle}${cut.notes ? " (" + cut.notes + ")" : ""}`;
-
+      document.getElementById("apptNotes").value = `Corte salvo: ${cut.serviceTitle}${cut.notes ? " (" + cut.notes + ")" : ""}`;
       switchView("booking");
-      notifyBarber(`Corte de ${cut.clientName} selecionado! Confirme o horário para agendar.`);
+      notifyBarber(`Corte de ${cut.clientName} carregado no agendamento!`);
     }
 
-    // =========================================================================
-    // 9. ADMIN (SENHA 6763) E MODAIS
-    // =========================================================================
     function openAdminModal() {
-      const barber = getActiveBarber();
-      if (barber.id !== "gean") {
-        notifyBarber("A área administrativa só aparece quando o perfil do Gean está selecionado.");
-        return;
-      }
+      if (getActiveBarber().id !== "gean") return;
       document.getElementById("adminPasswordInput").value = "";
       document.getElementById("adminAuthModal").classList.add("open");
     }
 
     function verifyAdminPassword() {
-      const pass = document.getElementById("adminPasswordInput").value.trim();
-      if (pass === ADMIN_PASSCODE) {
+      if (document.getElementById("adminPasswordInput").value.trim() === ADMIN_PASSCODE) {
         closeModal("adminAuthModal");
         document.getElementById("adminPanel").classList.remove("hidden");
         renderAdminSummary();
-        notifyBarber("Acesso administrativo liberado (Gean).");
+        notifyBarber("Painel administrativo liberado.");
       } else {
         notifyBarber("Senha incorreta!");
       }
@@ -1399,8 +1273,8 @@
       document.getElementById("adminPanel").classList.add("hidden");
     }
 
-    function closeModal(modalId) {
-      document.getElementById(modalId).classList.remove("open");
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("open");
     }
 
     function renderAdminSummary() {
@@ -1430,7 +1304,7 @@
           (row) => `
           <div class="appt-card" style="margin-bottom: 8px;">
             <strong>${row.name}</strong>
-            <div class="appt-meta">Atendimentos: ${row.count} • Total Recebido: R$ ${row.totalPaid.toFixed(2).replace(".", ",")}</div>
+            <div class="appt-meta">Atendimentos: ${row.count} • Total: R$ ${row.totalPaid.toFixed(2).replace(".", ",")}</div>
             <div class="appt-meta">Pix: R$ ${row.pixTotal.toFixed(2).replace(".", ",")} • Dinheiro: R$ ${row.cashTotal.toFixed(2).replace(".", ",")}</div>
           </div>
         `
@@ -1448,9 +1322,6 @@
       a.remove();
     }
 
-    // =========================================================================
-    // 10. INICIALIZAÇÃO E SERVICE WORKER
-    // =========================================================================
     function renderAll() {
       renderBarberSection();
       renderCatalog();
