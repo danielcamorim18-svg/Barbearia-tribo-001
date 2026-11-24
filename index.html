@@ -375,6 +375,18 @@
             border: 1px solid #2ecc71;
         }
 
+        .saved-feedback-banner {
+            display: none;
+            background: rgba(39, 174, 96, 0.18);
+            border: 1px solid #2ecc71;
+            color: #7df5b0;
+            border-radius: 10px;
+            padding: 8px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -935,7 +947,7 @@
         </button>
 
         <button type="button" class="btn-balloon" id="barberCutsMainBtn" onclick="openBarberCutsShowcaseModal()">
-            ✂️ Ver Cortes de <span id="barberCutsButtonName">Gean</span>
+            ✂️ Ver Cortes de <span id="barberCutsButtonName">Gean</span> (<span id="barberCutsCountBadge">0</span>)
         </button>
 
         <!-- Combos na tela inicial -->
@@ -986,7 +998,7 @@
             <img id="lastCutPhotoPreview" src="" alt="Prévia do último corte" style="display:none; width:100%; max-height:190px; object-fit:cover; border-radius:12px; border:1.5px solid #e5b832; margin-bottom:10px;">
 
             <button type="button" class="btn-gold" onclick="saveLastCutToBarberAndCharge()">
-                💾 Salvar Foto no Barbeiro &amp; Ir para Cobrança
+                💾 Salvar Foto na Lista de Cortes &amp; Cobrar
             </button>
             <button type="button" class="btn-dark" onclick="openDirectChargeFromLastCut()">
                 💳 Já ir direto para Cobrar (QR Code Pix / Dinheiro)
@@ -1044,7 +1056,7 @@
             </div>
 
             <div class="admin-section-box" style="margin-top:12px;">
-                <div class="admin-section-title">✂️ Cortes dos Barbeiros (4 Fotos + Mini Pasta de Vídeo)</div>
+                <div class="admin-section-title">✂️ Lista de Cortes dos Barbeiros (4 Fotos + Mini Pasta de Vídeo)</div>
                 <div id="barberShowcaseCutsList"></div>
             </div>
 
@@ -1115,14 +1127,14 @@
         </div>
     </div>
 
-    <!-- MODAL SENHA DA ÁREA DO BARBEIRO -->
+    <!-- MODAL SENHA DA ÁREA DO BARBEIRO (1234) -->
     <div class="modal" id="barberPassModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('barberPassModal')">&times;</span>
             <h2>🔐 Senha do Barbeiro — <span id="barberPassNameLabel">Gean</span></h2>
             <div class="form-group">
-                <label for="barberPassField">Digite a senha da Área do Barbeiro</label>
-                <input type="password" id="barberPassField" inputmode="numeric" placeholder="••••">
+                <label for="barberPassField">Digite a senha da Área do Barbeiro (1234)</label>
+                <input type="password" id="barberPassField" inputmode="numeric" placeholder="1234">
             </div>
             <button type="button" class="btn-gold" onclick="checkBarberPass()">Acessar Área do Barbeiro</button>
         </div>
@@ -1135,7 +1147,7 @@
             <h2>✂️ Área do Barbeiro — <span id="barberAreaName">Gean</span></h2>
 
             <div class="admin-section-box">
-                <div class="admin-section-title">✅ Finalizar Corte (4 Fotos + Mini Vídeo na Pasta do Meio)</div>
+                <div class="admin-section-title">✅ Finalizar Corte do Cliente (4 Fotos + Mini Vídeo na Pasta do Meio)</div>
                 <div class="form-group">
                     <label for="finishClientSelect">Cliente para finalizar o corte</label>
                     <select id="finishClientSelect" onchange="syncFinishClientSelection()"></select>
@@ -1153,7 +1165,7 @@
             </div>
 
             <div class="admin-section-box">
-                <div class="admin-section-title">➕ Adicionar Corte (<span id="addCutBarberLabel">Gean</span>)</div>
+                <div class="admin-section-title">➕ Salvar Corte na Lista de Cortes (<span id="addCutBarberLabel">Gean</span>)</div>
                 <div class="form-group">
                     <label for="newBarberCutTitle">Nome do Corte</label>
                     <input type="text" id="newBarberCutTitle" placeholder="Ex: Fade Navalhado + Barba">
@@ -1171,7 +1183,17 @@
                     <input type="file" id="newBarberCutVideoInput" accept="video/*" onchange="handleNewBarberCutVideoUpload(event)">
                 </div>
                 <div id="newBarberCutClusterPreview"></div>
-                <button type="button" class="btn-gold" onclick="addBarberShowcaseCut()">Adicionar Corte ao Catálogo</button>
+                <button type="button" class="btn-gold" onclick="addBarberShowcaseCut()">Salvar Corte na Lista</button>
+
+                <div class="saved-feedback-banner" id="barberCutSavedBanner"></div>
+
+                <!-- Lista imediata de cortes salvos deste barbeiro com opção de apagar -->
+                <div style="margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.12);">
+                    <div style="font-size:0.78rem; font-weight:700; color:#e5b832; margin-bottom:8px;">
+                        📋 Lista de Cortes Salvos de <span id="barberSavedCutsListOwner">Gean</span> (<span id="barberSavedCutsListCount">0</span>)
+                    </div>
+                    <div id="barberAreaSavedCutsList"></div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -1360,6 +1382,7 @@
 
     <script>
         const ADMIN_PASSWORD = "6763";
+        const BARBER_DEFAULT_PASSWORD = "1234";
         const BARBER_PASSWORDS = {
             gean: "1234",
             miro: "1234"
@@ -1640,7 +1663,7 @@
                     renderHome();
                     renderAdminDashboard();
                 }
-            }, err => {
+            }, () => {
                 document.getElementById("firebaseStatusText").textContent = "Permissão Firebase";
             });
 
@@ -1648,7 +1671,7 @@
                 if (!snap.exists()) return;
                 const val = snap.val() || {};
                 let changed = false;
-                state.barbers = state.barbers.map((b, idx) => {
+                state.barbers = state.barbers.map(b => {
                     const remote = val[b.id];
                     if (remote && remote.photo && Number(remote.photoUpdatedAt || 0) >= Number(b.photoUpdatedAt || 0)) {
                         changed = true;
@@ -1701,6 +1724,8 @@
                     state.barberCuts = [];
                 }
                 persistState();
+                renderHome();
+                renderBarberAreaSavedCutsList();
                 renderBarberShowcaseCuts();
                 renderAdminDashboard();
             });
@@ -1724,7 +1749,7 @@
             el.textContent = msg;
             el.classList.add("show");
             clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => el.classList.remove("show"), 4000);
+            toastTimer = setTimeout(() => el.classList.remove("show"), 4200);
         }
 
         function currentBarber() {
@@ -1794,12 +1819,14 @@
         function renderHome() {
             renderCarouselCards();
             const active = currentBarber();
+            const activeCutsCount = state.barberCuts.filter(c => c.barberId === active.id).length;
 
             document.getElementById("activeBarberBadge").textContent = active.name;
             document.getElementById("scheduleBarberName").textContent = active.name;
             document.getElementById("lastCutChargeBarberName").textContent = active.name;
             document.getElementById("combosBarberName").textContent = active.name;
             document.getElementById("barberCutsButtonName").textContent = active.name;
+            document.getElementById("barberCutsCountBadge").textContent = String(activeCutsCount);
             document.getElementById("homeCombosBarber").textContent = active.name;
             document.getElementById("homeApptBarber").textContent = active.name;
 
@@ -1991,6 +2018,8 @@
                 if (db) db.ref(`clientCuts/${clientCutRecord.id}`).set(clientCutRecord);
             }
 
+            renderHome();
+            renderBarberAreaSavedCutsList();
             renderBarberShowcaseCuts();
             renderClientCutsHistory();
             renderSavedClientProfilesLog();
@@ -1998,7 +2027,7 @@
 
             closeModal("lastCutChargeModal");
             openChargeForLastCutTarget(appt, titleInput, amount);
-            notify(`Foto salva em ${active.name}! Agora escolha Pix ou Dinheiro.`);
+            notify(`Corte "${titleInput}" salvo na lista de ${active.name}! Agora escolha Pix ou Dinheiro.`);
         }
 
         function openDirectChargeFromLastCut() {
@@ -2177,7 +2206,7 @@
                 container.innerHTML = `
                     <div class="appt-item" style="text-align:center;">
                         <div style="font-size:0.8rem; color:#ccc; margin-bottom:8px;">
-                            ${active.name} ainda não cadastrou cortes na vitrine.
+                            ${active.name} ainda não cadastrou cortes na lista.
                         </div>
                         <button type="button" class="btn-gold" onclick="closeModal('barberCutsShowcaseModal'); openBookingModal();">
                             Agendar com ${active.name}
@@ -2640,6 +2669,50 @@
             }
         }
 
+        function showBarberSavedBanner(text) {
+            const banner = document.getElementById("barberCutSavedBanner");
+            if (!banner) return;
+            banner.textContent = text;
+            banner.style.display = "block";
+        }
+
+        function renderBarberAreaSavedCutsList() {
+            const active = currentBarber();
+            const ownerEl = document.getElementById("barberSavedCutsListOwner");
+            const countEl = document.getElementById("barberSavedCutsListCount");
+            const listEl = document.getElementById("barberAreaSavedCutsList");
+            if (!listEl) return;
+
+            if (ownerEl) ownerEl.textContent = active.name;
+            const cuts = state.barberCuts.filter(c => c.barberId === active.id);
+            if (countEl) countEl.textContent = String(cuts.length);
+
+            if (!cuts.length) {
+                listEl.innerHTML = `<div style="font-size:0.74rem; color:#bbb;">Nenhum corte salvo na lista de ${active.name} ainda.</div>`;
+                return;
+            }
+
+            listEl.innerHTML = cuts.map(c => {
+                const photos = (Array.isArray(c.photos) && c.photos.length ? c.photos : (c.photo ? [c.photo] : [])).slice(0, 4);
+                const thumb = photos[0] || "icon-192.png";
+                return `
+                    <div class="client-clickable-row" style="cursor:default;">
+                        <div style="display:flex; align-items:center; gap:9px; flex:1;">
+                            <img class="saved-client-avatar" src="${thumb}" alt="${c.title}">
+                            <div>
+                                <strong>${c.title}</strong>
+                                <div style="color:#e5b832; font-size:0.72rem; font-weight:700;">
+                                    R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")} • ${photos.length} foto(s)${c.video ? " • Vídeo" : ""}
+                                </div>
+                                <div style="color:#7df5b0; font-size:0.66rem;">✓ Na lista de cortes</div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-mini-del" onclick="deleteBarberShowcaseCut('${c.id}')">🗑️ Apagar</button>
+                    </div>
+                `;
+            }).join("");
+        }
+
         function addBarberShowcaseCut() {
             const active = currentBarber();
             const title = document.getElementById("newBarberCutTitle").value.trim();
@@ -2677,9 +2750,15 @@
             newBarberCutPhotosDraft = [];
             newBarberCutVideoDraft = "";
             renderClusterPreview("newBarberCutClusterPreview", [], "");
+
+            const totalBarberCuts = state.barberCuts.filter(c => c.barberId === active.id).length;
+            showBarberSavedBanner(`✓ Corte "${title}" salvo! Já está na lista de cortes de ${active.name} (${totalBarberCuts} corte(s)).`);
+
+            renderHome();
+            renderBarberAreaSavedCutsList();
             renderBarberShowcaseCuts();
             renderAdminDashboard();
-            notify(`Corte "${title}" adicionado com ${photos.length} foto(s)${item.video ? " + mini vídeo" : ""}!`);
+            notify(`Corte "${title}" salvo e já está na lista de cortes de ${active.name}!`);
         }
 
         function deleteClientCut(cutId, event) {
@@ -2697,12 +2776,20 @@
 
         function deleteBarberShowcaseCut(cutId) {
             if (!cutId) return;
+            const removed = state.barberCuts.find(c => c.id === cutId);
             state.barberCuts = state.barberCuts.filter(c => c.id !== cutId);
             persistState();
             if (db) db.ref(`barberCuts/${cutId}`).remove();
+
+            if (removed) {
+                showBarberSavedBanner(`🗑️ Corte "${removed.title}" apagado da lista de cortes.`);
+            }
+
+            renderHome();
+            renderBarberAreaSavedCutsList();
             renderBarberShowcaseCuts();
             renderAdminDashboard();
-            notify("Corte do catálogo excluído!");
+            notify("Corte apagado da lista de cortes!");
         }
 
         function openFourPhotosModal(title, meta, photos, videoSrc, clientNameForBooking, phoneForBooking, savedCutId = "") {
@@ -2809,14 +2896,14 @@
         function checkBarberPass() {
             const active = currentBarber();
             const entered = document.getElementById("barberPassField").value.trim();
-            const expected = BARBER_PASSWORDS[active.id] || ADMIN_PASSWORD;
+            const expected = BARBER_PASSWORDS[active.id] || BARBER_DEFAULT_PASSWORD;
 
-            if (entered === expected || entered === ADMIN_PASSWORD) {
+            if (entered === expected || entered === BARBER_DEFAULT_PASSWORD || entered === ADMIN_PASSWORD) {
                 unlockedBarberId = active.id;
                 closeModal("barberPassModal");
                 openBarberArea();
             } else {
-                notify(`Senha incorreta para a área de ${active.name}!`);
+                notify(`Senha incorreta para a área de ${active.name}! Use 1234.`);
             }
         }
 
@@ -2827,6 +2914,9 @@
             finishCutVideoDraft = "";
             newBarberCutPhotosDraft = [];
             newBarberCutVideoDraft = "";
+
+            const banner = document.getElementById("barberCutSavedBanner");
+            if (banner) banner.style.display = "none";
 
             document.getElementById("barberAreaName").textContent = active.name;
             document.getElementById("addCutBarberLabel").textContent = active.name;
@@ -2854,6 +2944,7 @@
             document.getElementById("newBarberCutPhotosInput").value = "";
             document.getElementById("newBarberCutVideoInput").value = "";
             renderClusterPreview("newBarberCutClusterPreview", [], "");
+            renderBarberAreaSavedCutsList();
 
             const combosEditor = document.getElementById("barberCombosEditorList");
             combosEditor.innerHTML = active.combos.map(c => `
@@ -3507,7 +3598,7 @@
                 const catalogRows = state.barberCuts.map(c => `
                     <div class="client-clickable-row" style="cursor:default;">
                         <div>
-                            <strong>[Catálogo] ${c.title}</strong>
+                            <strong>[Lista] ${c.title}</strong>
                             <div style="color:#bbb; font-size:0.7rem;">Barbeiro: ${c.barberName || "-"} • R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}</div>
                         </div>
                         <button type="button" class="btn-mini-del" onclick="deleteBarberShowcaseCut('${c.id}')">🗑️ Apagar</button>
