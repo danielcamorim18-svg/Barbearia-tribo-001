@@ -1418,6 +1418,7 @@
                 id: "gean",
                 name: "Gean",
                 photo: "icon-512.png",
+                photoUpdatedAt: 0,
                 pixKey: "46589604000116",
                 prices: buildDefaultServicePrices(),
                 combos: buildDefaultCombos()
@@ -1426,6 +1427,7 @@
                 id: "miro",
                 name: "Miro",
                 photo: "icon-192.png",
+                photoUpdatedAt: 0,
                 pixKey: "",
                 prices: buildDefaultServicePrices(),
                 combos: buildDefaultCombos()
@@ -1464,6 +1466,17 @@
         let editingBarberIndex = 0;
         let editingBarberPhotoDraft = "";
 
+        function getBarberPhotoUrl(barber) {
+            const b = barber || {};
+            const fallback = b.id === "gean" ? "icon-512.png" : "icon-192.png";
+            const src = (b.photo && String(b.photo).trim()) || fallback;
+            if (src.startsWith("data:") || src.startsWith("http") || src.startsWith("blob:")) {
+                return src;
+            }
+            const ver = Number(b.photoUpdatedAt || 0);
+            return ver ? `${src}${src.includes("?") ? "&" : "?"}v=${ver}` : src;
+        }
+
         function normalizeBarber(b) {
             const base = { ...b };
             if (!base.id) {
@@ -1472,9 +1485,10 @@
             if (base.id === "gean" && !base.pixKey) {
                 base.pixKey = "46589604000116";
             }
-            if (!base.photo) {
+            if (!base.photo || !String(base.photo).trim()) {
                 base.photo = base.id === "gean" ? "icon-512.png" : "icon-192.png";
             }
+            base.photoUpdatedAt = Number(base.photoUpdatedAt || 0);
 
             const mergedPrices = { ...buildDefaultServicePrices(), ...(b.prices || {}) };
             if (base.id === "gean" && (!b.prices || b.prices.luzes === undefined)) {
@@ -1505,6 +1519,39 @@
             });
 
             return base;
+        }
+
+        function mergeBarbersList(incomingList) {
+            const defaults = BARBERS_LIST.map(normalizeBarber);
+            const list = Array.isArray(incomingList)
+                ? incomingList
+                : (incomingList && typeof incomingList === "object" ? Object.values(incomingList) : []);
+
+            if (!list.length) return defaults;
+
+            const byId = new Map();
+            defaults.forEach(d => byId.set(d.id, d));
+
+            list.forEach((raw, idx) => {
+                if (!raw) return;
+                const norm = normalizeBarber(raw);
+                const prevLocal = state.barbers.find(lb => lb.id === norm.id) || state.barbers[idx];
+                if (prevLocal && Number(prevLocal.photoUpdatedAt || 0) > Number(norm.photoUpdatedAt || 0) && prevLocal.photo) {
+                    norm.photo = prevLocal.photo;
+                    norm.photoUpdatedAt = prevLocal.photoUpdatedAt;
+                }
+                byId.set(norm.id, norm);
+            });
+
+            const ordered = [];
+            defaults.forEach(d => {
+                if (byId.has(d.id)) {
+                    ordered.push(byId.get(d.id));
+                    byId.delete(d.id);
+                }
+            });
+            byId.forEach(val => ordered.push(val));
+            return ordered;
         }
 
         function normalizeCutItem(item) {
@@ -1540,13 +1587,10 @@
             if (raw) {
                 try {
                     const parsed = JSON.parse(raw);
-                    const list = Array.isArray(parsed.barbers) && parsed.barbers.length >= 2
-                        ? parsed.barbers.map(normalizeBarber)
-                        : state.barbers.map(normalizeBarber);
                     state = {
                         ...state,
                         ...parsed,
-                        barbers: list,
+                        barbers: mergeBarbersList(parsed.barbers),
                         appointments: Array.isArray(parsed.appointments) ? parsed.appointments : [],
                         clientCuts: Array.isArray(parsed.clientCuts) ? parsed.clientCuts.map(normalizeCutItem) : [],
                         barberCuts: Array.isArray(parsed.barberCuts) ? parsed.barberCuts.map(normalizeCutItem) : [],
@@ -1554,7 +1598,7 @@
                     };
                 } catch (e) {}
             }
-            state.barbers = state.barbers.map(normalizeBarber);
+            state.barbers = mergeBarbersList(state.barbers);
             if (typeof state.currentIndex !== "number" || state.currentIndex < 0 || state.currentIndex >= state.barbers.length) {
                 state.currentIndex = 0;
             }
@@ -1568,19 +1612,59 @@
             }
         }
 
+        function syncBarberPhotoToFirebase(barberIdx, barberObj) {
+            if (!db || !barberObj) return;
+            const payload = {
+                photo: barberObj.photo,
+                photoUpdatedAt: barberObj.photoUpdatedAt || Date.now()
+            };
+            db.ref(`barbers/${barberIdx}`).update(payload).catch(() => {});
+            if (barberObj.id) {
+                db.ref(`barbersById/${barberObj.id}`).set({
+                    id: barberObj.id,
+                    name: barberObj.name,
+                    photo: barberObj.photo,
+                    photoUpdatedAt: payload.photoUpdatedAt,
+                    pixKey: barberObj.pixKey || ""
+                }).catch(() => {});
+            }
+        }
+
         function subscribeFirebase() {
             if (!db) return;
 
             db.ref("barbers").on("value", snap => {
                 if (snap.exists()) {
-                    const val = snap.val();
-                    const list = Array.isArray(val) ? val : Object.values(val);
-                    if (list.length >= 2) {
-                        state.barbers = list.map(normalizeBarber);
-                        persistState();
-                        renderHome();
-                        renderAdminDashboard();
+                    state.barbers = mergeBarbersList(snap.val());
+                    persistState();
+                    renderHome();
+                    renderAdminDashboard();
+                }
+            }, err => {
+                document.getElementById("firebaseStatusText").textContent = "Permissão Firebase";
+            });
+
+            db.ref("barbersById").on("value", snap => {
+                if (!snap.exists()) return;
+                const val = snap.val() || {};
+                let changed = false;
+                state.barbers = state.barbers.map((b, idx) => {
+                    const remote = val[b.id];
+                    if (remote && remote.photo && Number(remote.photoUpdatedAt || 0) >= Number(b.photoUpdatedAt || 0)) {
+                        changed = true;
+                        return normalizeBarber({
+                            ...b,
+                            photo: remote.photo,
+                            photoUpdatedAt: Number(remote.photoUpdatedAt || Date.now()),
+                            pixKey: remote.pixKey !== undefined ? remote.pixKey : b.pixKey
+                        });
                     }
+                    return b;
+                });
+                if (changed) {
+                    persistState();
+                    renderHome();
+                    renderAdminDashboard();
                 }
             });
 
@@ -1690,7 +1774,10 @@
                     cls = "right";
                 }
                 div.className = `barber-card ${cls}`;
-                div.innerHTML = `<img src="${b.photo || 'icon-192.png'}" alt="${b.name}">`;
+                const img = document.createElement("img");
+                img.src = getBarberPhotoUrl(b);
+                img.alt = b.name;
+                div.appendChild(img);
                 div.onclick = () => {
                     if (idx === state.currentIndex) {
                         nextBarber();
@@ -2745,7 +2832,7 @@
             document.getElementById("addCutBarberLabel").textContent = active.name;
             document.getElementById("barberCombosOwnerLabel").textContent = active.name;
             document.getElementById("barberPricesOwnerLabel").textContent = active.name;
-            document.getElementById("barberAreaPhotoPreview").src = active.photo || "icon-192.png";
+            document.getElementById("barberAreaPhotoPreview").src = getBarberPhotoUrl(active);
             document.getElementById("barberProfilePhotoInput").value = "";
             document.getElementById("barberAreaPixInput").value = active.pixKey || "";
 
@@ -2795,13 +2882,16 @@
             const file = event.target.files?.[0];
             if (!file) return;
             const active = currentBarber();
+            const idx = state.currentIndex;
             try {
                 const dataUrl = await compressImageToDataUrl(file, 360, 0.78);
                 active.photo = dataUrl;
-                document.getElementById("barberAreaPhotoPreview").src = dataUrl;
+                active.photoUpdatedAt = Date.now();
                 persistState();
-                if (db) db.ref(`barbers/${state.currentIndex}/photo`).set(dataUrl);
+                syncBarberPhotoToFirebase(idx, active);
+                document.getElementById("barberAreaPhotoPreview").src = getBarberPhotoUrl(active);
                 renderHome();
+                renderAdminDashboard();
                 notify(`Aviso para ${active.name}: foto de perfil atualizada no carrossel!`);
             } catch (err) {
                 notify("Não foi possível carregar a foto de perfil.");
@@ -2813,7 +2903,10 @@
             const key = document.getElementById("barberAreaPixInput").value.trim();
             active.pixKey = key;
             persistState();
-            if (db) db.ref(`barbers/${state.currentIndex}/pixKey`).set(key);
+            if (db) {
+                db.ref(`barbers/${state.currentIndex}/pixKey`).set(key);
+                if (active.id) db.ref(`barbersById/${active.id}/pixKey`).set(key);
+            }
             notify(`Aviso para ${active.name}: chave Pix salva como chave central!`);
         }
 
@@ -3145,7 +3238,7 @@
             editingBarberPhotoDraft = b.photo || "icon-192.png";
             document.getElementById("adminEditBarberName").value = b.name || "";
             document.getElementById("adminEditBarberPix").value = b.pixKey || "";
-            document.getElementById("adminEditBarberPhotoPreview").src = editingBarberPhotoDraft;
+            document.getElementById("adminEditBarberPhotoPreview").src = getBarberPhotoUrl(b);
             document.getElementById("adminEditBarberPhotoInput").value = "";
             document.getElementById("adminEditBarberModal").style.display = "flex";
         }
@@ -3171,17 +3264,31 @@
                 return;
             }
 
+            const photoChanged = Boolean(editingBarberPhotoDraft && editingBarberPhotoDraft !== b.photo);
             b.name = newName;
             b.pixKey = newPix;
             b.photo = editingBarberPhotoDraft || b.photo || "icon-192.png";
+            if (photoChanged) {
+                b.photoUpdatedAt = Date.now();
+            }
 
             persistState();
             if (db) {
                 db.ref(`barbers/${editingBarberIndex}`).update({
                     name: b.name,
                     pixKey: b.pixKey,
-                    photo: b.photo
+                    photo: b.photo,
+                    photoUpdatedAt: b.photoUpdatedAt || Date.now()
                 });
+                if (b.id) {
+                    db.ref(`barbersById/${b.id}`).set({
+                        id: b.id,
+                        name: b.name,
+                        photo: b.photo,
+                        photoUpdatedAt: b.photoUpdatedAt || Date.now(),
+                        pixKey: b.pixKey || ""
+                    }).catch(() => {});
+                }
             }
 
             closeModal("adminEditBarberModal");
@@ -3357,7 +3464,7 @@
                 barbersMgrEl.innerHTML = state.barbers.map((b, idx) => `
                     <div class="client-clickable-row" style="cursor:default;">
                         <div style="display:flex; align-items:center; gap:9px;">
-                            <img class="saved-client-avatar" src="${b.photo || 'icon-192.png'}" alt="${b.name}">
+                            <img class="saved-client-avatar" src="${getBarberPhotoUrl(b)}" alt="${b.name}">
                             <div>
                                 <strong>${b.name}</strong>
                                 <div style="color:#bbb; font-size:0.7rem;">Pix: ${b.pixKey || "Não definida"}</div>
