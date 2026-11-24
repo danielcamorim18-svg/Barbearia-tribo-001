@@ -459,6 +459,61 @@
             flex-shrink: 0;
         }
 
+        .letter-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin: 8px 0;
+        }
+
+        .letter-btn {
+            background: rgba(42, 42, 42, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #e5e5e5;
+            border-radius: 7px;
+            padding: 4px 7px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .letter-btn.active,
+        .letter-btn:hover {
+            background: #e5b832;
+            color: #111;
+            border-color: #e5b832;
+        }
+
+        .saved-client-log-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background: rgba(44, 44, 44, 0.84);
+            border: 1px solid rgba(212, 175, 55, 0.32);
+            border-radius: 12px;
+            padding: 8px 10px;
+            margin-bottom: 7px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .saved-client-log-card:hover {
+            border-color: #e5b832;
+            background: rgba(212, 175, 55, 0.16);
+        }
+
+        .saved-client-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid #e5b832;
+            flex-shrink: 0;
+            background: #222;
+        }
+
         .price-edit-row {
             display: flex;
             align-items: center;
@@ -806,11 +861,39 @@
         </div>
     </main>
 
-    <!-- MODAL 1: ÁREA DO CLIENTE (CORTES DOS BARBEIROS, ATÉ 4 FOTOS, MEUS CORTES & CHAVE PIX) -->
+    <!-- MODAL 1: PERFIL DO CLIENTE (CADASTRO COM NOME + FOTO, LOG POR INICIAL, CORTES DOS BARBEIROS & CHAVE PIX) -->
     <div class="modal" id="profilePixModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('profilePixModal')">&times;</span>
-            <h2>👤 Área do Cliente, Cortes dos Barbeiros &amp; Pix</h2>
+            <h2>👤 Perfil do Cliente, Cortes &amp; Pix</h2>
+
+            <!-- Cadastro de Perfil do Cliente (Nome + Foto + Salvar) -->
+            <div class="admin-section-box">
+                <div class="admin-section-title">📝 Cadastrar / Atualizar Perfil do Cliente</div>
+                <div class="form-group">
+                    <label for="clientProfileNameInput">Nome do Cliente</label>
+                    <input type="text" id="clientProfileNameInput" placeholder="Digite seu nome">
+                </div>
+                <div class="form-group">
+                    <label for="clientProfilePhoneInput">Telefone / WhatsApp (opcional)</label>
+                    <input type="text" id="clientProfilePhoneInput" placeholder="(11) 99999-9999">
+                </div>
+                <div class="barber-photo-editor" style="margin-bottom:8px;">
+                    <img id="clientProfilePhotoPreview" src="icon-192.png" alt="Foto do cliente" style="border-radius:50%;">
+                    <div style="flex:1;">
+                        <label for="clientProfilePhotoInput">Foto do Cliente (câmera ou galeria)</label>
+                        <input type="file" id="clientProfilePhotoInput" accept="image/*" capture="user" onchange="handleClientProfilePhotoUpload(event)">
+                    </div>
+                </div>
+                <button type="button" class="btn-gold" onclick="saveClientProfile()">Salvar Cadastro do Cliente</button>
+            </div>
+
+            <!-- Log Rápido de Clientes Salvos: clique na primeira letra e veja o nome + foto -->
+            <div class="admin-section-box">
+                <div class="admin-section-title">🔎 Entrar / Log de Clientes Salvos (Clique na 1ª letra)</div>
+                <div class="letter-filter-bar" id="clientLetterFilterBar"></div>
+                <div id="savedClientProfilesLogList"></div>
+            </div>
 
             <div class="form-group">
                 <label for="profileBarberSelect">Barbeiro</label>
@@ -829,7 +912,7 @@
             </div>
 
             <div class="form-group" style="margin-top:12px;">
-                <label for="clientHistorySearch">📸 Meus Cortes Salvos — Buscar cliente (nome ou telefone)</label>
+                <label for="clientHistorySearch">📸 Meus Cortes Salvos — Filtrar por nome ou telefone</label>
                 <input type="text" id="clientHistorySearch" oninput="renderClientCutsHistory()" placeholder="Digite nome ou telefone do cliente">
             </div>
 
@@ -1139,6 +1222,7 @@
             appointments: [],
             clientCuts: [],
             barberCuts: [],
+            clientProfiles: [],
             activeChargeId: null,
             tempPhotoData: ""
         };
@@ -1147,6 +1231,8 @@
         let selectedSlot = "10:00";
         let finishCutPhotosDraft = [];
         let newBarberCutPhotosDraft = [];
+        let tempClientProfilePhoto = "";
+        let selectedClientInitial = "";
 
         function normalizeBarber(b) {
             const base = { ...b };
@@ -1161,7 +1247,6 @@
             }
 
             const mergedPrices = { ...buildDefaultServicePrices(), ...(b.prices || {}) };
-            // Garante a tabela atualizada do Gean caso dados antigos não tenham os novos serviços
             if (base.id === "gean" && (!b.prices || b.prices.luzes === undefined)) {
                 mergedPrices.corte = 40;
                 mergedPrices.barba = 30;
@@ -1220,7 +1305,7 @@
         }
 
         function loadSavedState() {
-            const raw = localStorage.getItem("barbearia_tribo_ui_v7");
+            const raw = localStorage.getItem("barbearia_tribo_ui_v8");
             if (raw) {
                 try {
                     const parsed = JSON.parse(raw);
@@ -1233,7 +1318,8 @@
                         barbers: list,
                         appointments: Array.isArray(parsed.appointments) ? parsed.appointments : [],
                         clientCuts: Array.isArray(parsed.clientCuts) ? parsed.clientCuts.map(normalizeCutItem) : [],
-                        barberCuts: Array.isArray(parsed.barberCuts) ? parsed.barberCuts.map(normalizeCutItem) : []
+                        barberCuts: Array.isArray(parsed.barberCuts) ? parsed.barberCuts.map(normalizeCutItem) : [],
+                        clientProfiles: Array.isArray(parsed.clientProfiles) ? parsed.clientProfiles : []
                     };
                 } catch (e) {}
             }
@@ -1244,7 +1330,7 @@
         }
 
         function persistState() {
-            localStorage.setItem("barbearia_tribo_ui_v7", JSON.stringify(state));
+            localStorage.setItem("barbearia_tribo_ui_v8", JSON.stringify(state));
         }
 
         function subscribeFirebase() {
@@ -1281,6 +1367,7 @@
                     state.clientCuts = Object.keys(val).map(k => normalizeCutItem({ id: k, ...val[k] }));
                     persistState();
                     renderClientCutsHistory();
+                    renderSavedClientProfilesLog();
                     renderAdminDashboard();
                 }
             });
@@ -1291,6 +1378,16 @@
                     state.barberCuts = Object.keys(val).map(k => normalizeCutItem({ id: k, ...val[k] }));
                     persistState();
                     renderBarberShowcaseCuts();
+                }
+            });
+
+            db.ref("clientProfiles").on("value", snap => {
+                if (snap.exists()) {
+                    const val = snap.val();
+                    state.clientProfiles = Object.keys(val).map(k => ({ id: k, ...val[k] }));
+                    persistState();
+                    renderSavedClientProfilesLog();
+                    renderAdminDashboard();
                 }
             });
         }
@@ -1600,6 +1697,179 @@
             });
         }
 
+        async function handleClientProfilePhotoUpload(event) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            try {
+                const dataUrl = await compressImageToDataUrl(file, 320, 0.76);
+                tempClientProfilePhoto = dataUrl;
+                document.getElementById("clientProfilePhotoPreview").src = dataUrl;
+                notify("Foto do cliente carregada! Clique em Salvar Cadastro do Cliente.");
+            } catch (err) {
+                notify("Não foi possível carregar a foto do cliente.");
+            }
+        }
+
+        function saveClientProfile() {
+            const name = document.getElementById("clientProfileNameInput").value.trim();
+            const phone = document.getElementById("clientProfilePhoneInput").value.trim();
+            if (!name) {
+                notify("Digite o nome do cliente para salvar o cadastro.");
+                return;
+            }
+
+            const photoToSave = tempClientProfilePhoto || document.getElementById("clientProfilePhotoPreview").src || "icon-192.png";
+            const existingIdx = state.clientProfiles.findIndex(
+                p => (p.name || "").trim().toLowerCase() === name.toLowerCase()
+            );
+
+            const profileObj = {
+                id: existingIdx >= 0 ? state.clientProfiles[existingIdx].id : ("cprof_" + Date.now()),
+                name,
+                phone,
+                photo: photoToSave,
+                updatedAt: new Date().toISOString()
+            };
+
+            if (existingIdx >= 0) {
+                state.clientProfiles[existingIdx] = profileObj;
+            } else {
+                state.clientProfiles.unshift(profileObj);
+            }
+
+            persistState();
+            if (db) db.ref(`clientProfiles/${profileObj.id}`).set(profileObj);
+
+            document.getElementById("clientProfileNameInput").value = "";
+            document.getElementById("clientProfilePhoneInput").value = "";
+            document.getElementById("clientProfilePhotoInput").value = "";
+            document.getElementById("clientProfilePhotoPreview").src = "icon-192.png";
+            tempClientProfilePhoto = "";
+            selectedClientInitial = "";
+
+            renderSavedClientProfilesLog();
+            renderClientCutsHistory();
+            renderAdminDashboard();
+            notify(`Cadastro de ${name} salvo com foto!`);
+        }
+
+        function getAllClientProfilesWithPhotos() {
+            const map = new Map();
+
+            state.clientProfiles.forEach(p => {
+                const k = (p.name || "").trim().toLowerCase();
+                if (!k) return;
+                map.set(k, {
+                    name: p.name.trim(),
+                    phone: p.phone || "",
+                    photo: p.photo || "icon-192.png"
+                });
+            });
+
+            state.clientCuts.forEach(c => {
+                const k = (c.clientName || "").trim().toLowerCase();
+                if (!k) return;
+                const firstPhoto = (Array.isArray(c.photos) && c.photos[0]) || c.photo || "icon-192.png";
+                if (!map.has(k)) {
+                    map.set(k, {
+                        name: c.clientName.trim(),
+                        phone: c.phone || "",
+                        photo: firstPhoto
+                    });
+                } else if (!map.get(k).phone && c.phone) {
+                    map.get(k).phone = c.phone;
+                }
+            });
+
+            state.appointments.forEach(a => {
+                const k = (a.clientName || "").trim().toLowerCase();
+                if (!k) return;
+                if (!map.has(k)) {
+                    map.set(k, {
+                        name: a.clientName.trim(),
+                        phone: a.phone || "",
+                        photo: "icon-192.png"
+                    });
+                }
+            });
+
+            return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
+        }
+
+        function selectClientInitialFilter(letter) {
+            selectedClientInitial = selectedClientInitial === letter ? "" : letter;
+            renderSavedClientProfilesLog();
+        }
+
+        function openClientCutsFromProfile(clientName, clientPhone) {
+            const searchEl = document.getElementById("clientHistorySearch");
+            if (searchEl) searchEl.value = clientName;
+            renderClientCutsHistory();
+
+            const nameLower = (clientName || "").trim().toLowerCase();
+            const cutsOfClient = state.clientCuts.filter(c => (c.clientName || "").trim().toLowerCase() === nameLower);
+
+            if (cutsOfClient.length) {
+                const latest = cutsOfClient[0];
+                const photos = (Array.isArray(latest.photos) && latest.photos.length ? latest.photos : (latest.photo ? [latest.photo] : [])).slice(0, 4);
+                openFourPhotosModal(
+                    `Cortes de ${clientName}`,
+                    `${cutsOfClient.length} corte(s) salvo(s) • ${latest.itemsLabel || "Corte"}`,
+                    photos,
+                    clientName,
+                    clientPhone || ""
+                );
+            } else {
+                notify(`Perfil de ${clientName} selecionado! Nenhum corte salvo ainda.`);
+            }
+        }
+
+        function renderSavedClientProfilesLog() {
+            const bar = document.getElementById("clientLetterFilterBar");
+            const listEl = document.getElementById("savedClientProfilesLogList");
+            if (!bar || !listEl) return;
+
+            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+            bar.innerHTML = alphabet.map(ch =>
+                `<button type="button" class="letter-btn ${selectedClientInitial === ch ? "active" : ""}" onclick="selectClientInitialFilter('${ch}')">${ch}</button>`
+            ).join("");
+
+            const allClients = getAllClientProfilesWithPhotos();
+            const filtered = selectedClientInitial
+                ? allClients.filter(cl =>
+                    cl.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().startsWith(selectedClientInitial)
+                )
+                : allClients;
+
+            if (!filtered.length) {
+                listEl.innerHTML = `<div style="font-size:0.75rem; color:#bbb;">${
+                    selectedClientInitial
+                        ? `Nenhum cliente começando com "${selectedClientInitial}".`
+                        : "Nenhum cliente cadastrado ainda. Cadastre nome e foto acima."
+                }</div>`;
+                return;
+            }
+
+            listEl.innerHTML = filtered.map(cl => {
+                const nameLower = cl.name.toLowerCase();
+                const cutsCount = state.clientCuts.filter(c => (c.clientName || "").toLowerCase() === nameLower).length;
+                const safeName = cl.name.replace(/'/g, "\\'");
+                const safePhone = (cl.phone || "").replace(/'/g, "\\'");
+                return `
+                    <div class="saved-client-log-card" onclick="openClientCutsFromProfile('${safeName}', '${safePhone}')">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <img class="saved-client-avatar" src="${cl.photo}" alt="${cl.name}">
+                            <div>
+                                <strong style="font-size:0.82rem; display:block;">${cl.name}</strong>
+                                <span style="font-size:0.7rem; color:#ccc;">${cutsCount} corte(s) salvo(s) • Toque para ver cortes</span>
+                            </div>
+                        </div>
+                        <span style="color:#e5b832; font-weight:700; font-size:0.76rem;">Ver →</span>
+                    </div>
+                `;
+            }).join("");
+        }
+
         function renderThumbs(containerId, photosArray) {
             const el = document.getElementById(containerId);
             if (!el) return;
@@ -1704,6 +1974,7 @@
             document.getElementById("finishCutPhotosInput").value = "";
             renderThumbs("finishCutThumbsGrid", []);
             renderClientCutsHistory();
+            renderSavedClientProfilesLog();
             renderAdminDashboard();
             notify(`Corte de ${matched.name} salvo com ${photos.length} foto(s) para a próxima visita!`);
         }
@@ -1835,6 +2106,7 @@
             const sel = document.getElementById("profileBarberSelect");
             sel.innerHTML = state.barbers.map((b, i) => `<option value="${i}" ${i === state.currentIndex ? "selected" : ""}>${b.name}</option>`).join("");
             syncProfileModalBarber();
+            renderSavedClientProfilesLog();
             renderBarberShowcaseCuts();
             renderClientCutsHistory();
             document.getElementById("profilePixModal").style.display = "flex";
@@ -2212,27 +2484,10 @@
         function getAllKnownClients() {
             const map = new Map();
 
-            state.appointments.forEach(a => {
-                const key = `${(a.clientName || "").trim().toLowerCase()}|${(a.phone || "").trim()}`;
-                if (!a.clientName) return;
+            getAllClientProfilesWithPhotos().forEach(p => {
+                const key = `${(p.name || "").trim().toLowerCase()}|${(p.phone || "").trim()}`;
                 if (!map.has(key)) {
-                    map.set(key, {
-                        key,
-                        name: a.clientName,
-                        phone: a.phone || ""
-                    });
-                }
-            });
-
-            state.clientCuts.forEach(c => {
-                const key = `${(c.clientName || "").trim().toLowerCase()}|${(c.phone || "").trim()}`;
-                if (!c.clientName) return;
-                if (!map.has(key)) {
-                    map.set(key, {
-                        key,
-                        name: c.clientName,
-                        phone: c.phone || ""
-                    });
+                    map.set(key, { key, name: p.name, phone: p.phone || "", photo: p.photo || "icon-192.png" });
                 }
             });
 
@@ -2300,9 +2555,12 @@
                     const totalCuts = cutsDone.length + paidDone.length;
                     return `
                         <div class="client-clickable-row" onclick="openAdminClientDetails(${idx})">
-                            <div>
-                                <strong>${cl.name}</strong>
-                                <div style="color:#bbb; font-size:0.7rem;">${cl.phone || "Sem telefone"}</div>
+                            <div style="display:flex; align-items:center; gap:9px;">
+                                <img class="saved-client-avatar" src="${cl.photo || 'icon-192.png'}" alt="${cl.name}">
+                                <div>
+                                    <strong>${cl.name}</strong>
+                                    <div style="color:#bbb; font-size:0.7rem;">${cl.phone || "Sem telefone"}</div>
+                                </div>
                             </div>
                             <span style="color:#e5b832; font-weight:700;">${totalCuts} corte(s) →</span>
                         </div>
