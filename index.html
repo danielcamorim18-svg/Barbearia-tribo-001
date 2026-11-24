@@ -622,6 +622,17 @@
             cursor: pointer;
         }
 
+        .btn-mini-edit {
+            background: rgba(229, 184, 50, 0.22);
+            color: #f5d365;
+            border: 1px solid #e5b832;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.74rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
         .btn-mini-del {
             background: rgba(231, 76, 60, 0.25);
             color: #ff8a80;
@@ -825,12 +836,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 8px;
             background: rgba(46, 46, 46, 0.82);
             border: 1px solid rgba(212, 175, 55, 0.3);
             border-radius: 10px;
             padding: 9px 11px;
             margin-bottom: 7px;
-            cursor: pointer;
             font-size: 0.76rem;
             transition: 0.2s;
         }
@@ -960,7 +971,6 @@
             <span class="close-btn" onclick="closeModal('profilePixModal')">&times;</span>
             <h2>👤 Perfil do Cliente &amp; Cortes</h2>
 
-            <!-- Cadastro de Perfil do Cliente (Nome + Foto + Salvar) -->
             <div class="admin-section-box">
                 <div class="admin-section-title">📝 Cadastrar / Atualizar Perfil do Cliente</div>
                 <div class="form-group">
@@ -981,7 +991,6 @@
                 <button type="button" class="btn-gold" onclick="saveClientProfile()">Salvar Cadastro do Cliente</button>
             </div>
 
-            <!-- Log Rápido de Clientes Salvos: clique na primeira letra e veja o nome + foto -->
             <div class="admin-section-box">
                 <div class="admin-section-title">🔎 Entrar / Log de Clientes Salvos (Clique na 1ª letra)</div>
                 <div class="letter-filter-bar" id="clientLetterFilterBar"></div>
@@ -1197,7 +1206,7 @@
         </div>
     </div>
 
-    <!-- MODAL 6: SENHA ADMIN (6763) & PAINEL ADMIN COM GRÁFICOS E CLIENTES -->
+    <!-- MODAL 6: SENHA ADMIN (6763) & PAINEL ADMIN COMPLETO -->
     <div class="modal" id="adminPassModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('adminPassModal')">&times;</span>
@@ -1216,7 +1225,7 @@
             <h2>⚙️ Painel Admin — Barbearia Tribo</h2>
 
             <div class="admin-section-box">
-                <div class="admin-section-title">📊 Gráfico — Faturamento por Barbeiro (R$)</div>
+                <div class="admin-section-title">📊 Gráfico de Ganhos Reais por Barbeiro (R$)</div>
                 <div id="adminRevenueChart"></div>
             </div>
 
@@ -1226,11 +1235,69 @@
             </div>
 
             <div class="admin-section-box">
-                <div class="admin-section-title">👥 Clientes Cadastrados / Logados (Toque para ver detalhes dos cortes)</div>
+                <div class="admin-section-title">💈 Editar Perfis dos Barbeiros</div>
+                <div id="adminBarbersManagerList"></div>
+            </div>
+
+            <div class="admin-section-box">
+                <div class="admin-section-title">👥 Gerenciar Clientes (Editar Perfil, Ver Cortes ou Apagar)</div>
                 <div id="adminClientsList"></div>
             </div>
 
+            <div class="admin-section-box">
+                <div class="admin-section-title">🗂️ Gerenciar Cortes (Catálogo e Cortes Salvos)</div>
+                <div id="adminCutsManagerList"></div>
+            </div>
+
             <div id="adminMetricsContainer"></div>
+        </div>
+    </div>
+
+    <!-- MODAL EDITAR PERFIL DO CLIENTE PELO ADMIN -->
+    <div class="modal" id="adminEditClientModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('adminEditClientModal')">&times;</span>
+            <h2>✏️ Editar Perfil do Cliente</h2>
+            <div class="form-group">
+                <label for="adminEditClientName">Nome do Cliente</label>
+                <input type="text" id="adminEditClientName">
+            </div>
+            <div class="form-group">
+                <label for="adminEditClientPhone">Telefone / WhatsApp</label>
+                <input type="text" id="adminEditClientPhone">
+            </div>
+            <div class="barber-photo-editor">
+                <img id="adminEditClientPhotoPreview" src="icon-192.png" alt="Foto do cliente" style="border-radius:50%;">
+                <div style="flex:1;">
+                    <label for="adminEditClientPhotoInput">Nova Foto do Cliente</label>
+                    <input type="file" id="adminEditClientPhotoInput" accept="image/*" onchange="handleAdminEditClientPhoto(event)">
+                </div>
+            </div>
+            <button type="button" class="btn-gold" onclick="saveAdminEditedClient()">Salvar Alterações do Cliente</button>
+        </div>
+    </div>
+
+    <!-- MODAL EDITAR PERFIL DO BARBEIRO PELO ADMIN -->
+    <div class="modal" id="adminEditBarberModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('adminEditBarberModal')">&times;</span>
+            <h2>✏️ Editar Perfil do Barbeiro</h2>
+            <div class="form-group">
+                <label for="adminEditBarberName">Nome do Barbeiro</label>
+                <input type="text" id="adminEditBarberName">
+            </div>
+            <div class="form-group">
+                <label for="adminEditBarberPix">Chave Pix</label>
+                <input type="text" id="adminEditBarberPix">
+            </div>
+            <div class="barber-photo-editor">
+                <img id="adminEditBarberPhotoPreview" src="icon-192.png" alt="Foto do barbeiro">
+                <div style="flex:1;">
+                    <label for="adminEditBarberPhotoInput">Nova Foto do Barbeiro</label>
+                    <input type="file" id="adminEditBarberPhotoInput" accept="image/*" onchange="handleAdminEditBarberPhoto(event)">
+                </div>
+            </div>
+            <button type="button" class="btn-gold" onclick="saveAdminEditedBarber()">Salvar Perfil do Barbeiro</button>
         </div>
     </div>
 
@@ -1350,6 +1417,10 @@
         let tempClientProfilePhoto = "";
         let selectedClientInitial = "";
         let unlockedBarberId = null;
+        let editingClientOriginalName = "";
+        let editingClientPhotoDraft = "";
+        let editingBarberIndex = 0;
+        let editingBarberPhotoDraft = "";
 
         function normalizeBarber(b) {
             const base = { ...b };
@@ -1505,6 +1576,7 @@
                 }
                 persistState();
                 renderBarberShowcaseCuts();
+                renderAdminDashboard();
             });
 
             db.ref("clientProfiles").on("value", snap => {
@@ -1609,6 +1681,8 @@
                 closeModal("adminDashboardModal");
                 closeModal("adminPassModal");
                 closeModal("adminClientDetailsModal");
+                closeModal("adminEditClientModal");
+                closeModal("adminEditBarberModal");
             }
 
             renderHomeCombos();
@@ -1832,7 +1906,7 @@
                     const card = document.createElement("div");
                     card.className = "appt-item";
                     card.innerHTML = `
-                        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; cursor:pointer;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
                             <strong>${c.title}</strong>
                             <span style="color:#e5b832; font-weight:700;">R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}</span>
                         </div>
@@ -1843,15 +1917,11 @@
                             ${buildFourPhotosAndMiddleVideoHtml(photos, c.video || "", false)}
                         </div>
                         <div style="display:flex; gap:8px; margin-top:8px;">
-                            <button type="button" class="btn-dark" style="margin-top:0;" onclick="openFourPhotosModal('${c.title.replace(/'/g, "\\'")}', 'Barbeiro: ${(c.barberName || active.name).replace(/'/g, "\\'")} • R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}', ${JSON.stringify(photos).replace(/"/g, "&quot;")}, '${(c.video || "").replace(/'/g, "\\'")}', '', '', '')">
-                                🔍 Ampliar
-                            </button>
-                            <button type="button" class="btn-gold" style="margin-top:0;" onclick="closeModal('barberCutsShowcaseModal'); openBookingModal();">
-                                📅 Agendar
-                            </button>
+                            <button type="button" class="btn-dark btn-zoom-cut" style="margin-top:0;">🔍 Ampliar</button>
+                            <button type="button" class="btn-gold btn-book-cut" style="margin-top:0;">📅 Agendar</button>
                         </div>
                     `;
-                    card.querySelector(".showcase-media-trigger").onclick = () => {
+                    const openViewer = () => {
                         openFourPhotosModal(
                             c.title,
                             `Barbeiro: ${c.barberName || active.name} • R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}`,
@@ -1861,6 +1931,12 @@
                             "",
                             ""
                         );
+                    };
+                    card.querySelector(".showcase-media-trigger").onclick = openViewer;
+                    card.querySelector(".btn-zoom-cut").onclick = openViewer;
+                    card.querySelector(".btn-book-cut").onclick = () => {
+                        closeModal("barberCutsShowcaseModal");
+                        openBookingModal();
                     };
                     container.appendChild(card);
                 });
@@ -2010,6 +2086,7 @@
                 const k = (p.name || "").trim().toLowerCase();
                 if (!k) return;
                 map.set(k, {
+                    id: p.id,
                     name: p.name.trim(),
                     phone: p.phone || "",
                     photo: p.photo || "icon-192.png"
@@ -2022,6 +2099,7 @@
                 const firstPhoto = (Array.isArray(c.photos) && c.photos[0]) || c.photo || "icon-192.png";
                 if (!map.has(k)) {
                     map.set(k, {
+                        id: "",
                         name: c.clientName.trim(),
                         phone: c.phone || "",
                         photo: firstPhoto
@@ -2036,6 +2114,7 @@
                 if (!k) return;
                 if (!map.has(k)) {
                     map.set(k, {
+                        id: "",
                         name: a.clientName.trim(),
                         phone: a.phone || "",
                         photo: "icon-192.png"
@@ -2213,7 +2292,7 @@
                 name: clientName,
                 phone: "",
                 itemsLabel: "Corte",
-                total: 40,
+                total: Number(active.prices?.corte ?? 40),
                 date: new Date().toISOString().split("T")[0]
             };
 
@@ -2225,7 +2304,7 @@
                 barberId: active.id,
                 barberName: active.name,
                 itemsLabel: matched.itemsLabel,
-                total: matched.total,
+                total: Number(matched.total || 0),
                 date: matched.date,
                 photos,
                 photo: photos[0] || "",
@@ -2314,6 +2393,7 @@
             newBarberCutVideoDraft = "";
             renderClusterPreview("newBarberCutClusterPreview", [], "");
             renderBarberShowcaseCuts();
+            renderAdminDashboard();
             notify(`Corte "${title}" adicionado com ${photos.length} foto(s)${item.video ? " + mini vídeo" : ""}!`);
         }
 
@@ -2328,6 +2408,16 @@
             renderSavedClientProfilesLog();
             renderAdminDashboard();
             notify("Corte salvo excluído!");
+        }
+
+        function deleteBarberShowcaseCut(cutId) {
+            if (!cutId) return;
+            state.barberCuts = state.barberCuts.filter(c => c.id !== cutId);
+            persistState();
+            if (db) db.ref(`barberCuts/${cutId}`).remove();
+            renderBarberShowcaseCuts();
+            renderAdminDashboard();
+            notify("Corte do catálogo excluído!");
         }
 
         function openFourPhotosModal(title, meta, photos, videoSrc, clientNameForBooking, phoneForBooking, savedCutId = "") {
@@ -2812,34 +2902,225 @@
             const map = new Map();
 
             getAllClientProfilesWithPhotos().forEach(p => {
-                const key = `${(p.name || "").trim().toLowerCase()}|${(p.phone || "").trim()}`;
+                const key = (p.name || "").trim().toLowerCase();
+                if (!key) return;
                 if (!map.has(key)) {
-                    map.set(key, { key, name: p.name, phone: p.phone || "", photo: p.photo || "icon-192.png" });
+                    map.set(key, {
+                        id: p.id || "",
+                        key,
+                        name: p.name,
+                        phone: p.phone || "",
+                        photo: p.photo || "icon-192.png"
+                    });
                 }
             });
 
             return Array.from(map.values());
         }
 
+        function computeBarberRealRevenue(barberId) {
+            const paidAppts = state.appointments.filter(a => a.barberId === barberId && a.status === "pago");
+            const apptsRevenue = paidAppts.reduce((sum, a) => sum + Number(a.total || 0), 0);
+
+            const paidKeys = new Set(
+                paidAppts.map(a => `${(a.clientName || "").trim().toLowerCase()}|${a.date || ""}|${a.time || ""}`)
+            );
+            const standaloneCutsRevenue = state.clientCuts
+                .filter(c => {
+                    if (c.barberId !== barberId) return false;
+                    const k = `${(c.clientName || "").trim().toLowerCase()}|${c.date || ""}|${c.time || ""}`;
+                    return !paidKeys.has(k);
+                })
+                .reduce((sum, c) => sum + Number(c.total || 0), 0);
+
+            return {
+                revenue: apptsRevenue + standaloneCutsRevenue,
+                paidCount: paidAppts.length,
+                savedCutsCount: state.clientCuts.filter(c => c.barberId === barberId).length
+            };
+        }
+
+        function openAdminEditBarber(barberIdx) {
+            const b = state.barbers[barberIdx];
+            if (!b) return;
+            editingBarberIndex = barberIdx;
+            editingBarberPhotoDraft = b.photo || "icon-192.png";
+            document.getElementById("adminEditBarberName").value = b.name || "";
+            document.getElementById("adminEditBarberPix").value = b.pixKey || "";
+            document.getElementById("adminEditBarberPhotoPreview").src = editingBarberPhotoDraft;
+            document.getElementById("adminEditBarberPhotoInput").value = "";
+            document.getElementById("adminEditBarberModal").style.display = "flex";
+        }
+
+        async function handleAdminEditBarberPhoto(event) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            try {
+                editingBarberPhotoDraft = await compressImageToDataUrl(file, 360, 0.78);
+                document.getElementById("adminEditBarberPhotoPreview").src = editingBarberPhotoDraft;
+            } catch (err) {
+                notify("Não foi possível carregar a foto.");
+            }
+        }
+
+        function saveAdminEditedBarber() {
+            const b = state.barbers[editingBarberIndex];
+            if (!b) return;
+            const newName = document.getElementById("adminEditBarberName").value.trim();
+            const newPix = document.getElementById("adminEditBarberPix").value.trim();
+            if (!newName) {
+                notify("Informe o nome do barbeiro.");
+                return;
+            }
+
+            b.name = newName;
+            b.pixKey = newPix;
+            b.photo = editingBarberPhotoDraft || b.photo || "icon-192.png";
+
+            persistState();
+            if (db) {
+                db.ref(`barbers/${editingBarberIndex}`).update({
+                    name: b.name,
+                    pixKey: b.pixKey,
+                    photo: b.photo
+                });
+            }
+
+            closeModal("adminEditBarberModal");
+            renderHome();
+            renderAdminDashboard();
+            notify(`Perfil de ${b.name} atualizado!`);
+        }
+
+        function openAdminEditClient(clientName) {
+            const all = getAllKnownClients();
+            const cl = all.find(c => c.name.trim().toLowerCase() === (clientName || "").trim().toLowerCase());
+            if (!cl) return;
+            editingClientOriginalName = cl.name;
+            editingClientPhotoDraft = cl.photo || "icon-192.png";
+            document.getElementById("adminEditClientName").value = cl.name;
+            document.getElementById("adminEditClientPhone").value = cl.phone || "";
+            document.getElementById("adminEditClientPhotoPreview").src = editingClientPhotoDraft;
+            document.getElementById("adminEditClientPhotoInput").value = "";
+            document.getElementById("adminEditClientModal").style.display = "flex";
+        }
+
+        async function handleAdminEditClientPhoto(event) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            try {
+                editingClientPhotoDraft = await compressImageToDataUrl(file, 320, 0.76);
+                document.getElementById("adminEditClientPhotoPreview").src = editingClientPhotoDraft;
+            } catch (err) {
+                notify("Não foi possível carregar a foto.");
+            }
+        }
+
+        function saveAdminEditedClient() {
+            const newName = document.getElementById("adminEditClientName").value.trim();
+            const newPhone = document.getElementById("adminEditClientPhone").value.trim();
+            if (!newName) {
+                notify("Informe o nome do cliente.");
+                return;
+            }
+
+            const oldLower = (editingClientOriginalName || "").trim().toLowerCase();
+            let prof = state.clientProfiles.find(p => (p.name || "").trim().toLowerCase() === oldLower);
+            if (!prof) {
+                prof = {
+                    id: "cprof_" + Date.now(),
+                    name: newName,
+                    phone: newPhone,
+                    photo: editingClientPhotoDraft || "icon-192.png",
+                    updatedAt: new Date().toISOString()
+                };
+                state.clientProfiles.unshift(prof);
+            } else {
+                prof.name = newName;
+                prof.phone = newPhone;
+                prof.photo = editingClientPhotoDraft || prof.photo || "icon-192.png";
+                prof.updatedAt = new Date().toISOString();
+            }
+
+            state.appointments.forEach(a => {
+                if ((a.clientName || "").trim().toLowerCase() === oldLower) {
+                    a.clientName = newName;
+                    a.phone = newPhone;
+                    if (db) db.ref(`appointments/${a.id}`).update({ clientName: newName, phone: newPhone });
+                }
+            });
+
+            state.clientCuts.forEach(c => {
+                if ((c.clientName || "").trim().toLowerCase() === oldLower) {
+                    c.clientName = newName;
+                    c.phone = newPhone;
+                    if (db) db.ref(`clientCuts/${c.id}`).update({ clientName: newName, phone: newPhone });
+                }
+            });
+
+            persistState();
+            if (db) db.ref(`clientProfiles/${prof.id}`).set(prof);
+
+            closeModal("adminEditClientModal");
+            renderSavedClientProfilesLog();
+            renderClientCutsHistory();
+            renderAppointmentsSections();
+            renderAdminDashboard();
+            notify(`Perfil de ${newName} salvo!`);
+        }
+
+        function deleteClientCompletely(clientName) {
+            const targetLower = (clientName || "").trim().toLowerCase();
+            if (!targetLower) return;
+
+            const removedProfiles = state.clientProfiles.filter(p => (p.name || "").trim().toLowerCase() === targetLower);
+            state.clientProfiles = state.clientProfiles.filter(p => (p.name || "").trim().toLowerCase() !== targetLower);
+
+            const removedCuts = state.clientCuts.filter(c => (c.clientName || "").trim().toLowerCase() === targetLower);
+            state.clientCuts = state.clientCuts.filter(c => (c.clientName || "").trim().toLowerCase() !== targetLower);
+
+            const removedAppts = state.appointments.filter(a => (a.clientName || "").trim().toLowerCase() === targetLower);
+            state.appointments = state.appointments.filter(a => (a.clientName || "").trim().toLowerCase() !== targetLower);
+
+            persistState();
+            if (db) {
+                removedProfiles.forEach(p => { if (p.id) db.ref(`clientProfiles/${p.id}`).remove(); });
+                removedCuts.forEach(c => { if (c.id) db.ref(`clientCuts/${c.id}`).remove(); });
+                removedAppts.forEach(a => { if (a.id) db.ref(`appointments/${a.id}`).remove(); });
+            }
+
+            renderSavedClientProfilesLog();
+            renderClientCutsHistory();
+            renderAppointmentsSections();
+            renderAdminDashboard();
+            notify(`Cliente "${clientName}" removido!`);
+        }
+
         function renderAdminDashboard() {
             const revEl = document.getElementById("adminRevenueChart");
             const cutsEl = document.getElementById("adminCutsChart");
+            const barbersMgrEl = document.getElementById("adminBarbersManagerList");
             const clientsEl = document.getElementById("adminClientsList");
+            const cutsMgrEl = document.getElementById("adminCutsManagerList");
             const metricsEl = document.getElementById("adminMetricsContainer");
             if (!revEl || !cutsEl || !clientsEl || !metricsEl) return;
 
             const barberStats = state.barbers.map(b => {
-                const paidAppts = state.appointments.filter(a => a.barberId === b.id && a.status === "pago");
-                const revenue = paidAppts.reduce((s, a) => s + Number(a.total || 0), 0);
-                const cutsCount =
-                    state.clientCuts.filter(c => c.barberId === b.id).length +
-                    paidAppts.length;
+                const fin = computeBarberRealRevenue(b.id);
+                const totalCuts = fin.savedCutsCount + fin.paidCount;
                 const totalAppts = state.appointments.filter(a => a.barberId === b.id).length;
-                return { barber: b, revenue, cutsCount, totalAppts };
+                return {
+                    barber: b,
+                    revenue: fin.revenue,
+                    paidCount: fin.paidCount,
+                    savedCutsCount: fin.savedCutsCount,
+                    totalCuts,
+                    totalAppts
+                };
             });
 
             const maxRev = Math.max(1, ...barberStats.map(s => s.revenue));
-            const maxCuts = Math.max(1, ...barberStats.map(s => s.cutsCount));
+            const maxCuts = Math.max(1, ...barberStats.map(s => s.totalCuts));
 
             revEl.innerHTML = barberStats.map(s => {
                 const pct = Math.round((s.revenue / maxRev) * 100);
@@ -2852,17 +3133,20 @@
                         <div class="bar-chart-track">
                             <div class="bar-chart-fill" style="width:${pct}%;"></div>
                         </div>
+                        <div style="font-size:0.68rem; color:#bbb; margin-top:2px;">
+                            ${s.paidCount} atendimento(s) pago(s) • ${s.savedCutsCount} corte(s) registrado(s)
+                        </div>
                     </div>
                 `;
             }).join("");
 
             cutsEl.innerHTML = barberStats.map(s => {
-                const pct = Math.round((s.cutsCount / maxCuts) * 100);
+                const pct = Math.round((s.totalCuts / maxCuts) * 100);
                 return `
                     <div class="bar-chart-row">
                         <div class="bar-chart-label">
                             <strong>${s.barber.name}</strong>
-                            <span>${s.cutsCount} cortes • ${s.totalAppts} agendamentos</span>
+                            <span>${s.totalCuts} cortes • ${s.totalAppts} agendamentos</span>
                         </div>
                         <div class="bar-chart-track">
                             <div class="bar-chart-fill" style="width:${pct}%;"></div>
@@ -2870,6 +3154,21 @@
                     </div>
                 `;
             }).join("");
+
+            if (barbersMgrEl) {
+                barbersMgrEl.innerHTML = state.barbers.map((b, idx) => `
+                    <div class="client-clickable-row" style="cursor:default;">
+                        <div style="display:flex; align-items:center; gap:9px;">
+                            <img class="saved-client-avatar" src="${b.photo || 'icon-192.png'}" alt="${b.name}">
+                            <div>
+                                <strong>${b.name}</strong>
+                                <div style="color:#bbb; font-size:0.7rem;">Pix: ${b.pixKey || "Não definida"}</div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-mini-edit" onclick="openAdminEditBarber(${idx})">✏️ Editar</button>
+                    </div>
+                `).join("");
+            }
 
             const clients = getAllKnownClients();
             if (!clients.length) {
@@ -2880,25 +3179,53 @@
                     const cutsDone = state.clientCuts.filter(c => (c.clientName || "").toLowerCase() === nameLower);
                     const paidDone = state.appointments.filter(a => (a.clientName || "").toLowerCase() === nameLower && a.status === "pago");
                     const totalCuts = cutsDone.length + paidDone.length;
+                    const safeName = cl.name.replace(/'/g, "\\'");
                     return `
-                        <div class="client-clickable-row" onclick="openAdminClientDetails(${idx})">
-                            <div style="display:flex; align-items:center; gap:9px;">
+                        <div class="client-clickable-row">
+                            <div style="display:flex; align-items:center; gap:9px; flex:1; cursor:pointer;" onclick="openAdminClientDetails(${idx})">
                                 <img class="saved-client-avatar" src="${cl.photo || 'icon-192.png'}" alt="${cl.name}">
                                 <div>
                                     <strong>${cl.name}</strong>
-                                    <div style="color:#bbb; font-size:0.7rem;">${cl.phone || "Sem telefone"}</div>
+                                    <div style="color:#bbb; font-size:0.7rem;">${cl.phone || "Sem telefone"} • ${totalCuts} corte(s)</div>
                                 </div>
                             </div>
-                            <span style="color:#e5b832; font-weight:700;">${totalCuts} corte(s) →</span>
+                            <div style="display:flex; gap:6px; flex-shrink:0;">
+                                <button type="button" class="btn-mini-edit" onclick="openAdminEditClient('${safeName}')">✏️</button>
+                                <button type="button" class="btn-mini-del" onclick="deleteClientCompletely('${safeName}')">🗑️</button>
+                            </div>
                         </div>
                     `;
                 }).join("");
             }
 
+            if (cutsMgrEl) {
+                const catalogRows = state.barberCuts.map(c => `
+                    <div class="client-clickable-row" style="cursor:default;">
+                        <div>
+                            <strong>[Catálogo] ${c.title}</strong>
+                            <div style="color:#bbb; font-size:0.7rem;">Barbeiro: ${c.barberName || "-"} • R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}</div>
+                        </div>
+                        <button type="button" class="btn-mini-del" onclick="deleteBarberShowcaseCut('${c.id}')">🗑️ Apagar</button>
+                    </div>
+                `).join("");
+
+                const savedCutRows = state.clientCuts.map(c => `
+                    <div class="client-clickable-row" style="cursor:default;">
+                        <div>
+                            <strong>[Cliente] ${c.clientName}</strong>
+                            <div style="color:#bbb; font-size:0.7rem;">${c.itemsLabel || "Corte"} • Barbeiro: ${c.barberName || "-"}</div>
+                        </div>
+                        <button type="button" class="btn-mini-del" onclick="deleteClientCut('${c.id}')">🗑️ Apagar</button>
+                    </div>
+                `).join("");
+
+                cutsMgrEl.innerHTML = (catalogRows + savedCutRows) || `<div style="font-size:0.75rem; color:#bbb;">Nenhum corte cadastrado no momento.</div>`;
+            }
+
             metricsEl.innerHTML = barberStats.map(s => `
                 <div class="appt-item">
                     <strong>${s.barber.name}</strong> • Pix: ${s.barber.pixKey || "Não definida"}
-                    <div style="margin-top:4px; color:#e5b832; font-weight:700;">Total Recebido: R$ ${s.revenue.toFixed(2).replace(".", ",")}</div>
+                    <div style="margin-top:4px; color:#e5b832; font-weight:700;">Ganho Real: R$ ${s.revenue.toFixed(2).replace(".", ",")}</div>
                 </div>
             `).join("");
         }
@@ -2928,6 +3255,9 @@
                             </div>
                             <div style="margin-top:4px;">${c.itemsLabel || "Corte"} • R$ ${Number(c.total || 0).toFixed(2).replace(".", ",")}</div>
                             ${buildFourPhotosAndMiddleVideoHtml(photos, c.video || "", false)}
+                            <div style="margin-top:8px;">
+                                <button type="button" class="btn-mini-del" onclick="deleteClientCut('${c.id}'); openAdminClientDetails(${clientIdx});">🗑️ Excluir este corte</button>
+                            </div>
                         </div>
                     `;
                 }).join("");
