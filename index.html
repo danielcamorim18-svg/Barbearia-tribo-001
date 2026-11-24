@@ -654,6 +654,12 @@
             border: 1px solid rgba(255, 255, 255, 0.16);
             border-radius: 12px;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .cut-card-clickable {
             cursor: pointer;
         }
 
@@ -669,16 +675,32 @@
             font-size: 0.72rem;
         }
 
-        .four-thumbs-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            margin-top: 8px;
+        .cut-card-actions {
+            padding: 0 8px 8px;
         }
 
-        .four-thumbs-grid img {
+        /* 4 fotos ao redor + mini pasta com mini vídeo bem no meio */
+        .four-photos-video-cluster {
+            display: grid;
+            grid-template-columns: 1fr 1.15fr 1fr;
+            gap: 6px;
+            align-items: center;
+            margin-top: 8px;
+            background: rgba(24, 24, 24, 0.72);
+            border: 1px solid rgba(212, 175, 55, 0.32);
+            border-radius: 12px;
+            padding: 6px;
+        }
+
+        .four-photos-side-col {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .four-photos-side-col img {
             width: 100%;
-            height: 62px;
+            height: 54px;
             object-fit: cover;
             border-radius: 8px;
             border: 1px solid rgba(212, 175, 55, 0.45);
@@ -686,21 +708,76 @@
             cursor: pointer;
         }
 
+        .mini-video-folder {
+            position: relative;
+            height: 114px;
+            border-radius: 10px;
+            border: 1.5px solid #e5b832;
+            background: linear-gradient(180deg, rgba(45, 37, 14, 0.88), rgba(20, 20, 20, 0.95));
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .mini-video-folder-tab {
+            font-size: 0.58rem;
+            font-weight: 700;
+            color: #e5b832;
+            background: rgba(0, 0, 0, 0.65);
+            border-radius: 6px;
+            padding: 2px 5px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .mini-video-folder video {
+            width: 100%;
+            height: 78px;
+            object-fit: cover;
+            border-radius: 7px;
+            display: block;
+            background: #0c0c0c;
+        }
+
+        .mini-video-placeholder {
+            width: 100%;
+            height: 78px;
+            border-radius: 7px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px dashed rgba(212, 175, 55, 0.45);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.62rem;
+            color: #ddd;
+            text-align: center;
+            padding: 4px;
+        }
+
         .gallery-four-large {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1.2fr 1fr;
             gap: 8px;
+            align-items: center;
             margin: 10px 0;
         }
 
-        .gallery-four-large img {
-            width: 100%;
-            height: 135px;
-            object-fit: cover;
-            border-radius: 12px;
-            border: 1px solid rgba(212, 175, 55, 0.5);
-            display: block;
-            cursor: pointer;
+        .gallery-four-large .four-photos-side-col img {
+            height: 112px;
+        }
+
+        .gallery-four-large .mini-video-folder {
+            height: 230px;
+            padding: 7px;
+        }
+
+        .gallery-four-large .mini-video-folder video,
+        .gallery-four-large .mini-video-placeholder {
+            height: 185px;
         }
 
         .admin-section-box {
@@ -801,7 +878,7 @@
 
     <!-- Topo: Área do Barbeiro à esquerda + Admin no canto apenas quando o Gean estiver em foco -->
     <div class="top-bar">
-        <button type="button" class="btn-top" onclick="openBarberArea()">✂️ Área do Barbeiro</button>
+        <button type="button" class="btn-top" onclick="openBarberPassGate()">✂️ Área do Barbeiro</button>
         <button type="button" class="btn-top admin-pill" id="adminCornerButton" onclick="openAdminGate()" style="display:none;">⚙️ Admin</button>
     </div>
 
@@ -825,13 +902,13 @@
         </div>
 
         <div class="barber-name-badge" id="activeBarberBadge">Gean</div>
-        <div class="barber-hint">Toque na foto ou use as setas para ver valores e combos deste barbeiro</div>
+        <div class="barber-hint">Toque na foto ou use as setas para escolher o barbeiro</div>
     </section>
 
-    <!-- Botões Principais + Combos + Clientes Agendados logo abaixo de Combos -->
+    <!-- Botões Principais + Combos + Próximos Horários -->
     <main class="menu-container">
         <button type="button" class="btn-balloon" onclick="openProfilePixModal()">
-            👤 Perfil / Login, Fotos &amp; Cobrança Pix
+            👤 Meu Perfil, Foto &amp; Cortes
         </button>
 
         <button type="button" class="btn-balloon" id="scheduleMainBtn" onclick="openBookingModal()">
@@ -842,7 +919,7 @@
             ★ Combos Mensais ( <span id="combosBarberName">Gean</span> )
         </button>
 
-        <!-- Combos na tela inicial (combos e valores individuais do barbeiro selecionado) -->
+        <!-- Combos na tela inicial -->
         <div class="balloon-box">
             <div class="balloon-box-title">
                 <span>★ Combos &amp; Planos (<span id="homeCombosBarber">Gean</span>)</span>
@@ -851,21 +928,21 @@
             <div class="combos-list-grid" id="homeCombosGrid"></div>
         </div>
 
-        <!-- Clientes Agendados logo abaixo de Combos para ambos os barbeiros -->
+        <!-- Agenda / Clientes Agendados do barbeiro selecionado -->
         <div class="balloon-box" id="homeAppointmentsBox">
             <div class="balloon-box-title">
-                <span>📋 Clientes Agendados (<span id="homeApptBarber">Gean</span>)</span>
-                <small style="color:#ccc; font-weight:400;">Acesso rápido</small>
+                <span>📋 Agenda (<span id="homeApptBarber">Gean</span>)</span>
+                <small style="color:#ccc; font-weight:400;">Horários</small>
             </div>
             <div id="homeAppointmentsList"></div>
         </div>
     </main>
 
-    <!-- MODAL 1: PERFIL DO CLIENTE (CADASTRO COM NOME + FOTO, LOG POR INICIAL, CORTES DOS BARBEIROS & CHAVE PIX) -->
+    <!-- MODAL 1: PERFIL DO CLIENTE (CADASTRO COM NOME + FOTO, LOG POR INICIAL, CORTES DOS BARBEIROS & CORTES SALVOS) -->
     <div class="modal" id="profilePixModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('profilePixModal')">&times;</span>
-            <h2>👤 Perfil do Cliente, Cortes &amp; Pix</h2>
+            <h2>👤 Perfil do Cliente &amp; Cortes</h2>
 
             <!-- Cadastro de Perfil do Cliente (Nome + Foto + Salvar) -->
             <div class="admin-section-box">
@@ -900,19 +977,13 @@
                 <select id="profileBarberSelect" onchange="syncProfileModalBarber()"></select>
             </div>
 
-            <div class="form-group">
-                <label for="profilePixKeyInput">Chave Pix Central deste Barbeiro (pagamentos e resgate)</label>
-                <input type="text" id="profilePixKeyInput" placeholder="CPF, CNPJ, telefone, e-mail ou chave Pix">
-                <button type="button" class="btn-gold" onclick="savePixFromProfile()">Salvar Chave Pix Central</button>
-            </div>
-
             <div class="admin-section-box" style="margin-top:12px;">
-                <div class="admin-section-title">✂️ Cortes dos Barbeiros (Toque para ver até 4 fotos)</div>
+                <div class="admin-section-title">✂️ Cortes dos Barbeiros (4 Fotos + Mini Pasta de Vídeo)</div>
                 <div id="barberShowcaseCutsList"></div>
             </div>
 
             <div class="form-group" style="margin-top:12px;">
-                <label for="clientHistorySearch">📸 Meus Cortes Salvos — Filtrar por nome ou telefone</label>
+                <label for="clientHistorySearch">📸 Cortes Salvos — Filtrar por nome ou telefone</label>
                 <input type="text" id="clientHistorySearch" oninput="renderClientCutsHistory()" placeholder="Digite nome ou telefone do cliente">
             </div>
 
@@ -920,14 +991,15 @@
         </div>
     </div>
 
-    <!-- MODAL DETALHE DO CORTE (ATÉ 4 FOTOS) -->
+    <!-- MODAL DETALHE DO CORTE (4 FOTOS + MINI PASTA COM MINI VÍDEO NO MEIO) -->
     <div class="modal" id="fourPhotosViewerModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('fourPhotosViewerModal')">&times;</span>
-            <h2 id="fourPhotosTitle">📸 Fotos do Corte (máx. 4)</h2>
+            <h2 id="fourPhotosTitle">📸 4 Fotos + Mini Vídeo</h2>
             <div id="fourPhotosMeta" style="font-size:0.78rem; color:#ccc; margin-bottom:8px;"></div>
-            <div class="gallery-four-large" id="fourPhotosLargeGrid"></div>
+            <div id="fourPhotosClusterContainer"></div>
             <button type="button" class="btn-gold" id="fourPhotosUseBtn">Usar este corte no agendamento</button>
+            <button type="button" class="btn-mini-del" id="fourPhotosDeleteBtn" style="display:none; width:100%; padding:9px 12px; margin-top:8px;">🗑️ Excluir Corte Salvo</button>
         </div>
     </div>
 
@@ -977,6 +1049,19 @@
         </div>
     </div>
 
+    <!-- MODAL SENHA DA ÁREA DO BARBEIRO -->
+    <div class="modal" id="barberPassModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('barberPassModal')">&times;</span>
+            <h2>🔐 Senha do Barbeiro — <span id="barberPassNameLabel">Gean</span></h2>
+            <div class="form-group">
+                <label for="barberPassField">Digite a senha da Área do Barbeiro</label>
+                <input type="password" id="barberPassField" inputmode="numeric" placeholder="••••">
+            </div>
+            <button type="button" class="btn-gold" onclick="checkBarberPass()">Acessar Área do Barbeiro</button>
+        </div>
+    </div>
+
     <!-- MODAL 4: ÁREA DO BARBEIRO -->
     <div class="modal" id="barberAreaModal">
         <div class="modal-content">
@@ -984,16 +1069,20 @@
             <h2>✂️ Área do Barbeiro — <span id="barberAreaName">Gean</span></h2>
 
             <div class="admin-section-box">
-                <div class="admin-section-title">✅ Finalizar Corte (Último Cliente)</div>
+                <div class="admin-section-title">✅ Finalizar Corte (4 Fotos + Mini Vídeo na Pasta do Meio)</div>
                 <div class="form-group">
                     <label for="finishClientSelect">Cliente para finalizar o corte</label>
                     <select id="finishClientSelect" onchange="syncFinishClientSelection()"></select>
                 </div>
                 <div class="form-group">
-                    <label>Tirar foto na câmera ou fazer upload (até 4 fotos)</label>
+                    <label>Fotos do corte (câmera ou galeria, até 4 fotos)</label>
                     <input type="file" id="finishCutPhotosInput" accept="image/*" capture="environment" multiple onchange="handleFinishCutPhotosUpload(event)">
                 </div>
-                <div class="four-thumbs-grid" id="finishCutThumbsGrid"></div>
+                <div class="form-group">
+                    <label for="finishCutVideoInput">Mini vídeo dentro da pasta do meio (câmera ou arquivo curto)</label>
+                    <input type="file" id="finishCutVideoInput" accept="video/*" capture="environment" onchange="handleFinishCutVideoUpload(event)">
+                </div>
+                <div id="finishCutClusterPreview"></div>
                 <button type="button" class="btn-gold" onclick="saveFinishedCutForClient()">Salvar Corte no Histórico do Cliente</button>
             </div>
 
@@ -1011,7 +1100,11 @@
                     <label>Fotos do corte (upload de até 4 fotos)</label>
                     <input type="file" id="newBarberCutPhotosInput" accept="image/*" multiple onchange="handleNewBarberCutPhotosUpload(event)">
                 </div>
-                <div class="four-thumbs-grid" id="newBarberCutThumbsGrid"></div>
+                <div class="form-group">
+                    <label for="newBarberCutVideoInput">Mini vídeo dentro da pasta do meio (opcional)</label>
+                    <input type="file" id="newBarberCutVideoInput" accept="video/*" onchange="handleNewBarberCutVideoUpload(event)">
+                </div>
+                <div id="newBarberCutClusterPreview"></div>
                 <button type="button" class="btn-gold" onclick="addBarberShowcaseCut()">Adicionar Corte ao Catálogo</button>
             </div>
 
@@ -1045,7 +1138,7 @@
             <div id="barberPricesEditorList"></div>
             <button type="button" class="btn-gold" onclick="saveBarberCombosAndPrices()">Salvar Combos e Valores deste Barbeiro</button>
 
-            <div style="font-size:0.82rem; font-weight:700; color:#e5b832; margin:14px 0 8px;">Clientes Agendados</div>
+            <div style="font-size:0.82rem; font-weight:700; color:#e5b832; margin:14px 0 8px;">Clientes Agendados &amp; Cobrança</div>
             <div id="barberAreaAppointments"></div>
         </div>
     </div>
@@ -1143,6 +1236,11 @@
 
     <script>
         const ADMIN_PASSWORD = "6763";
+        const BARBER_PASSWORDS = {
+            gean: "1234",
+            miro: "1234"
+        };
+        const MAX_VIDEO_BYTES = 2600000;
 
         const firebaseConfig = {
             databaseURL: "https://barbearia-tribo-001-default-rtdb.firebaseio.com"
@@ -1230,9 +1328,12 @@
         let selectedServiceIds = new Set(["corte"]);
         let selectedSlot = "10:00";
         let finishCutPhotosDraft = [];
+        let finishCutVideoDraft = "";
         let newBarberCutPhotosDraft = [];
+        let newBarberCutVideoDraft = "";
         let tempClientProfilePhoto = "";
         let selectedClientInitial = "";
+        let unlockedBarberId = null;
 
         function normalizeBarber(b) {
             const base = { ...b };
@@ -1281,7 +1382,8 @@
             const photos = Array.isArray(item.photos) && item.photos.length
                 ? item.photos.slice(0, 4)
                 : (item.photo ? [item.photo] : []);
-            return { ...item, photos, photo: photos[0] || "" };
+            const video = typeof item.video === "string" ? item.video : "";
+            return { ...item, photos, photo: photos[0] || "", video };
         }
 
         function getBarberCatalog(barber) {
@@ -1305,7 +1407,7 @@
         }
 
         function loadSavedState() {
-            const raw = localStorage.getItem("barbearia_tribo_ui_v8");
+            const raw = localStorage.getItem("barbearia_tribo_ui_v9");
             if (raw) {
                 try {
                     const parsed = JSON.parse(raw);
@@ -1330,7 +1432,11 @@
         }
 
         function persistState() {
-            localStorage.setItem("barbearia_tribo_ui_v8", JSON.stringify(state));
+            try {
+                localStorage.setItem("barbearia_tribo_ui_v9", JSON.stringify(state));
+            } catch (e) {
+                notify("Espaço local cheio: use um mini vídeo mais curto.");
+            }
         }
 
         function subscribeFirebase() {
@@ -1365,30 +1471,36 @@
                 if (snap.exists()) {
                     const val = snap.val();
                     state.clientCuts = Object.keys(val).map(k => normalizeCutItem({ id: k, ...val[k] }));
-                    persistState();
-                    renderClientCutsHistory();
-                    renderSavedClientProfilesLog();
-                    renderAdminDashboard();
+                } else {
+                    state.clientCuts = [];
                 }
+                persistState();
+                renderClientCutsHistory();
+                renderSavedClientProfilesLog();
+                renderAdminDashboard();
             });
 
             db.ref("barberCuts").on("value", snap => {
                 if (snap.exists()) {
                     const val = snap.val();
                     state.barberCuts = Object.keys(val).map(k => normalizeCutItem({ id: k, ...val[k] }));
-                    persistState();
-                    renderBarberShowcaseCuts();
+                } else {
+                    state.barberCuts = [];
                 }
+                persistState();
+                renderBarberShowcaseCuts();
             });
 
             db.ref("clientProfiles").on("value", snap => {
                 if (snap.exists()) {
                     const val = snap.val();
                     state.clientProfiles = Object.keys(val).map(k => ({ id: k, ...val[k] }));
-                    persistState();
-                    renderSavedClientProfilesLog();
-                    renderAdminDashboard();
+                } else {
+                    state.clientProfiles = [];
                 }
+                persistState();
+                renderSavedClientProfilesLog();
+                renderAdminDashboard();
             });
         }
 
@@ -1512,33 +1624,49 @@
 
             const items = state.appointments.filter(a => a.barberId === active.id);
             if (!items.length) {
-                homeList.innerHTML = `<div style="font-size:0.76rem; color:#bbb;">Nenhum cliente agendado com ${active.name}.</div>`;
-                if (barberModalList) barberModalList.innerHTML = homeList.innerHTML;
+                const emptyHtml = `<div style="font-size:0.76rem; color:#bbb;">Nenhum horário agendado com ${active.name}.</div>`;
+                homeList.innerHTML = emptyHtml;
+                if (barberModalList) barberModalList.innerHTML = emptyHtml;
                 return;
             }
 
-            const html = items.map(a => {
+            homeList.innerHTML = items.map(a => {
                 const paid = a.status === "pago";
                 return `
                     <div class="appt-item">
                         <div style="display:flex; justify-content:space-between; align-items:center; gap:6px;">
                             <strong>${a.clientName}</strong>
                             <span class="status-tag ${paid ? "tag-paid" : "tag-pending"}">
-                                ${paid ? "Pago (" + (a.paymentMethod === "cash" ? "Dinheiro" : "Pix") + ")" : "Agendado"}
+                                ${paid ? "Confirmado" : "Agendado"}
                             </span>
                         </div>
                         <div style="margin-top:3px;">${a.itemsLabel} • R$ ${Number(a.total).toFixed(2).replace(".", ",")}</div>
-                        <div style="color:#bbb;">${a.date} às ${a.time} • ${a.phone}</div>
-                        <div style="display:flex; gap:8px; margin-top:7px;">
-                            <button type="button" class="btn-mini-ok" onclick="openChargeModal('${a.id}')">Cobrar / Foto</button>
-                            <button type="button" class="btn-mini-del" onclick="deleteAppt('${a.id}')">Excluir</button>
-                        </div>
+                        <div style="color:#bbb;">${a.date} às ${a.time}</div>
                     </div>
                 `;
             }).join("");
 
-            homeList.innerHTML = html;
-            if (barberModalList) barberModalList.innerHTML = html;
+            if (barberModalList) {
+                barberModalList.innerHTML = items.map(a => {
+                    const paid = a.status === "pago";
+                    return `
+                        <div class="appt-item">
+                            <div style="display:flex; justify-content:space-between; align-items:center; gap:6px;">
+                                <strong>${a.clientName}</strong>
+                                <span class="status-tag ${paid ? "tag-paid" : "tag-pending"}">
+                                    ${paid ? "Pago (" + (a.paymentMethod === "cash" ? "Dinheiro" : "Pix") + ")" : "Agendado"}
+                                </span>
+                            </div>
+                            <div style="margin-top:3px;">${a.itemsLabel} • R$ ${Number(a.total).toFixed(2).replace(".", ",")}</div>
+                            <div style="color:#bbb;">${a.date} às ${a.time} • ${a.phone}</div>
+                            <div style="display:flex; gap:8px; margin-top:7px;">
+                                <button type="button" class="btn-mini-ok" onclick="openChargeModal('${a.id}')">Cobrar / Foto</button>
+                                <button type="button" class="btn-mini-del" onclick="deleteAppt('${a.id}')">Excluir</button>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+            }
         }
 
         function openBookingModal() {
@@ -1630,7 +1758,7 @@
             closeModal("bookingModal");
             renderAppointmentsSections();
             renderAdminDashboard();
-            notify(`Aviso para ${active.name}: agendamento de ${clientName} confirmado!`);
+            notify(`Agendamento de ${clientName} com ${active.name} confirmado!`);
         }
 
         function deleteAppt(id) {
@@ -1695,6 +1823,50 @@
                 reader.onerror = reject;
                 reader.readAsDataURL(file);
             });
+        }
+
+        function readVideoFileAsDataUrl(file) {
+            return new Promise((resolve, reject) => {
+                if (!file) return reject(new Error("Sem arquivo"));
+                if (file.size > MAX_VIDEO_BYTES) {
+                    return reject(new Error("Vídeo muito pesado para salvar no navegador. Grave um clipe curto."));
+                }
+                const reader = new FileReader();
+                reader.onload = ev => resolve(String(ev.target.result || ""));
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function buildFourPhotosAndMiddleVideoHtml(photos, videoSrc, isLarge = false) {
+            const p = (Array.isArray(photos) ? photos : []).slice(0, 4);
+            const leftPhotos = [p[0] || "", p[1] || ""];
+            const rightPhotos = [p[2] || "", p[3] || ""];
+
+            const renderSideSlot = src => src
+                ? `<img src="${src}" alt="Foto do corte">`
+                : `<div style="background:rgba(255,255,255,0.04); border:1px dashed rgba(255,255,255,0.14); border-radius:8px; height:${isLarge ? "112px" : "54px"};"></div>`;
+
+            const videoInner = videoSrc
+                ? `<video src="${videoSrc}" autoplay loop muted playsinline ${isLarge ? "controls" : ""}></video>`
+                : `<div class="mini-video-placeholder"><span>🎬</span><span>Mini Vídeo</span></div>`;
+
+            return `
+                <div class="${isLarge ? "gallery-four-large" : "four-photos-video-cluster"}">
+                    <div class="four-photos-side-col">
+                        ${renderSideSlot(leftPhotos[0])}
+                        ${renderSideSlot(leftPhotos[1])}
+                    </div>
+                    <div class="mini-video-folder" title="Mini pasta com mini vídeo">
+                        <div class="mini-video-folder-tab">📁 VÍDEO</div>
+                        ${videoInner}
+                    </div>
+                    <div class="four-photos-side-col">
+                        ${renderSideSlot(rightPhotos[0])}
+                        ${renderSideSlot(rightPhotos[1])}
+                    </div>
+                </div>
+            `;
         }
 
         async function handleClientProfilePhotoUpload(event) {
@@ -1816,8 +1988,10 @@
                     `Cortes de ${clientName}`,
                     `${cutsOfClient.length} corte(s) salvo(s) • ${latest.itemsLabel || "Corte"}`,
                     photos,
+                    latest.video || "",
                     clientName,
-                    clientPhone || ""
+                    clientPhone || "",
+                    latest.id
                 );
             } else {
                 notify(`Perfil de ${clientName} selecionado! Nenhum corte salvo ainda.`);
@@ -1870,14 +2044,14 @@
             }).join("");
         }
 
-        function renderThumbs(containerId, photosArray) {
+        function renderClusterPreview(containerId, photosArray, videoSrc) {
             const el = document.getElementById(containerId);
             if (!el) return;
-            if (!photosArray.length) {
+            if (!photosArray.length && !videoSrc) {
                 el.innerHTML = "";
                 return;
             }
-            el.innerHTML = photosArray.slice(0, 4).map(src => `<img src="${src}" alt="Foto do corte">`).join("");
+            el.innerHTML = buildFourPhotosAndMiddleVideoHtml(photosArray, videoSrc, false);
         }
 
         function getCandidateClientsForFinish(barberId) {
@@ -1926,7 +2100,20 @@
             if (files.length > remaining) {
                 notify("Máximo de 4 fotos por corte.");
             }
-            renderThumbs("finishCutThumbsGrid", finishCutPhotosDraft);
+            renderClusterPreview("finishCutClusterPreview", finishCutPhotosDraft, finishCutVideoDraft);
+        }
+
+        async function handleFinishCutVideoUpload(event) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            try {
+                finishCutVideoDraft = await readVideoFileAsDataUrl(file);
+                renderClusterPreview("finishCutClusterPreview", finishCutPhotosDraft, finishCutVideoDraft);
+                notify("Mini vídeo adicionado na pasta central!");
+            } catch (err) {
+                event.target.value = "";
+                notify(err.message || "Não foi possível carregar o mini vídeo.");
+            }
         }
 
         function saveFinishedCutForClient() {
@@ -1938,8 +2125,8 @@
                 notify("Nenhum cliente encontrado para finalizar o corte.");
                 return;
             }
-            if (!finishCutPhotosDraft.length) {
-                notify("Tire uma foto ou faça upload (até 4 fotos) para salvar o corte do cliente.");
+            if (!finishCutPhotosDraft.length && !finishCutVideoDraft) {
+                notify("Adicione fotos ou um mini vídeo para salvar o corte do cliente.");
                 return;
             }
 
@@ -1963,7 +2150,8 @@
                 total: matched.total,
                 date: matched.date,
                 photos,
-                photo: photos[0]
+                photo: photos[0] || "",
+                video: finishCutVideoDraft || ""
             };
 
             state.clientCuts.unshift(cutRecord);
@@ -1971,12 +2159,14 @@
             if (db) db.ref(`clientCuts/${cutRecord.id}`).set(cutRecord);
 
             finishCutPhotosDraft = [];
+            finishCutVideoDraft = "";
             document.getElementById("finishCutPhotosInput").value = "";
-            renderThumbs("finishCutThumbsGrid", []);
+            document.getElementById("finishCutVideoInput").value = "";
+            renderClusterPreview("finishCutClusterPreview", [], "");
             renderClientCutsHistory();
             renderSavedClientProfilesLog();
             renderAdminDashboard();
-            notify(`Corte de ${matched.name} salvo com ${photos.length} foto(s) para a próxima visita!`);
+            notify(`Corte de ${matched.name} salvo com ${photos.length} foto(s)${cutRecord.video ? " + mini vídeo" : ""}!`);
         }
 
         async function handleNewBarberCutPhotosUpload(event) {
@@ -1992,7 +2182,20 @@
             if (files.length > remaining) {
                 notify("Máximo de 4 fotos por corte.");
             }
-            renderThumbs("newBarberCutThumbsGrid", newBarberCutPhotosDraft);
+            renderClusterPreview("newBarberCutClusterPreview", newBarberCutPhotosDraft, newBarberCutVideoDraft);
+        }
+
+        async function handleNewBarberCutVideoUpload(event) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            try {
+                newBarberCutVideoDraft = await readVideoFileAsDataUrl(file);
+                renderClusterPreview("newBarberCutClusterPreview", newBarberCutPhotosDraft, newBarberCutVideoDraft);
+                notify("Mini vídeo adicionado na pasta central!");
+            } catch (err) {
+                event.target.value = "";
+                notify(err.message || "Não foi possível carregar o mini vídeo.");
+            }
         }
 
         function addBarberShowcaseCut() {
@@ -2004,8 +2207,8 @@
                 notify("Informe o nome do corte.");
                 return;
             }
-            if (!newBarberCutPhotosDraft.length) {
-                notify("Faça upload de pelo menos 1 foto (até 4 fotos) do corte.");
+            if (!newBarberCutPhotosDraft.length && !newBarberCutVideoDraft) {
+                notify("Adicione fotos ou um mini vídeo do corte.");
                 return;
             }
 
@@ -2017,7 +2220,8 @@
                 title,
                 price: Number.isFinite(price) && price >= 0 ? price : 0,
                 photos,
-                photo: photos[0]
+                photo: photos[0] || "",
+                video: newBarberCutVideoDraft || ""
             };
 
             state.barberCuts.unshift(item);
@@ -2027,21 +2231,33 @@
             document.getElementById("newBarberCutTitle").value = "";
             document.getElementById("newBarberCutPrice").value = "";
             document.getElementById("newBarberCutPhotosInput").value = "";
+            document.getElementById("newBarberCutVideoInput").value = "";
             newBarberCutPhotosDraft = [];
-            renderThumbs("newBarberCutThumbsGrid", []);
+            newBarberCutVideoDraft = "";
+            renderClusterPreview("newBarberCutClusterPreview", [], "");
             renderBarberShowcaseCuts();
-            notify(`Corte "${title}" adicionado com ${photos.length} foto(s) para os clientes verem!`);
+            notify(`Corte "${title}" adicionado com ${photos.length} foto(s)${item.video ? " + mini vídeo" : ""}!`);
         }
 
-        function openFourPhotosModal(title, meta, photos, clientNameForBooking, phoneForBooking) {
+        function deleteClientCut(cutId, event) {
+            if (event) event.stopPropagation();
+            if (!cutId) return;
+            state.clientCuts = state.clientCuts.filter(c => c.id !== cutId);
+            persistState();
+            if (db) db.ref(`clientCuts/${cutId}`).remove();
+            closeModal("fourPhotosViewerModal");
+            renderClientCutsHistory();
+            renderSavedClientProfilesLog();
+            renderAdminDashboard();
+            notify("Corte salvo excluído!");
+        }
+
+        function openFourPhotosModal(title, meta, photos, videoSrc, clientNameForBooking, phoneForBooking, savedCutId = "") {
             const list = (Array.isArray(photos) ? photos : []).slice(0, 4);
-            document.getElementById("fourPhotosTitle").textContent = `📸 ${title} (${list.length}/4 fotos)`;
+            document.getElementById("fourPhotosTitle").textContent = `📸 ${title} (${list.length}/4 fotos${videoSrc ? " + vídeo" : ""})`;
             document.getElementById("fourPhotosMeta").textContent = meta || "";
 
-            const grid = document.getElementById("fourPhotosLargeGrid");
-            grid.innerHTML = list.length
-                ? list.map(src => `<img src="${src}" alt="${title}">`).join("")
-                : `<div style="font-size:0.78rem; color:#bbb; grid-column:1/-1;">Sem fotos disponíveis.</div>`;
+            document.getElementById("fourPhotosClusterContainer").innerHTML = buildFourPhotosAndMiddleVideoHtml(list, videoSrc, true);
 
             const useBtn = document.getElementById("fourPhotosUseBtn");
             useBtn.onclick = () => {
@@ -2056,6 +2272,15 @@
                 openBookingModal();
                 notify(`Corte "${title}" selecionado para agendamento!`);
             };
+
+            const delBtn = document.getElementById("fourPhotosDeleteBtn");
+            if (savedCutId) {
+                delBtn.style.display = "block";
+                delBtn.onclick = () => deleteClientCut(savedCutId);
+            } else {
+                delBtn.style.display = "none";
+                delBtn.onclick = null;
+            }
 
             document.getElementById("fourPhotosViewerModal").style.display = "flex";
         }
@@ -2084,16 +2309,16 @@
                         <strong>${c.title}</strong>
                         <span style="color:#e5b832; font-weight:700;">R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}</span>
                     </div>
-                    <div style="color:#bbb; font-size:0.7rem;">Barbeiro: ${c.barberName || active.name} • ${photos.length} foto(s)</div>
-                    <div class="four-thumbs-grid">
-                        ${photos.map(src => `<img src="${src}" alt="${c.title}">`).join("")}
-                    </div>
+                    <div style="color:#bbb; font-size:0.7rem;">Barbeiro: ${c.barberName || active.name} • ${photos.length} foto(s)${c.video ? " • Pasta c/ vídeo" : ""}</div>
+                    ${buildFourPhotosAndMiddleVideoHtml(photos, c.video || "", false)}
                 `;
                 div.onclick = () => {
                     openFourPhotosModal(
                         c.title,
                         `Barbeiro: ${c.barberName || active.name} • R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}`,
                         photos,
+                        c.video || "",
+                        "",
                         "",
                         ""
                     );
@@ -2113,28 +2338,41 @@
         }
 
         function syncProfileModalBarber() {
-            const idx = Number(document.getElementById("profileBarberSelect").value || 0);
-            const b = state.barbers[idx] || currentBarber();
-            document.getElementById("profilePixKeyInput").value = b.pixKey || "";
             renderBarberShowcaseCuts();
         }
 
-        function savePixFromProfile() {
-            const idx = Number(document.getElementById("profileBarberSelect").value || 0);
-            const b = state.barbers[idx];
-            if (!b) return;
-            const key = document.getElementById("profilePixKeyInput").value.trim();
-            b.pixKey = key;
-            persistState();
-            if (db) db.ref(`barbers/${idx}/pixKey`).set(key);
-            notify(`Aviso para ${b.name}: chave Pix central salva para cobrança e resgate!`);
+        function openBarberPassGate() {
+            const active = currentBarber();
+            if (unlockedBarberId === active.id) {
+                openBarberArea();
+                return;
+            }
+            document.getElementById("barberPassNameLabel").textContent = active.name;
+            document.getElementById("barberPassField").value = "";
+            document.getElementById("barberPassModal").style.display = "flex";
+        }
+
+        function checkBarberPass() {
+            const active = currentBarber();
+            const entered = document.getElementById("barberPassField").value.trim();
+            const expected = BARBER_PASSWORDS[active.id] || ADMIN_PASSWORD;
+
+            if (entered === expected || entered === ADMIN_PASSWORD) {
+                unlockedBarberId = active.id;
+                closeModal("barberPassModal");
+                openBarberArea();
+            } else {
+                notify(`Senha incorreta para a área de ${active.name}!`);
+            }
         }
 
         function openBarberArea() {
             const active = normalizeBarber(currentBarber());
             state.barbers[state.currentIndex] = active;
             finishCutPhotosDraft = [];
+            finishCutVideoDraft = "";
             newBarberCutPhotosDraft = [];
+            newBarberCutVideoDraft = "";
 
             document.getElementById("barberAreaName").textContent = active.name;
             document.getElementById("addCutBarberLabel").textContent = active.name;
@@ -2154,12 +2392,14 @@
                 finishSel.innerHTML = `<option value="">Nenhum cliente recente</option>`;
             }
             document.getElementById("finishCutPhotosInput").value = "";
-            renderThumbs("finishCutThumbsGrid", []);
+            document.getElementById("finishCutVideoInput").value = "";
+            renderClusterPreview("finishCutClusterPreview", [], "");
 
             document.getElementById("newBarberCutTitle").value = "";
             document.getElementById("newBarberCutPrice").value = "";
             document.getElementById("newBarberCutPhotosInput").value = "";
-            renderThumbs("newBarberCutThumbsGrid", []);
+            document.getElementById("newBarberCutVideoInput").value = "";
+            renderClusterPreview("newBarberCutClusterPreview", [], "");
 
             const combosEditor = document.getElementById("barberCombosEditorList");
             combosEditor.innerHTML = active.combos.map(c => `
@@ -2407,7 +2647,8 @@
                 total: Number(appt.total || 0),
                 date: appt.date || new Date().toISOString().split("T")[0],
                 photos: [state.tempPhotoData],
-                photo: state.tempPhotoData
+                photo: state.tempPhotoData,
+                video: ""
             };
 
             state.clientCuts.unshift(cutRecord);
@@ -2445,20 +2686,27 @@
                 const card = document.createElement("div");
                 card.className = "cut-card";
                 card.innerHTML = `
-                    <img src="${photos[0] || ''}" alt="${c.clientName}">
-                    <div class="cut-card-body">
-                        <strong>${c.clientName}</strong>
-                        <div style="color:#ccc;">${c.itemsLabel} • ${photos.length} foto(s)</div>
-                        <div style="color:#e5b832; margin-top:3px;">Ver até 4 fotos / Agendar</div>
+                    <div class="cut-card-clickable">
+                        <img src="${photos[0] || ''}" alt="${c.clientName}">
+                        <div class="cut-card-body">
+                            <strong>${c.clientName}</strong>
+                            <div style="color:#ccc;">${c.itemsLabel} • ${photos.length} foto(s)${c.video ? " • Vídeo" : ""}</div>
+                            <div style="color:#e5b832; margin-top:3px;">Ver pasta / Agendar</div>
+                        </div>
+                    </div>
+                    <div class="cut-card-actions">
+                        <button type="button" class="btn-mini-del" style="width:100%;" onclick="deleteClientCut('${c.id}', event)">🗑️ Excluir</button>
                     </div>
                 `;
-                card.onclick = () => {
+                card.querySelector(".cut-card-clickable").onclick = () => {
                     openFourPhotosModal(
                         `Corte de ${c.clientName}`,
                         `Barbeiro: ${c.barberName || ""} • ${c.itemsLabel || "Corte"}`,
                         photos,
+                        c.video || "",
                         c.clientName,
-                        c.phone || ""
+                        c.phone || "",
+                        c.id
                     );
                 };
                 grid.appendChild(card);
@@ -2600,9 +2848,7 @@
                                 <span style="color:#e5b832; font-size:0.72rem;">${c.date || ""}</span>
                             </div>
                             <div style="margin-top:4px;">${c.itemsLabel || "Corte"} • R$ ${Number(c.total || 0).toFixed(2).replace(".", ",")}</div>
-                            <div class="four-thumbs-grid">
-                                ${photos.map(src => `<img src="${src}" alt="Corte de ${client.name}">`).join("")}
-                            </div>
+                            ${buildFourPhotosAndMiddleVideoHtml(photos, c.video || "", false)}
                         </div>
                     `;
                 }).join("");
