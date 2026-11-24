@@ -919,6 +919,10 @@
             ★ Combos Mensais ( <span id="combosBarberName">Gean</span> )
         </button>
 
+        <button type="button" class="btn-balloon" id="barberCutsMainBtn" onclick="openBarberCutsShowcaseModal()">
+            ✂️ Ver Cortes de <span id="barberCutsButtonName">Gean</span>
+        </button>
+
         <!-- Combos na tela inicial -->
         <div class="balloon-box">
             <div class="balloon-box-title">
@@ -937,6 +941,18 @@
             <div id="homeAppointmentsList"></div>
         </div>
     </main>
+
+    <!-- MODAL VITRINE: CORTES DO BARBEIRO SELECIONADO PARA OS CLIENTES VEREM -->
+    <div class="modal" id="barberCutsShowcaseModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('barberCutsShowcaseModal')">&times;</span>
+            <h2>✂️ Cortes de <span id="modalBarberShowcaseName">Gean</span></h2>
+            <div style="font-size:0.75rem; color:#ccc; margin-bottom:10px;">
+                Toque no corte para ampliar as 4 fotos e o mini vídeo ou agendar diretamente.
+            </div>
+            <div id="dedicatedBarberCutsList"></div>
+        </div>
+    </div>
 
     <!-- MODAL 1: PERFIL DO CLIENTE (CADASTRO COM NOME + FOTO, LOG POR INICIAL, CORTES DOS BARBEIROS & CORTES SALVOS) -->
     <div class="modal" id="profilePixModal">
@@ -1581,6 +1597,7 @@
             document.getElementById("activeBarberBadge").textContent = active.name;
             document.getElementById("scheduleBarberName").textContent = active.name;
             document.getElementById("combosBarberName").textContent = active.name;
+            document.getElementById("barberCutsButtonName").textContent = active.name;
             document.getElementById("homeCombosBarber").textContent = active.name;
             document.getElementById("homeApptBarber").textContent = active.name;
 
@@ -1789,6 +1806,67 @@
             selectedServiceIds.clear();
             selectedServiceIds.add(comboId);
             openBookingModal();
+        }
+
+        function openBarberCutsShowcaseModal() {
+            const active = currentBarber();
+            document.getElementById("modalBarberShowcaseName").textContent = active.name;
+            const container = document.getElementById("dedicatedBarberCutsList");
+            const cuts = state.barberCuts.filter(c => c.barberId === active.id);
+
+            if (!cuts.length) {
+                container.innerHTML = `
+                    <div class="appt-item" style="text-align:center;">
+                        <div style="font-size:0.8rem; color:#ccc; margin-bottom:8px;">
+                            ${active.name} ainda não cadastrou cortes na vitrine.
+                        </div>
+                        <button type="button" class="btn-gold" onclick="closeModal('barberCutsShowcaseModal'); openBookingModal();">
+                            Agendar com ${active.name}
+                        </button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = "";
+                cuts.forEach(c => {
+                    const photos = (Array.isArray(c.photos) && c.photos.length ? c.photos : (c.photo ? [c.photo] : [])).slice(0, 4);
+                    const card = document.createElement("div");
+                    card.className = "appt-item";
+                    card.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; cursor:pointer;">
+                            <strong>${c.title}</strong>
+                            <span style="color:#e5b832; font-weight:700;">R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}</span>
+                        </div>
+                        <div style="color:#bbb; font-size:0.7rem; margin-top:2px;">
+                            Barbeiro: ${c.barberName || active.name} • ${photos.length} foto(s)${c.video ? " • Pasta c/ vídeo" : ""}
+                        </div>
+                        <div class="showcase-media-trigger">
+                            ${buildFourPhotosAndMiddleVideoHtml(photos, c.video || "", false)}
+                        </div>
+                        <div style="display:flex; gap:8px; margin-top:8px;">
+                            <button type="button" class="btn-dark" style="margin-top:0;" onclick="openFourPhotosModal('${c.title.replace(/'/g, "\\'")}', 'Barbeiro: ${(c.barberName || active.name).replace(/'/g, "\\'")} • R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}', ${JSON.stringify(photos).replace(/"/g, "&quot;")}, '${(c.video || "").replace(/'/g, "\\'")}', '', '', '')">
+                                🔍 Ampliar
+                            </button>
+                            <button type="button" class="btn-gold" style="margin-top:0;" onclick="closeModal('barberCutsShowcaseModal'); openBookingModal();">
+                                📅 Agendar
+                            </button>
+                        </div>
+                    `;
+                    card.querySelector(".showcase-media-trigger").onclick = () => {
+                        openFourPhotosModal(
+                            c.title,
+                            `Barbeiro: ${c.barberName || active.name} • R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}`,
+                            photos,
+                            c.video || "",
+                            "",
+                            "",
+                            ""
+                        );
+                    };
+                    container.appendChild(card);
+                });
+            }
+
+            document.getElementById("barberCutsShowcaseModal").style.display = "flex";
         }
 
         function compressImageToDataUrl(file, maxSize = 360, quality = 0.75) {
@@ -2263,6 +2341,7 @@
             useBtn.onclick = () => {
                 closeModal("fourPhotosViewerModal");
                 closeModal("profilePixModal");
+                closeModal("barberCutsShowcaseModal");
                 if (clientNameForBooking) {
                     document.getElementById("apptClientName").value = clientNameForBooking;
                 }
