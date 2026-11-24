@@ -926,6 +926,10 @@
             📅 Agendar com <span id="scheduleBarberName">Gean</span>
         </button>
 
+        <button type="button" class="btn-balloon" id="lastCutChargeMainBtn" onclick="openLastCutAndChargeModal()">
+            📸 Foto Último Corte &amp; Cobrar (<span id="lastCutChargeBarberName">Gean</span>)
+        </button>
+
         <button type="button" class="btn-balloon" id="combosMainBtn" onclick="openCombosModal()">
             ★ Combos Mensais ( <span id="combosBarberName">Gean</span> )
         </button>
@@ -952,6 +956,43 @@
             <div id="homeAppointmentsList"></div>
         </div>
     </main>
+
+    <!-- MODAL ÁREA FOTO ÚLTIMO CORTE + SALVAR NAS FOTOS DO BARBEIRO + COBRAR -->
+    <div class="modal" id="lastCutChargeModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('lastCutChargeModal')">&times;</span>
+            <h2>📸 Foto do Último Corte — <span id="lastCutModalBarberName">Gean</span></h2>
+
+            <div class="form-group">
+                <label for="lastCutClientSelect">Cliente (opcional — puxa o último agendamento do barbeiro)</label>
+                <select id="lastCutClientSelect" onchange="syncLastCutClientDefaults()"></select>
+            </div>
+
+            <div class="form-group">
+                <label for="lastCutTitleInput">Título do Corte nas Fotos do Barbeiro</label>
+                <input type="text" id="lastCutTitleInput" placeholder="Ex: Último Corte Fade + Barba">
+            </div>
+
+            <div class="form-group">
+                <label for="lastCutAmountInput">Valor para Cobrar (R$)</label>
+                <input type="number" id="lastCutAmountInput" step="0.01" min="0" value="40.00">
+            </div>
+
+            <div class="form-group">
+                <label for="lastCutCameraInput">Tirar / Escolher Foto do Último Corte</label>
+                <input type="file" id="lastCutCameraInput" accept="image/*" capture="environment" onchange="handleLastCutPhotoSelected(event)">
+            </div>
+
+            <img id="lastCutPhotoPreview" src="" alt="Prévia do último corte" style="display:none; width:100%; max-height:190px; object-fit:cover; border-radius:12px; border:1.5px solid #e5b832; margin-bottom:10px;">
+
+            <button type="button" class="btn-gold" onclick="saveLastCutToBarberAndCharge()">
+                💾 Salvar Foto no Barbeiro &amp; Ir para Cobrança
+            </button>
+            <button type="button" class="btn-dark" onclick="openDirectChargeFromLastCut()">
+                💳 Já ir direto para Cobrar (QR Code Pix / Dinheiro)
+            </button>
+        </div>
+    </div>
 
     <!-- MODAL VITRINE: CORTES DO BARBEIRO SELECIONADO PARA OS CLIENTES VEREM -->
     <div class="modal" id="barberCutsShowcaseModal">
@@ -1176,7 +1217,7 @@
 
             <div class="form-group">
                 <label for="chargeAmountInput">Valor (R$)</label>
-                <input type="number" id="chargeAmountInput" step="0.01" min="1">
+                <input type="number" id="chargeAmountInput" step="0.01" min="0">
             </div>
 
             <div style="display:flex; gap:8px;">
@@ -1415,6 +1456,7 @@
         let newBarberCutPhotosDraft = [];
         let newBarberCutVideoDraft = "";
         let tempClientProfilePhoto = "";
+        let lastCutPhotoDraft = "";
         let selectedClientInitial = "";
         let unlockedBarberId = null;
         let editingClientOriginalName = "";
@@ -1668,6 +1710,7 @@
 
             document.getElementById("activeBarberBadge").textContent = active.name;
             document.getElementById("scheduleBarberName").textContent = active.name;
+            document.getElementById("lastCutChargeBarberName").textContent = active.name;
             document.getElementById("combosBarberName").textContent = active.name;
             document.getElementById("barberCutsButtonName").textContent = active.name;
             document.getElementById("homeCombosBarber").textContent = active.name;
@@ -1758,6 +1801,161 @@
                     `;
                 }).join("");
             }
+        }
+
+        function openLastCutAndChargeModal() {
+            const active = normalizeBarber(currentBarber());
+            lastCutPhotoDraft = "";
+            document.getElementById("lastCutModalBarberName").textContent = active.name;
+            document.getElementById("lastCutCameraInput").value = "";
+            const prevImg = document.getElementById("lastCutPhotoPreview");
+            prevImg.src = "";
+            prevImg.style.display = "none";
+
+            const sel = document.getElementById("lastCutClientSelect");
+            const barberAppts = state.appointments.filter(a => a.barberId === active.id);
+            let optionsHtml = `<option value="">Cliente avulso / último corte de ${active.name}</option>`;
+            barberAppts.forEach((a, idx) => {
+                optionsHtml += `<option value="${a.id}">${a.clientName} — R$ ${Number(a.total || 0).toFixed(2).replace(".", ",")}${idx === 0 ? " (Último)" : ""}</option>`;
+            });
+            sel.innerHTML = optionsHtml;
+
+            const defaultPrice = Number(active.prices?.corte ?? 40);
+            document.getElementById("lastCutAmountInput").value = defaultPrice.toFixed(2);
+            document.getElementById("lastCutTitleInput").value = `Corte ${active.name}`;
+
+            syncLastCutClientDefaults();
+            document.getElementById("lastCutChargeModal").style.display = "flex";
+        }
+
+        function syncLastCutClientDefaults() {
+            const active = normalizeBarber(currentBarber());
+            const apptId = document.getElementById("lastCutClientSelect").value;
+            const defaultPrice = Number(active.prices?.corte ?? 40);
+            if (!apptId) {
+                document.getElementById("lastCutAmountInput").value = defaultPrice.toFixed(2);
+                document.getElementById("lastCutTitleInput").value = `Corte ${active.name}`;
+                return;
+            }
+            const appt = state.appointments.find(a => a.id === apptId);
+            if (appt) {
+                document.getElementById("lastCutAmountInput").value = Number(appt.total || defaultPrice).toFixed(2);
+                document.getElementById("lastCutTitleInput").value = `${appt.itemsLabel || "Corte"} — ${appt.clientName}`;
+            }
+        }
+
+        async function handleLastCutPhotoSelected(event) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            try {
+                lastCutPhotoDraft = await compressImageToDataUrl(file, 440, 0.76);
+                const img = document.getElementById("lastCutPhotoPreview");
+                img.src = lastCutPhotoDraft;
+                img.style.display = "block";
+                notify("Foto do último corte carregada!");
+            } catch (err) {
+                notify("Não foi possível carregar a foto.");
+            }
+        }
+
+        function saveLastCutToBarberAndCharge() {
+            const active = normalizeBarber(currentBarber());
+            const apptId = document.getElementById("lastCutClientSelect").value;
+            const appt = apptId ? state.appointments.find(a => a.id === apptId) : null;
+            const titleInput = document.getElementById("lastCutTitleInput").value.trim() || `Corte ${active.name}`;
+            const amount = Number(document.getElementById("lastCutAmountInput").value || 0);
+
+            if (!lastCutPhotoDraft) {
+                notify("Tire ou escolha a foto do último corte primeiro.");
+                return;
+            }
+
+            const showcaseItem = {
+                id: "bcut_" + Date.now(),
+                barberId: active.id,
+                barberName: active.name,
+                title: titleInput,
+                price: Number.isFinite(amount) && amount >= 0 ? amount : 0,
+                photos: [lastCutPhotoDraft],
+                photo: lastCutPhotoDraft,
+                video: ""
+            };
+
+            state.barberCuts.unshift(showcaseItem);
+            persistState();
+            if (db) db.ref(`barberCuts/${showcaseItem.id}`).set(showcaseItem);
+
+            if (appt) {
+                const clientCutRecord = {
+                    id: "cut_" + Date.now(),
+                    clientName: appt.clientName,
+                    phone: appt.phone || "",
+                    barberId: active.id,
+                    barberName: active.name,
+                    itemsLabel: appt.itemsLabel || titleInput,
+                    total: Number.isFinite(amount) && amount >= 0 ? amount : Number(appt.total || 0),
+                    date: appt.date || new Date().toISOString().split("T")[0],
+                    photos: [lastCutPhotoDraft],
+                    photo: lastCutPhotoDraft,
+                    video: ""
+                };
+                state.clientCuts.unshift(clientCutRecord);
+                persistState();
+                if (db) db.ref(`clientCuts/${clientCutRecord.id}`).set(clientCutRecord);
+            }
+
+            renderBarberShowcaseCuts();
+            renderClientCutsHistory();
+            renderSavedClientProfilesLog();
+            renderAdminDashboard();
+
+            closeModal("lastCutChargeModal");
+            openChargeForLastCutTarget(appt, titleInput, amount);
+            notify(`Foto salva em ${active.name}! Agora escolha Pix ou Dinheiro.`);
+        }
+
+        function openDirectChargeFromLastCut() {
+            const active = normalizeBarber(currentBarber());
+            const apptId = document.getElementById("lastCutClientSelect").value;
+            const appt = apptId ? state.appointments.find(a => a.id === apptId) : null;
+            const titleInput = document.getElementById("lastCutTitleInput").value.trim() || `Corte ${active.name}`;
+            const amount = Number(document.getElementById("lastCutAmountInput").value || 0);
+
+            closeModal("lastCutChargeModal");
+            openChargeForLastCutTarget(appt, titleInput, amount);
+        }
+
+        function openChargeForLastCutTarget(appt, label, amount) {
+            const active = normalizeBarber(currentBarber());
+            const finalAmount = Number.isFinite(Number(amount)) && Number(amount) >= 0 ? Number(amount) : Number(active.prices?.corte ?? 40);
+
+            if (appt) {
+                appt.total = finalAmount;
+                persistState();
+                if (db) db.ref(`appointments/${appt.id}`).update({ total: finalAmount });
+                openChargeModal(appt.id);
+                return;
+            }
+
+            const tempAppt = {
+                id: "appt_" + Date.now(),
+                barberId: active.id,
+                barberName: active.name,
+                clientName: label || `Cliente ${active.name}`,
+                phone: "",
+                date: new Date().toISOString().split("T")[0],
+                time: new Date().toTimeString().slice(0, 5),
+                itemsLabel: label || `Corte ${active.name}`,
+                total: finalAmount,
+                status: "agendado",
+                paymentMethod: null
+            };
+            state.appointments.unshift(tempAppt);
+            persistState();
+            if (db) db.ref(`appointments/${tempAppt.id}`).set(tempAppt);
+            renderAppointmentsSections();
+            renderAdminDashboard();
+            openChargeModal(tempAppt.id);
         }
 
         function openBookingModal() {
