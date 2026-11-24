@@ -823,13 +823,11 @@
                 <button type="button" class="btn-gold" onclick="savePixFromProfile()">Salvar Chave Pix Central</button>
             </div>
 
-            <!-- Cortes adicionados pelos barbeiros (até 4 fotos por corte) -->
             <div class="admin-section-box" style="margin-top:12px;">
                 <div class="admin-section-title">✂️ Cortes dos Barbeiros (Toque para ver até 4 fotos)</div>
                 <div id="barberShowcaseCutsList"></div>
             </div>
 
-            <!-- Histórico de cortes salvos do cliente -->
             <div class="form-group" style="margin-top:12px;">
                 <label for="clientHistorySearch">📸 Meus Cortes Salvos — Buscar cliente (nome ou telefone)</label>
                 <input type="text" id="clientHistorySearch" oninput="renderClientCutsHistory()" placeholder="Digite nome ou telefone do cliente">
@@ -896,13 +894,12 @@
         </div>
     </div>
 
-    <!-- MODAL 4: ÁREA DO BARBEIRO (FINALIZAR CORTE DO ÚLTIMO CLIENTE, ADICIONAR CORTE COM ATÉ 4 FOTOS, FOTO DE PERFIL, PIX, COMBOS & VALORES) -->
+    <!-- MODAL 4: ÁREA DO BARBEIRO -->
     <div class="modal" id="barberAreaModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('barberAreaModal')">&times;</span>
             <h2>✂️ Área do Barbeiro — <span id="barberAreaName">Gean</span></h2>
 
-            <!-- 1. Finalizar Corte (último cliente cortado/agendado + câmera ou upload de até 4 fotos) -->
             <div class="admin-section-box">
                 <div class="admin-section-title">✅ Finalizar Corte (Último Cliente)</div>
                 <div class="form-group">
@@ -917,7 +914,6 @@
                 <button type="button" class="btn-gold" onclick="saveFinishedCutForClient()">Salvar Corte no Histórico do Cliente</button>
             </div>
 
-            <!-- 2. Adicionar Corte do Barbeiro (com upload de até 4 fotos para o cliente ver) -->
             <div class="admin-section-box">
                 <div class="admin-section-title">➕ Adicionar Corte (<span id="addCutBarberLabel">Gean</span>)</div>
                 <div class="form-group">
@@ -926,7 +922,7 @@
                 </div>
                 <div class="form-group">
                     <label for="newBarberCutPrice">Valor (R$)</label>
-                    <input type="number" id="newBarberCutPrice" min="0" step="1" placeholder="35">
+                    <input type="number" id="newBarberCutPrice" min="0" step="1" placeholder="40">
                 </div>
                 <div class="form-group">
                     <label>Fotos do corte (upload de até 4 fotos)</label>
@@ -936,7 +932,6 @@
                 <button type="button" class="btn-gold" onclick="addBarberShowcaseCut()">Adicionar Corte ao Catálogo</button>
             </div>
 
-            <!-- 3. Foto de Perfil no Carrossel -->
             <div class="form-group">
                 <label>Foto de Perfil no Carrossel</label>
                 <div class="barber-photo-editor">
@@ -950,14 +945,12 @@
                 </div>
             </div>
 
-            <!-- 4. Chave Pix Central -->
             <div class="form-group">
                 <label for="barberAreaPixInput">Chave Pix Central deste Barbeiro</label>
                 <input type="text" id="barberAreaPixInput" placeholder="CPF, CNPJ, telefone, e-mail ou chave Pix">
                 <button type="button" class="btn-gold" onclick="savePixFromBarberArea()">Salvar Chave Pix</button>
             </div>
 
-            <!-- 5. Combos e Valores -->
             <div style="font-size:0.82rem; font-weight:700; color:#e5b832; margin:12px 0 8px;">
                 ★ Combos deste Barbeiro (<span id="barberCombosOwnerLabel">Gean</span>)
             </div>
@@ -969,7 +962,6 @@
             <div id="barberPricesEditorList"></div>
             <button type="button" class="btn-gold" onclick="saveBarberCombosAndPrices()">Salvar Combos e Valores deste Barbeiro</button>
 
-            <!-- 6. Clientes Agendados -->
             <div style="font-size:0.82rem; font-weight:700; color:#e5b832; margin:14px 0 8px;">Clientes Agendados</div>
             <div id="barberAreaAppointments"></div>
         </div>
@@ -1085,15 +1077,21 @@
         }
 
         const SERVICE_BASE = [
-            { id: "corte", name: "Corte Degradê / Social", defaultPrice: 35 },
-            { id: "barba", name: "Barba Terapia", defaultPrice: 25 },
-            { id: "sobrancelha", name: "Sobrancelha", defaultPrice: 12 }
+            { id: "corte", name: "Corte", defaultPrice: 40 },
+            { id: "barba", name: "Barba", defaultPrice: 30 },
+            { id: "luzes", name: "Luzes", defaultPrice: 130 },
+            { id: "sobrancelha", name: "Sobrancelha", defaultPrice: 20 },
+            { id: "relaxamento", name: "Relaxamento", defaultPrice: 30 },
+            { id: "barba-terapia", name: "Barba Terapia", defaultPrice: 80 },
+            { id: "penteado", name: "Penteado", defaultPrice: 30 },
+            { id: "limpeza-pele", name: "Limpeza de pele", defaultPrice: 60 },
+            { id: "esfoliamento", name: "Esfoliamento", defaultPrice: 30 }
         ];
 
         const COMBO_BASE = [
-            { id: "combo-cb", name: "Combo Corte + Barba", defaultPrice: 52 },
-            { id: "combo-cbs", name: "Combo Corte + Barba + Sobrancelha", defaultPrice: 62 },
-            { id: "combo-mensal", name: "Combo Mensal (4 Cortes)", defaultPrice: 120 }
+            { id: "combo-cb", name: "Combo Corte + Barba", defaultPrice: 65 },
+            { id: "combo-cbs", name: "Combo Corte + Barba + Sobrancelha", defaultPrice: 80 },
+            { id: "combo-mensal", name: "Combo Mensal (4 Cortes)", defaultPrice: 140 }
         ];
 
         function buildDefaultServicePrices() {
@@ -1161,7 +1159,21 @@
             if (!base.photo) {
                 base.photo = base.id === "gean" ? "icon-512.png" : "icon-192.png";
             }
-            base.prices = { ...buildDefaultServicePrices(), ...(b.prices || {}) };
+
+            const mergedPrices = { ...buildDefaultServicePrices(), ...(b.prices || {}) };
+            // Garante a tabela atualizada do Gean caso dados antigos não tenham os novos serviços
+            if (base.id === "gean" && (!b.prices || b.prices.luzes === undefined)) {
+                mergedPrices.corte = 40;
+                mergedPrices.barba = 30;
+                mergedPrices.luzes = 130;
+                mergedPrices.sobrancelha = 20;
+                mergedPrices.relaxamento = 30;
+                mergedPrices["barba-terapia"] = 80;
+                mergedPrices.penteado = 30;
+                mergedPrices["limpeza-pele"] = 60;
+                mergedPrices.esfoliamento = 30;
+            }
+            base.prices = mergedPrices;
 
             const savedCombos = Array.isArray(b.combos)
                 ? b.combos
@@ -1208,7 +1220,7 @@
         }
 
         function loadSavedState() {
-            const raw = localStorage.getItem("barbearia_tribo_ui_v6");
+            const raw = localStorage.getItem("barbearia_tribo_ui_v7");
             if (raw) {
                 try {
                     const parsed = JSON.parse(raw);
@@ -1232,7 +1244,7 @@
         }
 
         function persistState() {
-            localStorage.setItem("barbearia_tribo_ui_v6", JSON.stringify(state));
+            localStorage.setItem("barbearia_tribo_ui_v7", JSON.stringify(state));
         }
 
         function subscribeFirebase() {
@@ -1629,9 +1641,7 @@
             });
         }
 
-        function syncFinishClientSelection() {
-            // Mantém pronto o cliente selecionado para salvar no histórico
-        }
+        function syncFinishClientSelection() {}
 
         async function handleFinishCutPhotosUpload(event) {
             const files = Array.from(event.target.files || []);
@@ -1668,7 +1678,7 @@
                 name: clientName,
                 phone: "",
                 itemsLabel: "Corte",
-                total: 35,
+                total: 40,
                 date: new Date().toISOString().split("T")[0]
             };
 
@@ -1793,7 +1803,7 @@
             }
 
             container.innerHTML = "";
-            listToShow.forEach((c, idx) => {
+            listToShow.forEach(c => {
                 const photos = (Array.isArray(c.photos) && c.photos.length ? c.photos : (c.photo ? [c.photo] : [])).slice(0, 4);
                 const div = document.createElement("div");
                 div.className = "appt-item";
