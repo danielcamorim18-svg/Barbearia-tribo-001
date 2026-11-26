@@ -26,8 +26,8 @@
         }
 
         body {
-            background: linear-gradient(rgba(12, 12, 12, 0.72), rgba(14, 14, 14, 0.88)),
-                        url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background: linear-gradient(rgba(12, 12, 12, 0.44), rgba(14, 14, 14, 0.62)),
+                        url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&crop&w=1350&q=80') no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
             display: flex;
@@ -38,6 +38,99 @@
             padding: 18px 16px 14px;
             position: relative;
             overflow-x: hidden;
+        }
+
+        .screen-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .entry-center-wrap {
+            width: 100%;
+            max-width: 420px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 0;
+            z-index: 5;
+        }
+
+        .entry-gate-box {
+            width: 100%;
+            max-width: 420px;
+            margin: 14px 0 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            z-index: 5;
+        }
+
+        .entry-card-glass {
+            background: rgba(24, 24, 24, 0.56);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            padding: 18px 16px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+        }
+
+        .btn-entry-translucent {
+            background: rgba(28, 28, 28, 0.52);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            color: #ffffff;
+            padding: 18px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-align: left;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.42);
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .btn-entry-translucent:hover {
+            background: rgba(212, 175, 55, 0.24);
+            border-color: #e5b832;
+            transform: translateY(-1px);
+        }
+
+        .btn-entry-translucent strong {
+            display: block;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .btn-entry-translucent small {
+            display: block;
+            font-size: 0.74rem;
+            color: #e0e0e0;
+            margin-top: 2px;
+        }
+
+        .entry-icon-badge {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: rgba(229, 184, 50, 0.18);
+            border: 1px solid rgba(229, 184, 50, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
         }
 
         .top-bar {
@@ -52,10 +145,10 @@
         }
 
         .btn-top {
-            background: rgba(24, 24, 24, 0.72);
+            background: rgba(24, 24, 24, 0.62);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.22);
             color: #f3f3f3;
             padding: 8px 14px;
             font-size: 0.78rem;
@@ -74,13 +167,13 @@
         }
 
         .btn-top.admin-pill {
-            border-color: rgba(212, 175, 55, 0.65);
+            border-color: rgba(212, 175, 55, 0.7);
             color: #f5d365;
         }
 
         header {
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             z-index: 5;
         }
 
@@ -88,7 +181,7 @@
             font-size: 0.68rem;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: #d4d4d4;
+            color: #e0e0e0;
             margin-bottom: 4px;
             font-weight: 500;
         }
@@ -109,7 +202,7 @@
 
         .brand-lead {
             font-size: 0.84rem;
-            color: #d6d6d6;
+            color: #e2e2e2;
             font-style: italic;
             margin-top: 4px;
         }
@@ -121,7 +214,7 @@
             margin-top: 8px;
             padding: 4px 12px;
             border-radius: 999px;
-            background: rgba(20, 32, 26, 0.78);
+            background: rgba(20, 32, 26, 0.72);
             border: 1px solid rgba(46, 204, 113, 0.45);
             color: #58e694;
             font-size: 0.72rem;
@@ -154,7 +247,7 @@
         }
 
         .arrow-btn {
-            background: rgba(24, 24, 24, 0.68);
+            background: rgba(24, 24, 24, 0.62);
             backdrop-filter: blur(8px);
             border: 1.5px solid rgba(212, 175, 55, 0.55);
             color: #e5b832;
@@ -238,7 +331,7 @@
 
         .barber-name-badge {
             margin-top: 10px;
-            background: rgba(24, 24, 24, 0.85);
+            background: rgba(24, 24, 24, 0.78);
             border: 1px solid rgba(212, 175, 55, 0.5);
             color: #e5b832;
             padding: 4px 16px;
@@ -250,7 +343,7 @@
         .barber-hint {
             margin-top: 8px;
             font-size: 0.74rem;
-            color: #c8c8c8;
+            color: #dcdcdc;
             text-align: center;
         }
 
@@ -264,10 +357,10 @@
         }
 
         .btn-balloon {
-            background: rgba(28, 28, 28, 0.64);
+            background: rgba(28, 28, 28, 0.56);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             color: #ffffff;
             padding: 15px 18px;
             font-size: 0.92rem;
@@ -290,10 +383,10 @@
         }
 
         .balloon-box {
-            background: rgba(24, 24, 24, 0.68);
+            background: rgba(24, 24, 24, 0.58);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.16);
             border-radius: 18px;
             padding: 14px;
             box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
@@ -316,7 +409,7 @@
         }
 
         .combo-chip {
-            background: rgba(38, 38, 38, 0.72);
+            background: rgba(38, 38, 38, 0.62);
             border: 1px solid rgba(255, 255, 255, 0.14);
             border-radius: 12px;
             padding: 9px 10px;
@@ -343,7 +436,7 @@
         }
 
         .appt-item {
-            background: rgba(36, 36, 36, 0.76);
+            background: rgba(36, 36, 36, 0.72);
             border-left: 3px solid #e5b832;
             border-radius: 12px;
             padding: 10px 12px;
@@ -387,11 +480,119 @@
             margin-top: 8px;
         }
 
+        .carousel-ok-line {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            background: rgba(39, 174, 96, 0.14);
+            border: 1px solid rgba(46, 204, 113, 0.55);
+            border-radius: 10px;
+            padding: 6px 10px;
+            margin-top: 6px;
+            cursor: pointer;
+            font-size: 0.72rem;
+            color: #7df5b0;
+            font-weight: 600;
+        }
+
+        .carousel-ok-line img {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid #2ecc71;
+            flex-shrink: 0;
+        }
+
+        .client-ok-compact-bar {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            background: rgba(39, 174, 96, 0.14);
+            border: 1px solid rgba(46, 204, 113, 0.5);
+            border-radius: 10px;
+            padding: 6px 10px;
+            margin-bottom: 8px;
+            font-size: 0.72rem;
+            color: #7df5b0;
+            font-weight: 600;
+            flex-wrap: wrap;
+        }
+
+        .three-col-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .three-photo-tile {
+            background: rgba(34, 34, 34, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 9px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .three-photo-tile img {
+            width: 100%;
+            height: 92px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+        }
+
+        .three-photo-tile-bar {
+            display: flex;
+            gap: 3px;
+            padding: 4px;
+            background: rgba(20, 20, 20, 0.9);
+        }
+
+        .three-photo-btn {
+            flex: 1;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 2px;
+            font-size: 0.62rem;
+            font-weight: 700;
+            cursor: pointer;
+            line-height: 1.1;
+        }
+
+        .three-photo-btn-zoom {
+            background: rgba(255, 255, 255, 0.14);
+            color: #fff;
+        }
+
+        .three-photo-btn-pick {
+            background: #e5b832;
+            color: #111;
+        }
+
+        .client-compact-scroll {
+            max-height: 333px;
+            overflow-y: auto;
+            padding-right: 2px;
+            margin-top: 6px;
+        }
+
+        .barber-cut-showcase-card {
+            background: rgba(36, 36, 36, 0.82);
+            border: 1px solid rgba(212, 175, 55, 0.28);
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.82);
+            background: rgba(0, 0, 0, 0.84);
             backdrop-filter: blur(6px);
             justify-content: center;
             align-items: center;
@@ -446,9 +647,37 @@
             padding: 9px 12px;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.18);
-            background: rgba(42, 42, 42, 0.8);
+            background: rgba(42, 42, 42, 0.85);
             color: #fff;
             font-size: 0.85rem;
+        }
+
+        .form-group input[readonly] {
+            background: rgba(28, 34, 30, 0.85);
+            border-color: rgba(46, 204, 113, 0.45);
+            color: #b7f5d0;
+        }
+
+        .pass-row-open {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .pass-row-open input {
+            flex: 1;
+            letter-spacing: 1px;
+        }
+
+        .btn-eye-toggle {
+            background: rgba(48, 48, 48, 0.9);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: #f5d365;
+            border-radius: 10px;
+            padding: 9px 11px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            flex-shrink: 0;
         }
 
         .barber-photo-editor {
@@ -459,42 +688,16 @@
             border: 1px solid rgba(212, 175, 55, 0.35);
             border-radius: 12px;
             padding: 10px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .barber-photo-editor img {
-            width: 68px;
-            height: 68px;
+            width: 64px;
+            height: 64px;
             border-radius: 12px;
             object-fit: cover;
             border: 1.5px solid #e5b832;
             flex-shrink: 0;
-        }
-
-        .letter-filter-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            margin: 8px 0;
-        }
-
-        .letter-btn {
-            background: rgba(42, 42, 42, 0.82);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            color: #e5e5e5;
-            border-radius: 7px;
-            padding: 4px 7px;
-            font-size: 0.68rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.15s;
-        }
-
-        .letter-btn.active,
-        .letter-btn:hover {
-            background: #e5b832;
-            color: #111;
-            border-color: #e5b832;
         }
 
         .saved-client-log-card {
@@ -524,6 +727,24 @@
             border: 1.5px solid #e5b832;
             flex-shrink: 0;
             background: #222;
+        }
+
+        .my-profile-summary-card {
+            background: rgba(34, 34, 34, 0.88);
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .my-profile-info-line {
+            font-size: 0.78rem;
+            margin-bottom: 3px;
+            color: #f0f0f0;
+        }
+
+        .my-profile-info-line strong {
+            color: #f5d365;
         }
 
         .price-edit-row {
@@ -665,44 +886,6 @@
             margin-top: 10px;
         }
 
-        .cuts-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .cut-card {
-            background: rgba(36, 36, 36, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .cut-card-clickable {
-            cursor: pointer;
-        }
-
-        .cut-card img {
-            width: 100%;
-            height: 110px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .cut-card-body {
-            padding: 8px;
-            font-size: 0.72rem;
-        }
-
-        .cut-card-actions {
-            padding: 0 8px 8px;
-        }
-
-        /* 4 fotos ao redor + mini pasta com mini vídeo bem no meio */
         .four-photos-video-cluster {
             display: grid;
             grid-template-columns: 1fr 1.15fr 1fr;
@@ -803,6 +986,31 @@
             height: 185px;
         }
 
+        .photo-slot-manage-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .photo-slot-manage-card {
+            background: rgba(26, 26, 26, 0.88);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 9px;
+            padding: 4px;
+            text-align: center;
+        }
+
+        .photo-slot-manage-card img {
+            width: 100%;
+            height: 74px;
+            object-fit: cover;
+            border-radius: 7px;
+            display: block;
+            cursor: pointer;
+            margin-bottom: 4px;
+        }
+
         .admin-section-box {
             background: rgba(34, 34, 34, 0.78);
             border: 1px solid rgba(255, 255, 255, 0.14);
@@ -885,89 +1093,197 @@
 
         footer {
             font-size: 0.72rem;
-            color: #8f8f8f;
+            color: #d0d0d0;
             text-align: center;
             margin-top: 18px;
             z-index: 5;
         }
 
         footer a {
-            color: #d4af37;
+            color: #f5d365;
             text-decoration: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- Topo: Área do Barbeiro à esquerda + Admin no canto apenas quando o Gean estiver em foco -->
-    <div class="top-bar">
-        <button type="button" class="btn-top" onclick="openBarberPassGate()">✂️ Área do Barbeiro</button>
-        <button type="button" class="btn-top admin-pill" id="adminCornerButton" onclick="openAdminGate()" style="display:none;">⚙️ Admin</button>
+    <!-- ==================== TELA 1: INÍCIO CENTRALIZADO ==================== -->
+    <div class="screen-container" id="entryGateScreen">
+        <div class="top-bar">
+            <span></span>
+            <button type="button" class="btn-top admin-pill" id="entryAdminBtn" onclick="openAdminGate()" style="display:none;">⚙️ Admin</button>
+        </div>
+
+        <header>
+            <div class="brand-subtitle-top">Barbearia Profissional</div>
+            <h1 class="brand-title">Barbearia <span>Tribo</span></h1>
+            <div class="brand-lead">Gean Dias dos Santos — Carro-Chefe</div>
+            <div class="firebase-status-pill" id="firebaseStatusPillEntry">
+                <span class="firebase-dot"></span>
+                <span class="firebase-status-label">Firebase Conectado</span>
+            </div>
+        </header>
+
+        <div class="entry-center-wrap">
+            <button type="button" class="btn-entry-translucent" onclick="enterClientArea()">
+                <div>
+                    <strong>📅 Área do Cliente</strong>
+                    <small>Ver barbeiros, cortes, combos e agendar horário</small>
+                </div>
+                <span class="entry-icon-badge">✂️</span>
+            </button>
+
+            <button type="button" class="btn-entry-translucent" onclick="openPartnerLoginScreen()">
+                <div>
+                    <strong>💈 Sou Parceiro / Barbeiro</strong>
+                    <small>Buscar por 3 letras, senha curta ou cadastrar</small>
+                </div>
+                <span class="entry-icon-badge">🔑</span>
+            </button>
+        </div>
     </div>
 
-    <!-- Cabeçalho -->
-    <header>
-        <div class="brand-subtitle-top">Barbearia Profissional</div>
-        <h1 class="brand-title">Barbearia <span>Tribo</span></h1>
-        <div class="brand-lead">Gean Dias dos Santos — Carro-Chefe</div>
-        <div class="firebase-status-pill" id="firebaseStatusPill">
-            <span class="firebase-dot"></span>
-            <span id="firebaseStatusText">Firebase Conectado</span>
-        </div>
-    </header>
-
-    <!-- Carrossel de Barbeiros -->
-    <section class="carousel-section">
-        <div class="carousel-wrapper">
-            <button type="button" class="arrow-btn" onclick="prevBarber()" aria-label="Anterior">←</button>
-            <div class="cards-stage" id="cardsStage"></div>
-            <button type="button" class="arrow-btn" onclick="nextBarber()" aria-label="Próximo">→</button>
+    <!-- ==================== TELA 2: LOGIN / CADASTRO DO PARCEIRO BARBEIRO ==================== -->
+    <div class="screen-container" id="partnerLoginScreen" style="display:none;">
+        <div class="top-bar">
+            <button type="button" class="btn-top" onclick="showEntryGateScreen()">← Início</button>
+            <button type="button" class="btn-top admin-pill" onclick="openAdminGate()">⚙️ Admin</button>
         </div>
 
-        <div class="barber-name-badge" id="activeBarberBadge">Gean</div>
-        <div class="barber-hint">Toque na foto ou use as setas para escolher o barbeiro</div>
-    </section>
+        <header style="margin-bottom:8px;">
+            <div class="brand-subtitle-top">Acesso do Parceiro</div>
+            <h1 class="brand-title">Área do <span>Barbeiro</span></h1>
+            <div class="brand-lead">Digite 3 letras do nome para localizar e use sua senha curta</div>
+        </header>
 
-    <!-- Botões Principais + Combos + Próximos Horários -->
-    <main class="menu-container">
-        <button type="button" class="btn-balloon" onclick="openProfilePixModal()">
-            👤 Meu Perfil, Foto &amp; Cortes
-        </button>
-
-        <button type="button" class="btn-balloon" id="scheduleMainBtn" onclick="openBookingModal()">
-            📅 Agendar com <span id="scheduleBarberName">Gean</span>
-        </button>
-
-        <button type="button" class="btn-balloon" id="lastCutChargeMainBtn" onclick="openLastCutAndChargeModal()">
-            📸 Foto Último Corte &amp; Cobrar (<span id="lastCutChargeBarberName">Gean</span>)
-        </button>
-
-        <button type="button" class="btn-balloon" id="combosMainBtn" onclick="openCombosModal()">
-            ★ Combos Mensais ( <span id="combosBarberName">Gean</span> )
-        </button>
-
-        <button type="button" class="btn-balloon" id="barberCutsMainBtn" onclick="openBarberCutsShowcaseModal()">
-            ✂️ Ver Cortes de <span id="barberCutsButtonName">Gean</span> (<span id="barberCutsCountBadge">0</span>)
-        </button>
-
-        <!-- Combos na tela inicial -->
-        <div class="balloon-box">
-            <div class="balloon-box-title">
-                <span>★ Combos &amp; Planos (<span id="homeCombosBarber">Gean</span>)</span>
-                <small style="color:#ccc; font-weight:400;">Toque para agendar</small>
+        <div class="entry-gate-box" style="margin-top:4px;">
+            <div class="entry-card-glass">
+                <div class="admin-section-title">🔎 Buscar Cadastro (Só Aparece Após 3 Letras)</div>
+                <div class="form-group">
+                    <label for="partnerPrefixInput">Digite pelo menos 3 letras do nome</label>
+                    <input type="text" id="partnerPrefixInput" maxlength="20" oninput="renderPartnerQuickMatches()" placeholder="Ex: Gea, Mir, Luc...">
+                </div>
+                <div id="partnerQuickMatchesList"></div>
             </div>
-            <div class="combos-list-grid" id="homeCombosGrid"></div>
+
+            <div class="entry-card-glass">
+                <div class="admin-section-title">🔐 Entrar com Nome e Senha Curta</div>
+                <div class="form-group">
+                    <label for="partnerLoginNameInput">Nome do Barbeiro</label>
+                    <input type="text" id="partnerLoginNameInput" placeholder="Ex: Gean">
+                </div>
+                <div class="form-group">
+                    <label for="partnerLoginPassInput">Senha Curta (campo aberto)</label>
+                    <div class="pass-row-open">
+                        <input type="text" id="partnerLoginPassInput" maxlength="10" placeholder="Ex: 12 ou 1234">
+                        <button type="button" class="btn-eye-toggle" id="toggleLoginPassBtn" onclick="togglePassVisibility('partnerLoginPassInput', 'toggleLoginPassBtn')">👁️</button>
+                    </div>
+                </div>
+                <button type="button" class="btn-gold" onclick="loginPartnerWithCredentials()">Entrar no Meu Painel</button>
+            </div>
+
+            <div class="entry-card-glass">
+                <div class="admin-section-title">➕ Cadastrar Novo Barbeiro Parceiro</div>
+                <div class="form-group">
+                    <label for="newPartnerNameInput">Nome do Barbeiro</label>
+                    <input type="text" id="newPartnerNameInput" placeholder="Ex: Lucas">
+                </div>
+                <div class="form-group">
+                    <label for="newPartnerPassInput">Crie Sua Senha Curta (salva no sistema)</label>
+                    <div class="pass-row-open">
+                        <input type="text" id="newPartnerPassInput" maxlength="10" placeholder="Ex: 25 ou 1234">
+                        <button type="button" class="btn-eye-toggle" id="toggleNewPassBtn" onclick="togglePassVisibility('newPartnerPassInput', 'toggleNewPassBtn')">👁️</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newPartnerPixInput">Chave Pix (opcional)</label>
+                    <input type="text" id="newPartnerPixInput" placeholder="CPF, telefone ou e-mail">
+                </div>
+                <button type="button" class="btn-dark" onclick="registerNewPartnerBarber()">Cadastrar e Salvar Meu Acesso</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TELA 3: ÁREA DO CLIENTE / VITRINE PRINCIPAL ==================== -->
+    <div class="screen-container" id="clientHomeScreen" style="display:none;">
+        <div class="top-bar">
+            <button type="button" class="btn-top" onclick="showEntryGateScreen()">← Início</button>
+            <button type="button" class="btn-top" onclick="openPartnerLoginScreen()">💈 Sou Barbeiro</button>
+            <button type="button" class="btn-top admin-pill" id="adminCornerButton" onclick="openAdminGate()" style="display:none;">⚙️ Admin</button>
         </div>
 
-        <!-- Agenda / Clientes Agendados do barbeiro selecionado -->
-        <div class="balloon-box" id="homeAppointmentsBox">
-            <div class="balloon-box-title">
-                <span>📋 Agenda (<span id="homeApptBarber">Gean</span>)</span>
-                <small style="color:#ccc; font-weight:400;">Horários</small>
+        <header>
+            <div class="brand-subtitle-top">Barbearia Profissional</div>
+            <h1 class="brand-title">Barbearia <span>Tribo</span></h1>
+            <div class="brand-lead">Gean Dias dos Santos — Carro-Chefe</div>
+            <div class="firebase-status-pill" id="firebaseStatusPill">
+                <span class="firebase-dot"></span>
+                <span class="firebase-status-label">Firebase Conectado</span>
             </div>
-            <div id="homeAppointmentsList"></div>
-        </div>
-    </main>
+        </header>
+
+        <!-- Carrossel de Barbeiros -->
+        <section class="carousel-section">
+            <div class="carousel-wrapper">
+                <button type="button" class="arrow-btn" onclick="prevBarber()" aria-label="Anterior">←</button>
+                <div class="cards-stage" id="cardsStage"></div>
+                <button type="button" class="arrow-btn" onclick="nextBarber()" aria-label="Próximo">→</button>
+            </div>
+
+            <div class="barber-name-badge" id="activeBarberBadge">Gean</div>
+            <div class="barber-hint">Toque na foto ou use as setas para escolher o barbeiro</div>
+        </section>
+
+        <!-- Botões Principais + Combos + Agenda -->
+        <main class="menu-container">
+            <button type="button" class="btn-balloon" onclick="openProfilePixModal()">
+                👤 Meu Perfil, Foto &amp; Cortes
+            </button>
+
+            <button type="button" class="btn-balloon" id="scheduleMainBtn" onclick="openBookingModal()">
+                📅 Agendar com <span id="scheduleBarberName">Gean</span>
+            </button>
+
+            <button type="button" class="btn-balloon" id="lastCutChargeMainBtn" onclick="openLastCutAndChargeModal()">
+                📸 Foto Último Corte &amp; Cobrar (<span id="lastCutChargeBarberName">Gean</span>)
+            </button>
+
+            <button type="button" class="btn-balloon" id="combosMainBtn" onclick="openCombosModal()">
+                ★ Combos Mensais ( <span id="combosBarberName">Gean</span> )
+            </button>
+
+            <button type="button" class="btn-balloon" id="barberCutsMainBtn" onclick="openBarberCutsShowcaseModal()">
+                ✂️ Ver Cortes de <span id="barberCutsButtonName">Gean</span> (<span id="barberCutsCountBadge">0</span>)
+            </button>
+
+            <!-- Combos na tela inicial -->
+            <div class="balloon-box">
+                <div class="balloon-box-title">
+                    <span>★ Combos &amp; Planos (<span id="homeCombosBarber">Gean</span>)</span>
+                    <small style="color:#ccc; font-weight:400;">Toque para agendar</small>
+                </div>
+                <div class="combos-list-grid" id="homeCombosGrid"></div>
+            </div>
+
+            <!-- Agenda / Clientes Agendados do barbeiro selecionado -->
+            <div class="balloon-box" id="homeAppointmentsBox">
+                <div class="balloon-box-title">
+                    <span>📋 Agenda (<span id="homeApptBarber">Gean</span>)</span>
+                    <small style="color:#ccc; font-weight:400;">Horários</small>
+                </div>
+                <div id="homeAppointmentsList"></div>
+            </div>
+
+            <!-- Fila de avisos WhatsApp 1 dia antes -->
+            <div class="balloon-box" id="homeReminderRemindersBox" style="display:none;">
+                <div class="balloon-box-title">
+                    <span>📲 Lembretes WhatsApp (1 Dia Antes)</span>
+                    <button type="button" class="btn-mini-ok" onclick="sendAllDueRemindersNow()">Enviar Pendentes</button>
+                </div>
+                <div id="homeReminderRemindersList"></div>
+            </div>
+        </main>
+    </div>
 
     <!-- MODAL ÁREA FOTO ÚLTIMO CORTE + SALVAR NAS FOTOS DO BARBEIRO + COBRAR -->
     <div class="modal" id="lastCutChargeModal">
@@ -1011,61 +1327,127 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('barberCutsShowcaseModal')">&times;</span>
             <h2>✂️ Cortes de <span id="modalBarberShowcaseName">Gean</span></h2>
-            <div style="font-size:0.75rem; color:#ccc; margin-bottom:10px;">
-                Toque no corte para ampliar as 4 fotos e o mini vídeo ou agendar diretamente.
-            </div>
+            <button type="button" class="btn-gold" style="margin-bottom:10px;" onclick="closeModal('barberCutsShowcaseModal'); openBookingModal();">
+                📅 Marcar Corte com <span id="showcaseBookBarberLabel">este barbeiro</span>
+            </button>
             <div id="dedicatedBarberCutsList"></div>
         </div>
     </div>
 
-    <!-- MODAL 1: PERFIL DO CLIENTE (CADASTRO COM NOME + FOTO, LOG POR INICIAL, CORTES DOS BARBEIROS & CORTES SALVOS) -->
+    <!-- MODAL 1: PERFIL DO CLIENTE (PORTA DO PRÓPRIO PERFIL + DANIEL JR + CORTES DO BARBEIRO ESCOLHIDO) -->
     <div class="modal" id="profilePixModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('profilePixModal')">&times;</span>
-            <h2>👤 Perfil do Cliente &amp; Cortes</h2>
+            <h2>👤 Meu Perfil &amp; Cortes</h2>
 
-            <div class="admin-section-box">
-                <div class="admin-section-title">📝 Cadastrar / Atualizar Perfil do Cliente</div>
+            <!-- BARRA QUANDO JÁ ESTÁ DENTRO DO PRÓPRIO PERFIL -->
+            <div class="client-ok-compact-bar" id="clientRegistrationDoneBanner">
+                <span>✓ porta do perfil aberta</span>
+                <div style="display:flex; gap:5px;">
+                    <button type="button" class="btn-mini-edit" onclick="reopenClientRegistrationBox()">✏️ Editar</button>
+                    <button type="button" class="btn-mini-del" onclick="logoutClientProfileDoor()">🚪 Sair</button>
+                </div>
+            </div>
+
+            <!-- ENTRADA / CADASTRO COM WHATSAPP NO INÍCIO + BOTÃO DIRETO PARA DANIEL JR -->
+            <div class="admin-section-box" id="clientRegistrationBox">
+                <div class="admin-section-title">🔐 Entrar ou Cadastrar Meu Perfil</div>
+
+                <button type="button" class="btn-gold" style="margin-bottom:10px;" onclick="openDanielJrProfileDoor()">
+                    ⚡ Entrar no Meu Perfil (Daniel jr)
+                </button>
+
                 <div class="form-group">
-                    <label for="clientProfileNameInput">Nome do Cliente</label>
-                    <input type="text" id="clientProfileNameInput" placeholder="Digite seu nome">
+                    <label for="clientProfileNameInput">Meu Nome</label>
+                    <input type="text" id="clientProfileNameInput" placeholder="Ex: Daniel jr ou seu nome">
                 </div>
                 <div class="form-group">
-                    <label for="clientProfilePhoneInput">Telefone / WhatsApp (opcional)</label>
-                    <input type="text" id="clientProfilePhoneInput" placeholder="(11) 99999-9999">
+                    <label for="clientProfilePhoneInput">Meu WhatsApp (obrigatório para lembrete 1 dia antes)</label>
+                    <input type="tel" id="clientProfilePhoneInput" placeholder="(11) 99999-9999">
                 </div>
                 <div class="barber-photo-editor" style="margin-bottom:8px;">
-                    <img id="clientProfilePhotoPreview" src="icon-192.png" alt="Foto do cliente" style="border-radius:50%;">
+                    <img id="clientProfilePhotoPreview" src="icon-192.png" alt="Minha foto" style="border-radius:50%;">
                     <div style="flex:1;">
-                        <label for="clientProfilePhotoInput">Foto do Cliente (câmera ou galeria)</label>
+                        <label for="clientProfilePhotoInput">Minha Foto</label>
                         <input type="file" id="clientProfilePhotoInput" accept="image/*" capture="user" onchange="handleClientProfilePhotoUpload(event)">
                     </div>
                 </div>
-                <button type="button" class="btn-gold" onclick="saveClientProfile()">Salvar Cadastro do Cliente</button>
+                <button type="button" class="btn-dark" onclick="saveClientProfile()">Entrar / Salvar Meu Perfil</button>
             </div>
 
-            <div class="admin-section-box">
-                <div class="admin-section-title">🔎 Entrar / Log de Clientes Salvos (Clique na 1ª letra)</div>
-                <div class="letter-filter-bar" id="clientLetterFilterBar"></div>
-                <div id="savedClientProfilesLogList"></div>
+            <!-- PERFIL DO PRÓPRIO CLIENTE -->
+            <div class="my-profile-summary-card" id="selectedClientSelfViewBox" style="display:none;">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <img id="selfViewPhoto" src="icon-192.png" alt="Minha foto" class="saved-client-avatar" style="width:48px; height:48px; cursor:pointer;" onclick="openSinglePhotoZoom(this.src, 'Minha Foto')">
+                        <div>
+                            <div class="my-profile-info-line"><strong>Nome:</strong> <span id="selfViewName">-</span></div>
+                            <div class="my-profile-info-line" style="margin-bottom:0;"><strong>WhatsApp:</strong> <span id="selfViewPhone">Não informado</span></div>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:5px;">
+                        <button type="button" class="btn-mini-ok" onclick="toggleClientPhotosVideosPanel()">🎬 Vídeos</button>
+                        <button type="button" class="btn-mini-edit" onclick="toggleEditMyClientProfile()">✏️ Editar</button>
+                    </div>
+                </div>
+
+                <!-- BOTÃO PARA MARCAR CORTE -->
+                <button type="button" class="btn-gold" onclick="bookSelectedCutOrOpenBooking()" style="margin-top:2px; margin-bottom:8px;">
+                    📅 Marcar Corte <span id="pickedCutBadgeLabel"></span>
+                </button>
+
+                <div id="selfEditFormBox" style="display:none; padding:8px 0; border-top:1px solid rgba(255,255,255,0.12); margin-bottom:8px;">
+                    <div class="form-group">
+                        <label for="selfEditNameInput">Meu Nome</label>
+                        <input type="text" id="selfEditNameInput">
+                    </div>
+                    <div class="form-group">
+                        <label for="selfEditPhoneInput">Meu WhatsApp</label>
+                        <input type="tel" id="selfEditPhoneInput" placeholder="(11) 99999-9999">
+                    </div>
+                    <div class="form-group">
+                        <label for="selfEditPhotoInput">Trocar Minha Foto</label>
+                        <input type="file" id="selfEditPhotoInput" accept="image/*" capture="user" onchange="handleSelfEditPhotoUpload(event)">
+                    </div>
+                    <button type="button" class="btn-gold" onclick="saveSelfEditedProfile()">Salvar Alterações</button>
+                </div>
+
+                <!-- VÍDEOS DO PRÓPRIO CLIENTE -->
+                <div id="clientMediaGallery333Panel" style="display:none; margin-bottom:8px;">
+                    <div id="clientMediaGallery333Content" class="client-compact-scroll"></div>
+                </div>
+
+                <!-- MEUS CORTES EM GRADE DE 3 POR LINHA -->
+                <div style="font-size:0.74rem; font-weight:700; color:#e5b832;">✂️ Meus Cortes Salvos</div>
+                <div class="client-compact-scroll" id="selfViewCutsList"></div>
             </div>
 
-            <div class="form-group">
-                <label for="profileBarberSelect">Barbeiro</label>
-                <select id="profileBarberSelect" onchange="syncProfileModalBarber()"></select>
-            </div>
+            <!-- SELETOR DE BARBEIRO + CORTES APARECENDO LÁ EMBAIXO COM BOTÃO "QUERO ESSE CORTE" -->
+            <div class="admin-section-box" style="margin-top:8px;">
+                <div class="admin-section-title">💈 Escolher Barbeiro &amp; Ver Cortes</div>
+                <div class="form-group">
+                    <label for="profileBarberChooserSelect">Selecione o barbeiro para ver os cortes</label>
+                    <select id="profileBarberChooserSelect" onchange="handleProfileBarberChange()"></select>
+                </div>
 
-            <div class="admin-section-box" style="margin-top:12px;">
-                <div class="admin-section-title">✂️ Lista de Cortes dos Barbeiros (4 Fotos + Mini Pasta de Vídeo)</div>
-                <div id="barberShowcaseCutsList"></div>
-            </div>
+                <input type="text" id="clientHistorySearch" oninput="renderClientCutsHistory()" placeholder="Buscar modelo de corte..." style="width:100%; padding:7px 10px; border-radius:9px; border:1px solid rgba(255,255,255,0.18); background:rgba(42,42,42,0.85); color:#fff; font-size:0.78rem; margin-bottom:8px;">
 
-            <div class="form-group" style="margin-top:12px;">
-                <label for="clientHistorySearch">📸 Cortes Salvos — Filtrar por nome ou telefone</label>
-                <input type="text" id="clientHistorySearch" oninput="renderClientCutsHistory()" placeholder="Digite nome ou telefone do cliente">
+                <div style="font-size:0.76rem; font-weight:700; color:#e5b832; margin-bottom:6px;">
+                    ✂️ Cortes de <span id="profileChosenBarberLabel">Gean</span>
+                </div>
+                <div class="client-compact-scroll" id="clientCutsHistoryGrid"></div>
             </div>
+        </div>
+    </div>
 
-            <div class="cuts-grid" id="clientCutsHistoryGrid"></div>
+    <!-- MODAL AMPLIAÇÃO MÁXIMA DE UMA FOTO INDIVIDUAL -->
+    <div class="modal" id="singlePhotoZoomModal">
+        <div class="modal-content" style="max-width:480px; text-align:center;">
+            <span class="close-btn" onclick="closeModal('singlePhotoZoomModal')">&times;</span>
+            <h2 id="singlePhotoZoomTitle">🔍 Foto Ampliada</h2>
+            <img id="singlePhotoZoomImg" src="" alt="Foto ampliada" style="width:100%; max-height:66vh; object-fit:contain; border-radius:14px; border:1.5px solid #e5b832; background:#0d0d0d; margin:6px 0 10px;">
+            <button type="button" class="btn-gold" id="zoomPickAsCutBtn" onclick="pickZoomedPhotoAsCut()">✂️ Quero esse corte</button>
+            <button type="button" class="btn-dark" onclick="closeModal('singlePhotoZoomModal')">Fechar</button>
         </div>
     </div>
 
@@ -1076,7 +1458,7 @@
             <h2 id="fourPhotosTitle">📸 4 Fotos + Mini Vídeo</h2>
             <div id="fourPhotosMeta" style="font-size:0.78rem; color:#ccc; margin-bottom:8px;"></div>
             <div id="fourPhotosClusterContainer"></div>
-            <button type="button" class="btn-gold" id="fourPhotosUseBtn">Usar este corte no agendamento</button>
+            <button type="button" class="btn-gold" id="fourPhotosUseBtn">✂️ Quero esse corte</button>
             <button type="button" class="btn-mini-del" id="fourPhotosDeleteBtn" style="display:none; width:100%; padding:9px 12px; margin-top:8px;">🗑️ Excluir Corte Salvo</button>
         </div>
     </div>
@@ -1127,29 +1509,58 @@
         </div>
     </div>
 
-    <!-- MODAL SENHA DA ÁREA DO BARBEIRO (1234) -->
-    <div class="modal" id="barberPassModal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('barberPassModal')">&times;</span>
-            <h2>🔐 Senha do Barbeiro — <span id="barberPassNameLabel">Gean</span></h2>
-            <div class="form-group">
-                <label for="barberPassField">Digite a senha da Área do Barbeiro (1234)</label>
-                <input type="password" id="barberPassField" inputmode="numeric" placeholder="1234">
-            </div>
-            <button type="button" class="btn-gold" onclick="checkBarberPass()">Acessar Área do Barbeiro</button>
-        </div>
-    </div>
-
-    <!-- MODAL 4: ÁREA DO BARBEIRO -->
+    <!-- MODAL 4: ÁREA DO BARBEIRO (CONTROLE COMPLETO + TELEFONE PARA WHATSAPP + PUBLICAR NA GALERIA) -->
     <div class="modal" id="barberAreaModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('barberAreaModal')">&times;</span>
             <h2>✂️ Área do Barbeiro — <span id="barberAreaName">Gean</span></h2>
 
             <div class="admin-section-box">
-                <div class="admin-section-title">✅ Finalizar Corte do Cliente (4 Fotos + Mini Vídeo na Pasta do Meio)</div>
+                <div class="admin-section-title">👤 Nome, WhatsApp &amp; Senha Curta</div>
                 <div class="form-group">
-                    <label for="finishClientSelect">Cliente para finalizar o corte</label>
+                    <label for="barberProfileNameInput">Nome de Exibição</label>
+                    <input type="text" id="barberProfileNameInput" placeholder="Seu nome">
+                </div>
+                <div class="form-group">
+                    <label for="barberWhatsappInput">Telefone / WhatsApp do Barbeiro (aviso de agendamento e 1 dia antes)</label>
+                    <input type="tel" id="barberWhatsappInput" placeholder="(11) 99999-9999">
+                </div>
+                <div class="form-group">
+                    <label for="barberCustomPasswordInput">Sua Senha Curta Salva no Sistema</label>
+                    <div class="pass-row-open">
+                        <input type="text" id="barberCustomPasswordInput" maxlength="10" placeholder="Ex: 12 ou 1234">
+                        <button type="button" class="btn-eye-toggle" id="toggleBarberAreaPassBtn" onclick="togglePassVisibility('barberCustomPasswordInput', 'toggleBarberAreaPassBtn')">👁️</button>
+                    </div>
+                </div>
+                <button type="button" class="btn-gold" onclick="saveBarberNameAndPassword()">Salvar Nome, WhatsApp e Senha</button>
+            </div>
+
+            <div class="form-group">
+                <label>Foto de Perfil no Carrossel</label>
+                <div class="barber-photo-editor" id="barberCarouselUploadBox">
+                    <img id="barberAreaPhotoPreview" src="icon-192.png" alt="Foto do barbeiro" onclick="openSinglePhotoZoom(this.src, 'Foto do Carrossel')">
+                    <div style="flex:1;">
+                        <input type="file" id="barberProfilePhotoInput" accept="image/*" onchange="handleBarberProfilePhotoUpload(event)">
+                        <small style="display:block; color:#bbb; font-size:0.68rem; margin-top:4px;">
+                            Escolha a foto do carrossel inicial.
+                        </small>
+                    </div>
+                </div>
+                <div class="carousel-ok-line" id="barberCarouselOkLine" onclick="reopenCarouselPhotoUploader()">
+                    <span style="display:flex; align-items:center; gap:8px;">
+                        <img id="barberCarouselOkThumb" src="icon-192.png" alt="Foto ok">
+                        <span>foto de carrossel ok</span>
+                    </span>
+                    <span style="text-decoration:underline;">trocar</span>
+                </div>
+            </div>
+
+            <input type="file" id="slotPhotoReplaceInput" accept="image/*" style="display:none;" onchange="handleSlotPhotoReplaceSelected(event)">
+
+            <div class="admin-section-box">
+                <div class="admin-section-title">✅ Finalizar Corte &amp; Enviar à Vista na Galeria do Cliente</div>
+                <div class="form-group">
+                    <label for="finishClientSelect">Marcar Cliente (aparece à vista na galeria dele)</label>
                     <select id="finishClientSelect" onchange="syncFinishClientSelection()"></select>
                 </div>
                 <div class="form-group">
@@ -1157,11 +1568,18 @@
                     <input type="file" id="finishCutPhotosInput" accept="image/*" capture="environment" multiple onchange="handleFinishCutPhotosUpload(event)">
                 </div>
                 <div class="form-group">
-                    <label for="finishCutVideoInput">Mini vídeo dentro da pasta do meio (câmera ou arquivo curto)</label>
+                    <label for="finishCutVideoInput">Mini vídeo dentro da pasta do meio (câmera ou galeria)</label>
                     <input type="file" id="finishCutVideoInput" accept="video/*" capture="environment" onchange="handleFinishCutVideoUpload(event)">
                 </div>
                 <div id="finishCutClusterPreview"></div>
-                <button type="button" class="btn-gold" onclick="saveFinishedCutForClient()">Salvar Corte no Histórico do Cliente</button>
+                <button type="button" class="btn-gold" onclick="saveFinishedCutForClient()">📌 Colocar à Vista na Galeria do Cliente</button>
+
+                <div style="margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.12);">
+                    <div style="font-size:0.78rem; font-weight:700; color:#e5b832; margin-bottom:8px;">
+                        🖼️ Editar / Apagar Cada Foto dos Cortes de Clientes
+                    </div>
+                    <div id="barberAreaClientCutsManager"></div>
+                </div>
             </div>
 
             <div class="admin-section-box">
@@ -1187,25 +1605,11 @@
 
                 <div class="saved-feedback-banner" id="barberCutSavedBanner"></div>
 
-                <!-- Lista imediata de cortes salvos deste barbeiro com opção de apagar -->
                 <div style="margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.12);">
                     <div style="font-size:0.78rem; font-weight:700; color:#e5b832; margin-bottom:8px;">
                         📋 Lista de Cortes Salvos de <span id="barberSavedCutsListOwner">Gean</span> (<span id="barberSavedCutsListCount">0</span>)
                     </div>
                     <div id="barberAreaSavedCutsList"></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Foto de Perfil no Carrossel</label>
-                <div class="barber-photo-editor">
-                    <img id="barberAreaPhotoPreview" src="icon-192.png" alt="Foto do barbeiro">
-                    <div style="flex:1;">
-                        <input type="file" id="barberProfilePhotoInput" accept="image/*" onchange="handleBarberProfilePhotoUpload(event)">
-                        <small style="display:block; color:#bbb; font-size:0.68rem; margin-top:4px;">
-                            Essa foto aparece no carrossel inicial ao selecionar este barbeiro.
-                        </small>
-                    </div>
                 </div>
             </div>
 
@@ -1298,7 +1702,7 @@
             </div>
 
             <div class="admin-section-box">
-                <div class="admin-section-title">💈 Editar Perfis dos Barbeiros</div>
+                <div class="admin-section-title">💈 Barbeiros Cadastrados (Editar ou Excluir)</div>
                 <div id="adminBarbersManagerList"></div>
             </div>
 
@@ -1308,7 +1712,7 @@
             </div>
 
             <div class="admin-section-box">
-                <div class="admin-section-title">🗂️ Gerenciar Cortes (Catálogo e Cortes Salvos)</div>
+                <div class="admin-section-title">🗂️ Gerenciar Cortes (Lista e Cortes Salvos)</div>
                 <div id="adminCutsManagerList"></div>
             </div>
 
@@ -1350,6 +1754,14 @@
                 <input type="text" id="adminEditBarberName">
             </div>
             <div class="form-group">
+                <label for="adminEditBarberPhone">Telefone / WhatsApp do Barbeiro</label>
+                <input type="tel" id="adminEditBarberPhone" placeholder="(11) 99999-9999">
+            </div>
+            <div class="form-group">
+                <label for="adminEditBarberPass">Senha Curta</label>
+                <input type="text" id="adminEditBarberPass" maxlength="10">
+            </div>
+            <div class="form-group">
                 <label for="adminEditBarberPix">Chave Pix</label>
                 <input type="text" id="adminEditBarberPix">
             </div>
@@ -1383,10 +1795,6 @@
     <script>
         const ADMIN_PASSWORD = "6763";
         const BARBER_DEFAULT_PASSWORD = "1234";
-        const BARBER_PASSWORDS = {
-            gean: "1234",
-            miro: "1234"
-        };
         const MAX_VIDEO_BYTES = 2600000;
 
         const firebaseConfig = {
@@ -1399,9 +1807,15 @@
                 firebase.initializeApp(firebaseConfig);
             }
             db = firebase.database();
-            document.getElementById("firebaseStatusText").textContent = "Firebase Conectado";
+            setFirebaseStatusText("Firebase Conectado");
         } catch (err) {
-            document.getElementById("firebaseStatusText").textContent = "Modo Local";
+            setFirebaseStatusText("Modo Local");
+        }
+
+        function setFirebaseStatusText(msg) {
+            document.querySelectorAll(".firebase-status-label").forEach(el => {
+                el.textContent = msg;
+            });
         }
 
         const SERVICE_BASE = [
@@ -1440,18 +1854,12 @@
             {
                 id: "gean",
                 name: "Gean",
+                phone: "",
+                password: BARBER_DEFAULT_PASSWORD,
                 photo: "icon-512.png",
                 photoUpdatedAt: 0,
+                carouselPhotoSet: false,
                 pixKey: "46589604000116",
-                prices: buildDefaultServicePrices(),
-                combos: buildDefaultCombos()
-            },
-            {
-                id: "miro",
-                name: "Miro",
-                photo: "icon-192.png",
-                photoUpdatedAt: 0,
-                pixKey: "",
                 prices: buildDefaultServicePrices(),
                 combos: buildDefaultCombos()
             }
@@ -1460,7 +1868,13 @@
         const SLOTS = ["09:00", "10:00", "11:00", "14:00", "16:00", "18:00"];
 
         let state = {
+            currentScreen: "entry",
             currentIndex: 0,
+            clientRegCompletedOnDevice: false,
+            activeClientName: "",
+            pickedCutLabel: "",
+            profileChooserBarberId: "",
+            sentReminders: {},
             barbers: BARBERS_LIST.map(b => ({
                 ...b,
                 prices: { ...b.prices },
@@ -1481,13 +1895,153 @@
         let newBarberCutPhotosDraft = [];
         let newBarberCutVideoDraft = "";
         let tempClientProfilePhoto = "";
+        let selfEditPhotoDraft = "";
         let lastCutPhotoDraft = "";
-        let selectedClientInitial = "";
-        let unlockedBarberId = null;
         let editingClientOriginalName = "";
         let editingClientPhotoDraft = "";
         let editingBarberIndex = 0;
         let editingBarberPhotoDraft = "";
+        let pendingSlotReplaceTarget = null;
+        let zoomedPhotoCutTitle = "";
+
+        function normalizePhoneForWhatsApp(rawPhone) {
+            let digits = String(rawPhone || "").replace(/\D/g, "");
+            if (!digits) return "";
+            if (digits.length === 10 || digits.length === 11) {
+                digits = "55" + digits;
+            }
+            return digits;
+        }
+
+        function formatDateBr(isoDate) {
+            if (!isoDate || !/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) return isoDate || "";
+            const [y, m, d] = isoDate.split("-");
+            return `${d}/${m}/${y}`;
+        }
+
+        function getTomorrowIsoDate() {
+            const now = new Date();
+            const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+            const y = tomorrow.getFullYear();
+            const m = String(tomorrow.getMonth() + 1).padStart(2, "0");
+            const d = String(tomorrow.getDate()).padStart(2, "0");
+            return `${y}-${m}-${d}`;
+        }
+
+        function openWhatsAppMessage(phone, text) {
+            const cleanPhone = normalizePhoneForWhatsApp(phone);
+            if (!cleanPhone) return false;
+            const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`;
+            const win = window.open(url, "_blank", "noopener,noreferrer");
+            return Boolean(win);
+        }
+
+        function buildImmediateBarberBookingMessage(appt) {
+            const dateBr = formatDateBr(appt.date);
+            return `Barbearia Tribo: seu cliente ${appt.clientName} agendou para o dia ${dateBr} às ${appt.time} — ${appt.itemsLabel}.`;
+        }
+
+        function buildDayBeforeMessage(appt, targetRole) {
+            const dateBr = formatDateBr(appt.date);
+            if (targetRole === "barber") {
+                return `Lembrete Barbearia Tribo (1 dia antes): amanhã (${dateBr}) às ${appt.time} você tem corte marcado com o cliente ${appt.clientName} (${appt.itemsLabel}).`;
+            }
+            return `Lembrete Barbearia Tribo (1 dia antes): olá ${appt.clientName}! Passando para lembrar do seu corte amanhã (${dateBr}) às ${appt.time} com ${appt.barberName} — ${appt.itemsLabel}.`;
+        }
+
+        function getDueTomorrowReminders() {
+            const tomorrowIso = getTomorrowIsoDate();
+            const queue = [];
+
+            state.appointments.forEach(appt => {
+                if (!appt || appt.date !== tomorrowIso) return;
+                const barber = state.barbers.find(b => b.id === appt.barberId);
+                const barberPhone = barber?.phone || "";
+                const clientPhone = appt.phone || "";
+
+                const barberKey = `${appt.id}_barber_1d`;
+                if (barberPhone && !state.sentReminders[barberKey]) {
+                    queue.push({
+                        key: barberKey,
+                        role: "barber",
+                        recipientName: barber?.name || appt.barberName,
+                        phone: barberPhone,
+                        appt,
+                        text: buildDayBeforeMessage(appt, "barber")
+                    });
+                }
+
+                const clientKey = `${appt.id}_client_1d`;
+                if (clientPhone && !state.sentReminders[clientKey]) {
+                    queue.push({
+                        key: clientKey,
+                        role: "client",
+                        recipientName: appt.clientName,
+                        phone: clientPhone,
+                        appt,
+                        text: buildDayBeforeMessage(appt, "client")
+                    });
+                }
+            });
+
+            return queue;
+        }
+
+        function markReminderSent(key) {
+            state.sentReminders[key] = new Date().toISOString();
+            persistState();
+            renderTomorrowRemindersBox();
+        }
+
+        function sendSingleDueReminder(index) {
+            const queue = getDueTomorrowReminders();
+            const item = queue[index];
+            if (!item) return;
+            openWhatsAppMessage(item.phone, item.text);
+            markReminderSent(item.key);
+            notify(`Lembrete WhatsApp enviado para ${item.recipientName}!`);
+        }
+
+        function sendAllDueRemindersNow() {
+            const queue = getDueTomorrowReminders();
+            if (!queue.length) {
+                notify("Nenhum lembrete de 1 dia antes pendente agora.");
+                return;
+            }
+            const first = queue[0];
+            openWhatsAppMessage(first.phone, first.text);
+            markReminderSent(first.key);
+            if (queue.length > 1) {
+                notify(`1º lembrete enviado para ${first.recipientName}. Restam ${queue.length - 1} na fila.`);
+            } else {
+                notify(`Lembrete enviado para ${first.recipientName}!`);
+            }
+        }
+
+        function renderTomorrowRemindersBox() {
+            const box = document.getElementById("homeReminderRemindersBox");
+            const list = document.getElementById("homeReminderRemindersList");
+            if (!box || !list) return;
+
+            const queue = getDueTomorrowReminders();
+            if (!queue.length) {
+                box.style.display = "none";
+                list.innerHTML = "";
+                return;
+            }
+
+            box.style.display = "block";
+            list.innerHTML = queue.map((item, idx) => `
+                <div class="appt-item">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:6px;">
+                        <strong>${item.role === "barber" ? "💈 Barbeiro: " : "👤 Cliente: "}${item.recipientName}</strong>
+                        <span class="status-tag tag-pending">Amanhã</span>
+                    </div>
+                    <div style="margin-top:3px; color:#ddd; font-size:0.72rem;">${item.text}</div>
+                    <button type="button" class="btn-mini-ok" style="margin-top:6px;" onclick="sendSingleDueReminder(${idx})">📲 Enviar WhatsApp Agora</button>
+                </div>
+            `).join("");
+        }
 
         function getBarberPhotoUrl(barber) {
             const b = barber || {};
@@ -1503,8 +2057,13 @@
         function normalizeBarber(b) {
             const base = { ...b };
             if (!base.id) {
-                base.id = (base.name || "barbeiro").toLowerCase().replace(/[^a-z0-9]/g, "");
+                base.id = (base.name || "barbeiro").toLowerCase().replace(/[^a-z0-9]/g, "") || ("b_" + Date.now());
             }
+            if (!base.name || !String(base.name).trim()) {
+                base.name = base.id === "gean" ? "Gean" : "Barbeiro";
+            }
+            base.phone = typeof base.phone === "string" ? base.phone : "";
+            base.password = (base.password && String(base.password).trim()) || BARBER_DEFAULT_PASSWORD;
             if (base.id === "gean" && !base.pixKey) {
                 base.pixKey = "46589604000116";
             }
@@ -1512,6 +2071,7 @@
                 base.photo = base.id === "gean" ? "icon-512.png" : "icon-192.png";
             }
             base.photoUpdatedAt = Number(base.photoUpdatedAt || 0);
+            base.carouselPhotoSet = Boolean(base.carouselPhotoSet);
 
             const mergedPrices = { ...buildDefaultServicePrices(), ...(b.prices || {}) };
             if (base.id === "gean" && (!b.prices || b.prices.luzes === undefined)) {
@@ -1545,15 +2105,13 @@
         }
 
         function mergeBarbersList(incomingList) {
-            const defaults = BARBERS_LIST.map(normalizeBarber);
             const list = Array.isArray(incomingList)
                 ? incomingList
                 : (incomingList && typeof incomingList === "object" ? Object.values(incomingList) : []);
 
-            if (!list.length) return defaults;
-
-            const byId = new Map();
-            defaults.forEach(d => byId.set(d.id, d));
+            const map = new Map();
+            const geanDefault = normalizeBarber(BARBERS_LIST[0]);
+            map.set(geanDefault.id, geanDefault);
 
             list.forEach((raw, idx) => {
                 if (!raw) return;
@@ -1563,17 +2121,15 @@
                     norm.photo = prevLocal.photo;
                     norm.photoUpdatedAt = prevLocal.photoUpdatedAt;
                 }
-                byId.set(norm.id, norm);
+                map.set(norm.id, norm);
             });
 
             const ordered = [];
-            defaults.forEach(d => {
-                if (byId.has(d.id)) {
-                    ordered.push(byId.get(d.id));
-                    byId.delete(d.id);
-                }
-            });
-            byId.forEach(val => ordered.push(val));
+            if (map.has("gean")) {
+                ordered.push(map.get("gean"));
+                map.delete("gean");
+            }
+            map.forEach(val => ordered.push(val));
             return ordered;
         }
 
@@ -1605,14 +2161,35 @@
             return [...services, ...combos];
         }
 
+        function ensureDanielJrProfileExists() {
+            const hasDaniel = state.clientProfiles.some(p => {
+                const n = (p.name || "").trim().toLowerCase();
+                return n === "daniel jr" || n === "daniel júnior" || n === "daniel junior";
+            });
+            if (!hasDaniel) {
+                state.clientProfiles.unshift({
+                    id: "cprof_daniel_jr",
+                    name: "Daniel jr",
+                    phone: "11947852640",
+                    photo: "icon-192.png",
+                    updatedAt: new Date().toISOString()
+                });
+            }
+        }
+
         function loadSavedState() {
-            const raw = localStorage.getItem("barbearia_tribo_ui_v9");
+            const raw = localStorage.getItem("barbearia_tribo_ui_v14");
             if (raw) {
                 try {
                     const parsed = JSON.parse(raw);
                     state = {
                         ...state,
                         ...parsed,
+                        clientRegCompletedOnDevice: Boolean(parsed.clientRegCompletedOnDevice),
+                        activeClientName: typeof parsed.activeClientName === "string" ? parsed.activeClientName : "",
+                        pickedCutLabel: typeof parsed.pickedCutLabel === "string" ? parsed.pickedCutLabel : "",
+                        profileChooserBarberId: typeof parsed.profileChooserBarberId === "string" ? parsed.profileChooserBarberId : "",
+                        sentReminders: (parsed.sentReminders && typeof parsed.sentReminders === "object") ? parsed.sentReminders : {},
                         barbers: mergeBarbersList(parsed.barbers),
                         appointments: Array.isArray(parsed.appointments) ? parsed.appointments : [],
                         clientCuts: Array.isArray(parsed.clientCuts) ? parsed.clientCuts.map(normalizeCutItem) : [],
@@ -1621,7 +2198,11 @@
                     };
                 } catch (e) {}
             }
+            ensureDanielJrProfileExists();
             state.barbers = mergeBarbersList(state.barbers);
+            if (!state.profileChooserBarberId && state.barbers.length) {
+                state.profileChooserBarberId = state.barbers[0].id;
+            }
             if (typeof state.currentIndex !== "number" || state.currentIndex < 0 || state.currentIndex >= state.barbers.length) {
                 state.currentIndex = 0;
             }
@@ -1629,10 +2210,28 @@
 
         function persistState() {
             try {
-                localStorage.setItem("barbearia_tribo_ui_v9", JSON.stringify(state));
+                localStorage.setItem("barbearia_tribo_ui_v14", JSON.stringify(state));
             } catch (e) {
                 notify("Espaço local cheio: use um mini vídeo mais curto.");
             }
+        }
+
+        function syncBarbersArrayToFirebase() {
+            if (!db) return;
+            db.ref("barbers").set(state.barbers).catch(() => {});
+            state.barbers.forEach(b => {
+                if (b.id) {
+                    db.ref(`barbersById/${b.id}`).set({
+                        id: b.id,
+                        name: b.name,
+                        phone: b.phone || "",
+                        password: b.password || BARBER_DEFAULT_PASSWORD,
+                        photo: b.photo,
+                        photoUpdatedAt: b.photoUpdatedAt || Date.now(),
+                        pixKey: b.pixKey || ""
+                    }).catch(() => {});
+                }
+            });
         }
 
         function syncBarberPhotoToFirebase(barberIdx, barberObj) {
@@ -1643,13 +2242,7 @@
             };
             db.ref(`barbers/${barberIdx}`).update(payload).catch(() => {});
             if (barberObj.id) {
-                db.ref(`barbersById/${barberObj.id}`).set({
-                    id: barberObj.id,
-                    name: barberObj.name,
-                    photo: barberObj.photo,
-                    photoUpdatedAt: payload.photoUpdatedAt,
-                    pixKey: barberObj.pixKey || ""
-                }).catch(() => {});
+                db.ref(`barbersById/${barberObj.id}`).update(payload).catch(() => {});
             }
         }
 
@@ -1661,10 +2254,12 @@
                     state.barbers = mergeBarbersList(snap.val());
                     persistState();
                     renderHome();
+                    renderPartnerQuickMatches();
+                    renderProfileBarberChooser();
                     renderAdminDashboard();
                 }
             }, () => {
-                document.getElementById("firebaseStatusText").textContent = "Permissão Firebase";
+                setFirebaseStatusText("Permissão Firebase");
             });
 
             db.ref("barbersById").on("value", snap => {
@@ -1673,13 +2268,18 @@
                 let changed = false;
                 state.barbers = state.barbers.map(b => {
                     const remote = val[b.id];
-                    if (remote && remote.photo && Number(remote.photoUpdatedAt || 0) >= Number(b.photoUpdatedAt || 0)) {
+                    if (remote && (remote.photo || remote.name || remote.password || remote.phone)) {
+                        const remoteTime = Number(remote.photoUpdatedAt || 0);
+                        const localTime = Number(b.photoUpdatedAt || 0);
                         changed = true;
                         return normalizeBarber({
                             ...b,
-                            photo: remote.photo,
-                            photoUpdatedAt: Number(remote.photoUpdatedAt || Date.now()),
-                            pixKey: remote.pixKey !== undefined ? remote.pixKey : b.pixKey
+                            name: remote.name || b.name,
+                            phone: remote.phone !== undefined ? remote.phone : b.phone,
+                            password: remote.password || b.password,
+                            pixKey: remote.pixKey !== undefined ? remote.pixKey : b.pixKey,
+                            photo: (remote.photo && remoteTime >= localTime) ? remote.photo : b.photo,
+                            photoUpdatedAt: Math.max(remoteTime, localTime)
                         });
                     }
                     return b;
@@ -1687,6 +2287,8 @@
                 if (changed) {
                     persistState();
                     renderHome();
+                    renderPartnerQuickMatches();
+                    renderProfileBarberChooser();
                     renderAdminDashboard();
                 }
             });
@@ -1700,6 +2302,8 @@
                 }
                 persistState();
                 renderAppointmentsSections();
+                renderTomorrowRemindersBox();
+                renderSelfClientProfileView();
                 renderAdminDashboard();
             });
 
@@ -1712,7 +2316,8 @@
                 }
                 persistState();
                 renderClientCutsHistory();
-                renderSavedClientProfilesLog();
+                renderBarberAreaClientCutsManager();
+                renderSelfClientProfileView();
                 renderAdminDashboard();
             });
 
@@ -1727,6 +2332,7 @@
                 renderHome();
                 renderBarberAreaSavedCutsList();
                 renderBarberShowcaseCuts();
+                renderClientCutsHistory();
                 renderAdminDashboard();
             });
 
@@ -1737,8 +2343,9 @@
                 } else {
                     state.clientProfiles = [];
                 }
+                ensureDanielJrProfileExists();
                 persistState();
-                renderSavedClientProfilesLog();
+                renderSelfClientProfileView();
                 renderAdminDashboard();
             });
         }
@@ -1749,9 +2356,260 @@
             el.textContent = msg;
             el.classList.add("show");
             clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => el.classList.remove("show"), 4200);
+            toastTimer = setTimeout(() => el.classList.remove("show"), 4000);
         }
 
+        function togglePassVisibility(inputId, btnId) {
+            const inp = document.getElementById(inputId);
+            const btn = document.getElementById(btnId);
+            if (!inp) return;
+            if (inp.type === "password") {
+                inp.type = "text";
+                if (btn) btn.textContent = "🙈";
+            } else {
+                inp.type = "password";
+                if (btn) btn.textContent = "👁️";
+            }
+        }
+
+        function openSinglePhotoZoom(src, title = "Foto Ampliada", cutLabel = "", barberId = "") {
+            if (!src) return;
+            if (barberId) {
+                state.profileChooserBarberId = barberId;
+                const bIdx = state.barbers.findIndex(b => b.id === barberId);
+                if (bIdx >= 0) state.currentIndex = bIdx;
+                persistState();
+            }
+            zoomedPhotoCutTitle = cutLabel || title;
+            document.getElementById("singlePhotoZoomTitle").textContent = `🔍 ${title}`;
+            document.getElementById("singlePhotoZoomImg").src = src;
+            document.getElementById("singlePhotoZoomModal").style.display = "flex";
+        }
+
+        function chooseCutLabelForBooking(cutLabel, barberId = "") {
+            const cleanLabel = (cutLabel || "Corte").trim();
+            state.pickedCutLabel = cleanLabel;
+
+            if (barberId) {
+                const idx = state.barbers.findIndex(b => b.id === barberId);
+                if (idx >= 0) state.currentIndex = idx;
+                state.profileChooserBarberId = barberId;
+            } else if (state.profileChooserBarberId) {
+                const idx = state.barbers.findIndex(b => b.id === state.profileChooserBarberId);
+                if (idx >= 0) state.currentIndex = idx;
+            }
+
+            selectedServiceIds.clear();
+            selectedServiceIds.add("corte");
+            persistState();
+
+            const badge = document.getElementById("pickedCutBadgeLabel");
+            if (badge) badge.textContent = `(${cleanLabel})`;
+
+            closeModal("singlePhotoZoomModal");
+            closeModal("fourPhotosViewerModal");
+            closeModal("profilePixModal");
+            closeModal("barberCutsShowcaseModal");
+
+            renderHome();
+            openBookingModal();
+            notify(`Corte "${cleanLabel}" escolhido! Escolha o dia, horário e o que precisa fazer.`);
+        }
+
+        function pickZoomedPhotoAsCut() {
+            chooseCutLabelForBooking(zoomedPhotoCutTitle || "Corte", state.profileChooserBarberId);
+        }
+
+        function bookSelectedCutOrOpenBooking() {
+            const label = state.pickedCutLabel || "Corte";
+            if (state.profileChooserBarberId) {
+                const idx = state.barbers.findIndex(b => b.id === state.profileChooserBarberId);
+                if (idx >= 0) state.currentIndex = idx;
+            }
+            closeModal("profilePixModal");
+            renderHome();
+            openBookingModal();
+            notify(`Marcando ${label} com ${currentBarber().name}...`);
+        }
+
+        /* ==================== NAVEGAÇÃO ENTRE TELAS ==================== */
+        function applyScreenVisibility() {
+            const entryEl = document.getElementById("entryGateScreen");
+            const partnerEl = document.getElementById("partnerLoginScreen");
+            const clientEl = document.getElementById("clientHomeScreen");
+
+            entryEl.style.display = state.currentScreen === "entry" ? "flex" : "none";
+            partnerEl.style.display = state.currentScreen === "partner_login" ? "flex" : "none";
+            clientEl.style.display = state.currentScreen === "client_home" ? "flex" : "none";
+
+            const entryAdminBtn = document.getElementById("entryAdminBtn");
+            if (entryAdminBtn) {
+                entryAdminBtn.style.display = isGeanActive(currentBarber()) ? "inline-flex" : "none";
+            }
+        }
+
+        function showEntryGateScreen() {
+            state.currentScreen = "entry";
+            persistState();
+            applyScreenVisibility();
+        }
+
+        function enterClientArea() {
+            state.currentScreen = "client_home";
+            persistState();
+            applyScreenVisibility();
+            renderHome();
+        }
+
+        function openPartnerLoginScreen() {
+            state.currentScreen = "partner_login";
+            persistState();
+            applyScreenVisibility();
+            renderPartnerQuickMatches();
+        }
+
+        function renderPartnerQuickMatches() {
+            const listEl = document.getElementById("partnerQuickMatchesList");
+            if (!listEl) return;
+
+            const query = (document.getElementById("partnerPrefixInput")?.value || "").trim().toLowerCase();
+
+            if (query.length < 3) {
+                listEl.innerHTML = `<div style="font-size:0.74rem; color:#bbb;">Digite pelo menos 3 letras do nome para mostrar os cadastros correspondentes.</div>`;
+                return;
+            }
+
+            const matches = state.barbers.filter(b =>
+                (b.name || "").trim().toLowerCase().includes(query)
+            );
+
+            if (!matches.length) {
+                listEl.innerHTML = `<div style="font-size:0.74rem; color:#bbb;">Nenhum barbeiro encontrado para "${query}".</div>`;
+                return;
+            }
+
+            listEl.innerHTML = matches.map(b => {
+                const safeName = (b.name || "").replace(/'/g, "\\'");
+                return `
+                    <div class="saved-client-log-card" onclick="selectMatchedBarberForPassword('${safeName}')">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <img class="saved-client-avatar" src="${getBarberPhotoUrl(b)}" alt="${b.name}">
+                            <div>
+                                <strong style="font-size:0.84rem; display:block;">${b.name}</strong>
+                                <span style="font-size:0.69rem; color:#f5d365;">Toque para preencher e digitar sua senha curta</span>
+                            </div>
+                        </div>
+                        <span style="color:#e5b832; font-weight:700; font-size:0.76rem;">Senha →</span>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function selectMatchedBarberForPassword(barberName) {
+            const nameInp = document.getElementById("partnerLoginNameInput");
+            const passInp = document.getElementById("partnerLoginPassInput");
+            if (nameInp) nameInp.value = barberName;
+            if (passInp) {
+                passInp.value = "";
+                passInp.focus();
+            }
+            notify(`Digite a senha curta de ${barberName} para entrar.`);
+        }
+
+        function completeBarberLoginByIndex(idx) {
+            if (idx < 0 || idx >= state.barbers.length) return;
+            state.currentIndex = idx;
+            state.currentScreen = "client_home";
+            persistState();
+            applyScreenVisibility();
+            renderHome();
+            openBarberArea();
+            notify(`Bem-vindo, ${state.barbers[idx].name}!`);
+        }
+
+        function loginPartnerWithCredentials() {
+            const typedName = (document.getElementById("partnerLoginNameInput").value || "").trim().toLowerCase();
+            const typedPass = (document.getElementById("partnerLoginPassInput").value || "").trim();
+
+            if (!typedName) {
+                notify("Digite seu nome e sua senha curta.");
+                return;
+            }
+
+            const idx = state.barbers.findIndex(b => (b.name || "").trim().toLowerCase() === typedName);
+            if (idx < 0) {
+                notify("Barbeiro não encontrado. Cadastre abaixo para criar seu acesso.");
+                return;
+            }
+
+            const barber = normalizeBarber(state.barbers[idx]);
+            const savedPass = barber.password || BARBER_DEFAULT_PASSWORD;
+            if (!typedPass || (typedPass !== savedPass && typedPass !== ADMIN_PASSWORD)) {
+                notify("Senha curta incorreta!");
+                return;
+            }
+
+            document.getElementById("partnerLoginPassInput").value = "";
+            completeBarberLoginByIndex(idx);
+        }
+
+        function registerNewPartnerBarber() {
+            const rawName = (document.getElementById("newPartnerNameInput").value || "").trim();
+            const rawPass = (document.getElementById("newPartnerPassInput").value || "").trim();
+            const rawPix = (document.getElementById("newPartnerPixInput").value || "").trim();
+
+            if (!rawName) {
+                notify("Digite o nome do barbeiro para cadastrar.");
+                return;
+            }
+
+            const cleanId = rawName.toLowerCase().replace(/[^a-z0-9]/g, "") || ("barbeiro_" + Date.now());
+            const existingIdx = state.barbers.findIndex(
+                b => b.id === cleanId || (b.name || "").trim().toLowerCase() === rawName.toLowerCase()
+            );
+
+            const passwordToSave = rawPass || BARBER_DEFAULT_PASSWORD;
+
+            if (existingIdx >= 0) {
+                state.barbers[existingIdx].name = rawName;
+                state.barbers[existingIdx].password = passwordToSave;
+                if (rawPix) state.barbers[existingIdx].pixKey = rawPix;
+                state.currentIndex = existingIdx;
+            } else {
+                const newBarber = normalizeBarber({
+                    id: cleanId,
+                    name: rawName,
+                    phone: "",
+                    password: passwordToSave,
+                    photo: "icon-192.png",
+                    photoUpdatedAt: Date.now(),
+                    carouselPhotoSet: false,
+                    pixKey: rawPix,
+                    prices: buildDefaultServicePrices(),
+                    combos: buildDefaultCombos()
+                });
+                state.barbers.push(newBarber);
+                state.currentIndex = state.barbers.length - 1;
+            }
+
+            persistState();
+            syncBarbersArrayToFirebase();
+            renderPartnerQuickMatches();
+            renderProfileBarberChooser();
+            renderHome();
+            renderAdminDashboard();
+
+            document.getElementById("newPartnerNameInput").value = "";
+            document.getElementById("newPartnerPassInput").value = "";
+            document.getElementById("newPartnerPixInput").value = "";
+
+            state.currentScreen = "client_home";
+            applyScreenVisibility();
+            openBarberArea();
+            notify(`Cadastro de ${rawName} salvo com senha curta!`);
+        }
+
+        /* ==================== BARBEIROS & CARROSSEL ==================== */
         function currentBarber() {
             if (!state.barbers.length) state.barbers = BARBERS_LIST.map(normalizeBarber);
             if (state.currentIndex < 0 || state.currentIndex >= state.barbers.length) {
@@ -1769,6 +2627,7 @@
             const total = state.barbers.length;
             if (!total) return;
             state.currentIndex = (state.currentIndex - 1 + total) % total;
+            state.profileChooserBarberId = state.barbers[state.currentIndex].id;
             persistState();
             renderHome();
         }
@@ -1777,6 +2636,7 @@
             const total = state.barbers.length;
             if (!total) return;
             state.currentIndex = (state.currentIndex + 1) % total;
+            state.profileChooserBarberId = state.barbers[state.currentIndex].id;
             persistState();
             renderHome();
         }
@@ -1808,6 +2668,7 @@
                         nextBarber();
                     } else {
                         state.currentIndex = idx;
+                        state.profileChooserBarberId = b.id;
                         persistState();
                         renderHome();
                     }
@@ -1830,11 +2691,15 @@
             document.getElementById("homeCombosBarber").textContent = active.name;
             document.getElementById("homeApptBarber").textContent = active.name;
 
+            const showAdmin = isGeanActive(active);
             const adminBtn = document.getElementById("adminCornerButton");
-            if (isGeanActive(active)) {
+            const entryAdminBtn = document.getElementById("entryAdminBtn");
+            if (showAdmin) {
                 adminBtn.style.display = "inline-flex";
+                if (entryAdminBtn) entryAdminBtn.style.display = "inline-flex";
             } else {
                 adminBtn.style.display = "none";
+                if (entryAdminBtn) entryAdminBtn.style.display = "none";
                 closeModal("adminDashboardModal");
                 closeModal("adminPassModal");
                 closeModal("adminClientDetailsModal");
@@ -1844,6 +2709,7 @@
 
             renderHomeCombos();
             renderAppointmentsSections();
+            renderTomorrowRemindersBox();
         }
 
         function renderHomeCombos() {
@@ -1889,7 +2755,7 @@
                             </span>
                         </div>
                         <div style="margin-top:3px;">${a.itemsLabel} • R$ ${Number(a.total).toFixed(2).replace(".", ",")}</div>
-                        <div style="color:#bbb;">${a.date} às ${a.time}</div>
+                        <div style="color:#bbb;">${formatDateBr(a.date)} às ${a.time}</div>
                     </div>
                 `;
             }).join("");
@@ -1906,7 +2772,7 @@
                                 </span>
                             </div>
                             <div style="margin-top:3px;">${a.itemsLabel} • R$ ${Number(a.total).toFixed(2).replace(".", ",")}</div>
-                            <div style="color:#bbb;">${a.date} às ${a.time} • ${a.phone}</div>
+                            <div style="color:#bbb;">${formatDateBr(a.date)} às ${a.time} • ${a.phone}</div>
                             <div style="display:flex; gap:8px; margin-top:7px;">
                                 <button type="button" class="btn-mini-ok" onclick="openChargeModal('${a.id}')">Cobrar / Foto</button>
                                 <button type="button" class="btn-mini-del" onclick="deleteAppt('${a.id}')">Excluir</button>
@@ -2022,7 +2888,8 @@
             renderBarberAreaSavedCutsList();
             renderBarberShowcaseCuts();
             renderClientCutsHistory();
-            renderSavedClientProfilesLog();
+            renderBarberAreaClientCutsManager();
+            renderSelfClientProfileView();
             renderAdminDashboard();
 
             closeModal("lastCutChargeModal");
@@ -2070,6 +2937,7 @@
             persistState();
             if (db) db.ref(`appointments/${tempAppt.id}`).set(tempAppt);
             renderAppointmentsSections();
+            renderTomorrowRemindersBox();
             renderAdminDashboard();
             openChargeModal(tempAppt.id);
         }
@@ -2079,6 +2947,20 @@
             document.getElementById("modalBookingBarberName").textContent = active.name;
             const dateEl = document.getElementById("apptDateInput");
             if (!dateEl.value) dateEl.value = new Date().toISOString().split("T")[0];
+
+            const nameInp = document.getElementById("apptClientName");
+            const phoneInp = document.getElementById("apptClientPhone");
+            const selfRec = getActiveClientRecord();
+
+            if (selfRec && state.clientRegCompletedOnDevice) {
+                nameInp.value = selfRec.name;
+                nameInp.readOnly = true;
+                phoneInp.value = selfRec.phone || "";
+                phoneInp.readOnly = Boolean(selfRec.phone);
+            } else {
+                nameInp.readOnly = false;
+                phoneInp.readOnly = false;
+            }
 
             const slotGrid = document.getElementById("bookingTimeGrid");
             slotGrid.innerHTML = "";
@@ -2130,8 +3012,13 @@
 
         function confirmBooking() {
             const active = currentBarber();
-            const clientName = document.getElementById("apptClientName").value.trim();
-            const phone = document.getElementById("apptClientPhone").value.trim();
+            const selfRec = getActiveClientRecord();
+            const clientName = (selfRec && state.clientRegCompletedOnDevice)
+                ? selfRec.name
+                : document.getElementById("apptClientName").value.trim();
+            const phone = (selfRec && state.clientRegCompletedOnDevice && selfRec.phone)
+                ? selfRec.phone
+                : document.getElementById("apptClientPhone").value.trim();
             const date = document.getElementById("apptDateInput").value;
             const chosen = getChosenItemsWithPrices();
 
@@ -2139,6 +3026,11 @@
                 notify("Preencha cliente, telefone, data e serviço/combo.");
                 return;
             }
+
+            const baseLabel = chosen.map(c => c.name).join(" + ");
+            const itemsLabel = state.pickedCutLabel && !baseLabel.toLowerCase().includes(state.pickedCutLabel.toLowerCase())
+                ? `${baseLabel} (${state.pickedCutLabel})`
+                : baseLabel;
 
             const appt = {
                 id: "appt_" + Date.now(),
@@ -2148,22 +3040,39 @@
                 phone,
                 date,
                 time: selectedSlot,
-                itemsLabel: chosen.map(c => c.name).join(" + "),
+                itemsLabel,
                 total: chosen.reduce((acc, c) => acc + c.price, 0),
                 status: "agendado",
                 paymentMethod: null
             };
 
+            state.activeClientName = clientName;
+            state.clientRegCompletedOnDevice = true;
+            state.pickedCutLabel = "";
             state.appointments.unshift(appt);
             persistState();
             if (db) db.ref(`appointments/${appt.id}`).set(appt);
 
-            document.getElementById("apptClientName").value = "";
-            document.getElementById("apptClientPhone").value = "";
+            const nameInp = document.getElementById("apptClientName");
+            const phoneInp = document.getElementById("apptClientPhone");
+            nameInp.readOnly = false;
+            phoneInp.readOnly = false;
+            nameInp.value = "";
+            phoneInp.value = "";
+
             closeModal("bookingModal");
             renderAppointmentsSections();
+            renderTomorrowRemindersBox();
+            renderSelfClientProfileView();
             renderAdminDashboard();
-            notify(`Agendamento de ${clientName} com ${active.name} confirmado!`);
+
+            const barberMsg = buildImmediateBarberBookingMessage(appt);
+            if (active.phone) {
+                openWhatsAppMessage(active.phone, barberMsg);
+                notify(`Agendado com ${active.name}! WhatsApp do barbeiro aberto com o aviso.`);
+            } else {
+                notify(`Agendado com ${active.name}! Cadastre o WhatsApp do barbeiro para envio automático.`);
+            }
         }
 
         function deleteAppt(id) {
@@ -2171,6 +3080,8 @@
             persistState();
             if (db) db.ref(`appointments/${id}`).remove();
             renderAppointmentsSections();
+            renderTomorrowRemindersBox();
+            renderSelfClientProfileView();
             renderAdminDashboard();
         }
 
@@ -2199,24 +3110,25 @@
         function openBarberCutsShowcaseModal() {
             const active = currentBarber();
             document.getElementById("modalBarberShowcaseName").textContent = active.name;
+            const lbl = document.getElementById("showcaseBookBarberLabel");
+            if (lbl) lbl.textContent = active.name;
+
             const container = document.getElementById("dedicatedBarberCutsList");
             const cuts = state.barberCuts.filter(c => c.barberId === active.id);
 
             if (!cuts.length) {
                 container.innerHTML = `
                     <div class="appt-item" style="text-align:center;">
-                        <div style="font-size:0.8rem; color:#ccc; margin-bottom:8px;">
+                        <div style="font-size:0.8rem; color:#ccc;">
                             ${active.name} ainda não cadastrou cortes na lista.
                         </div>
-                        <button type="button" class="btn-gold" onclick="closeModal('barberCutsShowcaseModal'); openBookingModal();">
-                            Agendar com ${active.name}
-                        </button>
                     </div>
                 `;
             } else {
                 container.innerHTML = "";
                 cuts.forEach(c => {
                     const photos = (Array.isArray(c.photos) && c.photos.length ? c.photos : (c.photo ? [c.photo] : [])).slice(0, 4);
+                    const safeCutTitle = (c.title || "Corte").replace(/'/g, "\\'");
                     const card = document.createElement("div");
                     card.className = "appt-item";
                     card.innerHTML = `
@@ -2224,34 +3136,29 @@
                             <strong>${c.title}</strong>
                             <span style="color:#e5b832; font-weight:700;">R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}</span>
                         </div>
-                        <div style="color:#bbb; font-size:0.7rem; margin-top:2px;">
-                            Barbeiro: ${c.barberName || active.name} • ${photos.length} foto(s)${c.video ? " • Pasta c/ vídeo" : ""}
+                        <div class="three-col-grid">
+                            ${photos.map((src, idx) => `
+                                <div class="three-photo-tile">
+                                    <img src="${src}" alt="${c.title} ${idx + 1}" class="tile-zoom-img">
+                                    <div class="three-photo-tile-bar">
+                                        <button type="button" class="three-photo-btn three-photo-btn-zoom tile-zoom-btn">🔍</button>
+                                        <button type="button" class="three-photo-btn three-photo-btn-pick tile-pick-btn">✂️ Quero esse corte</button>
+                                    </div>
+                                </div>
+                            `).join("")}
                         </div>
-                        <div class="showcase-media-trigger">
-                            ${buildFourPhotosAndMiddleVideoHtml(photos, c.video || "", false)}
-                        </div>
-                        <div style="display:flex; gap:8px; margin-top:8px;">
-                            <button type="button" class="btn-dark btn-zoom-cut" style="margin-top:0;">🔍 Ampliar</button>
-                            <button type="button" class="btn-gold btn-book-cut" style="margin-top:0;">📅 Agendar</button>
-                        </div>
+                        ${c.video ? `
+                            <div style="margin-top:6px;">
+                                <video src="${c.video}" controls playsinline style="width:100%; height:135px; object-fit:cover; border-radius:9px; background:#0c0c0c;"></video>
+                            </div>
+                        ` : ""}
                     `;
-                    const openViewer = () => {
-                        openFourPhotosModal(
-                            c.title,
-                            `Barbeiro: ${c.barberName || active.name} • R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}`,
-                            photos,
-                            c.video || "",
-                            "",
-                            "",
-                            ""
-                        );
-                    };
-                    card.querySelector(".showcase-media-trigger").onclick = openViewer;
-                    card.querySelector(".btn-zoom-cut").onclick = openViewer;
-                    card.querySelector(".btn-book-cut").onclick = () => {
-                        closeModal("barberCutsShowcaseModal");
-                        openBookingModal();
-                    };
+                    card.querySelectorAll(".three-photo-tile").forEach((tileEl, pIdx) => {
+                        const pSrc = photos[pIdx];
+                        tileEl.querySelector(".tile-zoom-img").onclick = () => openSinglePhotoZoom(pSrc, `${c.title} (${pIdx + 1})`, c.title, active.id);
+                        tileEl.querySelector(".tile-zoom-btn").onclick = () => openSinglePhotoZoom(pSrc, `${c.title} (${pIdx + 1})`, c.title, active.id);
+                        tileEl.querySelector(".tile-pick-btn").onclick = () => chooseCutLabelForBooking(safeCutTitle, active.id);
+                    });
                     container.appendChild(card);
                 });
             }
@@ -2259,7 +3166,7 @@
             document.getElementById("barberCutsShowcaseModal").style.display = "flex";
         }
 
-        function compressImageToDataUrl(file, maxSize = 360, quality = 0.75) {
+        function compressImageToDataUrl(file, maxSize = 380, quality = 0.76) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onload = ev => {
@@ -2306,13 +3213,13 @@
             });
         }
 
-        function buildFourPhotosAndMiddleVideoHtml(photos, videoSrc, isLarge = false) {
+        function buildFourPhotosAndMiddleVideoHtml(photos, videoSrc, isLarge = false, labelTitle = "Foto do corte") {
             const p = (Array.isArray(photos) ? photos : []).slice(0, 4);
             const leftPhotos = [p[0] || "", p[1] || ""];
             const rightPhotos = [p[2] || "", p[3] || ""];
 
-            const renderSideSlot = src => src
-                ? `<img src="${src}" alt="Foto do corte">`
+            const renderSideSlot = (src, idx) => src
+                ? `<img src="${src}" alt="${labelTitle} ${idx + 1}" title="Toque para ampliar">`
                 : `<div style="background:rgba(255,255,255,0.04); border:1px dashed rgba(255,255,255,0.14); border-radius:8px; height:${isLarge ? "112px" : "54px"};"></div>`;
 
             const videoInner = videoSrc
@@ -2322,19 +3229,90 @@
             return `
                 <div class="${isLarge ? "gallery-four-large" : "four-photos-video-cluster"}">
                     <div class="four-photos-side-col">
-                        ${renderSideSlot(leftPhotos[0])}
-                        ${renderSideSlot(leftPhotos[1])}
+                        ${renderSideSlot(leftPhotos[0], 0)}
+                        ${renderSideSlot(leftPhotos[1], 1)}
                     </div>
                     <div class="mini-video-folder" title="Mini pasta com mini vídeo">
                         <div class="mini-video-folder-tab">📁 VÍDEO</div>
                         ${videoInner}
                     </div>
                     <div class="four-photos-side-col">
-                        ${renderSideSlot(rightPhotos[0])}
-                        ${renderSideSlot(rightPhotos[1])}
+                        ${renderSideSlot(rightPhotos[0], 2)}
+                        ${renderSideSlot(rightPhotos[1], 3)}
                     </div>
                 </div>
             `;
+        }
+
+        function getActiveClientRecord() {
+            if (!state.clientRegCompletedOnDevice || !state.activeClientName) return null;
+            const targetLower = state.activeClientName.trim().toLowerCase();
+            const prof = state.clientProfiles.find(p => (p.name || "").trim().toLowerCase() === targetLower);
+            if (prof) {
+                return {
+                    id: prof.id,
+                    name: prof.name.trim(),
+                    phone: prof.phone || "",
+                    photo: prof.photo || "icon-192.png"
+                };
+            }
+            return {
+                id: "",
+                name: state.activeClientName.trim(),
+                phone: "",
+                photo: "icon-192.png"
+            };
+        }
+
+        function openDanielJrProfileDoor() {
+            ensureDanielJrProfileExists();
+            const danielProf = state.clientProfiles.find(p => {
+                const n = (p.name || "").trim().toLowerCase();
+                return n === "daniel jr" || n === "daniel júnior" || n === "daniel junior";
+            });
+            state.activeClientName = danielProf ? danielProf.name : "Daniel jr";
+            state.clientRegCompletedOnDevice = true;
+            persistState();
+
+            refreshClientRegistrationVisibility();
+            renderSelfClientProfileView();
+            renderClientCutsHistory();
+            notify(`Bem-vindo ao seu perfil, ${state.activeClientName}!`);
+        }
+
+        function logoutClientProfileDoor() {
+            state.clientRegCompletedOnDevice = false;
+            persistState();
+            refreshClientRegistrationVisibility();
+            renderSelfClientProfileView();
+            notify("Você saiu da porta do seu perfil.");
+        }
+
+        function refreshClientRegistrationVisibility() {
+            const regBox = document.getElementById("clientRegistrationBox");
+            const doneBanner = document.getElementById("clientRegistrationDoneBanner");
+            if (!regBox || !doneBanner) return;
+            const hasOwnClient = Boolean(getActiveClientRecord());
+            if (hasOwnClient) {
+                regBox.style.display = "none";
+                doneBanner.style.display = "flex";
+            } else {
+                regBox.style.display = "block";
+                doneBanner.style.display = "none";
+            }
+        }
+
+        function reopenClientRegistrationBox() {
+            const regBox = document.getElementById("clientRegistrationBox");
+            const doneBanner = document.getElementById("clientRegistrationDoneBanner");
+            const current = getActiveClientRecord();
+            if (current) {
+                document.getElementById("clientProfileNameInput").value = current.name;
+                document.getElementById("clientProfilePhoneInput").value = current.phone || "";
+                document.getElementById("clientProfilePhotoPreview").src = current.photo || "icon-192.png";
+            }
+            if (regBox) regBox.style.display = "block";
+            if (doneBanner) doneBanner.style.display = "none";
         }
 
         async function handleClientProfilePhotoUpload(event) {
@@ -2344,9 +3322,9 @@
                 const dataUrl = await compressImageToDataUrl(file, 320, 0.76);
                 tempClientProfilePhoto = dataUrl;
                 document.getElementById("clientProfilePhotoPreview").src = dataUrl;
-                notify("Foto do cliente carregada! Clique em Salvar Cadastro do Cliente.");
+                notify("Foto carregada! Clique em Entrar / Salvar Meu Perfil.");
             } catch (err) {
-                notify("Não foi possível carregar a foto do cliente.");
+                notify("Não foi possível carregar a foto.");
             }
         }
 
@@ -2354,14 +3332,22 @@
             const name = document.getElementById("clientProfileNameInput").value.trim();
             const phone = document.getElementById("clientProfilePhoneInput").value.trim();
             if (!name) {
-                notify("Digite o nome do cliente para salvar o cadastro.");
+                notify("Digite seu nome para entrar.");
+                return;
+            }
+            if (!phone) {
+                notify("Informe seu número de WhatsApp para receber o aviso 1 dia antes.");
                 return;
             }
 
-            const photoToSave = tempClientProfilePhoto || document.getElementById("clientProfilePhotoPreview").src || "icon-192.png";
             const existingIdx = state.clientProfiles.findIndex(
                 p => (p.name || "").trim().toLowerCase() === name.toLowerCase()
             );
+
+            const photoToSave = tempClientProfilePhoto
+                || (existingIdx >= 0 ? state.clientProfiles[existingIdx].photo : "")
+                || document.getElementById("clientProfilePhotoPreview").src
+                || "icon-192.png";
 
             const profileObj = {
                 id: existingIdx >= 0 ? state.clientProfiles[existingIdx].id : ("cprof_" + Date.now()),
@@ -2377,6 +3363,8 @@
                 state.clientProfiles.unshift(profileObj);
             }
 
+            state.activeClientName = name;
+            state.clientRegCompletedOnDevice = true;
             persistState();
             if (db) db.ref(`clientProfiles/${profileObj.id}`).set(profileObj);
 
@@ -2385,134 +3373,261 @@
             document.getElementById("clientProfilePhotoInput").value = "";
             document.getElementById("clientProfilePhotoPreview").src = "icon-192.png";
             tempClientProfilePhoto = "";
-            selectedClientInitial = "";
 
-            renderSavedClientProfilesLog();
+            refreshClientRegistrationVisibility();
+            renderSelfClientProfileView();
             renderClientCutsHistory();
             renderAdminDashboard();
-            notify(`Cadastro de ${name} salvo com foto!`);
+            notify(`Perfil de ${name} aberto!`);
         }
 
-        function getAllClientProfilesWithPhotos() {
-            const map = new Map();
+        function renderProfileBarberChooser() {
+            const sel = document.getElementById("profileBarberChooserSelect");
+            const label = document.getElementById("profileChosenBarberLabel");
+            if (!sel || !state.barbers.length) return;
 
-            state.clientProfiles.forEach(p => {
-                const k = (p.name || "").trim().toLowerCase();
-                if (!k) return;
-                map.set(k, {
-                    id: p.id,
-                    name: p.name.trim(),
-                    phone: p.phone || "",
-                    photo: p.photo || "icon-192.png"
-                });
-            });
+            if (!state.profileChooserBarberId || !state.barbers.some(b => b.id === state.profileChooserBarberId)) {
+                state.profileChooserBarberId = currentBarber().id;
+            }
 
-            state.clientCuts.forEach(c => {
-                const k = (c.clientName || "").trim().toLowerCase();
-                if (!k) return;
-                const firstPhoto = (Array.isArray(c.photos) && c.photos[0]) || c.photo || "icon-192.png";
-                if (!map.has(k)) {
-                    map.set(k, {
-                        id: "",
-                        name: c.clientName.trim(),
-                        phone: c.phone || "",
-                        photo: firstPhoto
-                    });
-                } else if (!map.get(k).phone && c.phone) {
-                    map.get(k).phone = c.phone;
-                }
-            });
+            sel.innerHTML = state.barbers.map(b =>
+                `<option value="${b.id}" ${b.id === state.profileChooserBarberId ? "selected" : ""}>${b.name}</option>`
+            ).join("");
 
-            state.appointments.forEach(a => {
-                const k = (a.clientName || "").trim().toLowerCase();
-                if (!k) return;
-                if (!map.has(k)) {
-                    map.set(k, {
-                        id: "",
-                        name: a.clientName.trim(),
-                        phone: a.phone || "",
-                        photo: "icon-192.png"
-                    });
-                }
-            });
-
-            return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
+            const chosenBarber = state.barbers.find(b => b.id === state.profileChooserBarberId) || currentBarber();
+            if (label) label.textContent = chosenBarber.name;
         }
 
-        function selectClientInitialFilter(letter) {
-            selectedClientInitial = selectedClientInitial === letter ? "" : letter;
-            renderSavedClientProfilesLog();
-        }
-
-        function openClientCutsFromProfile(clientName, clientPhone) {
-            const searchEl = document.getElementById("clientHistorySearch");
-            if (searchEl) searchEl.value = clientName;
+        function handleProfileBarberChange() {
+            const sel = document.getElementById("profileBarberChooserSelect");
+            if (!sel) return;
+            state.profileChooserBarberId = sel.value;
+            const bIdx = state.barbers.findIndex(b => b.id === state.profileChooserBarberId);
+            if (bIdx >= 0) {
+                state.currentIndex = bIdx;
+            }
+            persistState();
+            renderHome();
+            renderProfileBarberChooser();
             renderClientCutsHistory();
+        }
 
-            const nameLower = (clientName || "").trim().toLowerCase();
-            const cutsOfClient = state.clientCuts.filter(c => (c.clientName || "").trim().toLowerCase() === nameLower);
-
-            if (cutsOfClient.length) {
-                const latest = cutsOfClient[0];
-                const photos = (Array.isArray(latest.photos) && latest.photos.length ? latest.photos : (latest.photo ? [latest.photo] : [])).slice(0, 4);
-                openFourPhotosModal(
-                    `Cortes de ${clientName}`,
-                    `${cutsOfClient.length} corte(s) salvo(s) • ${latest.itemsLabel || "Corte"}`,
-                    photos,
-                    latest.video || "",
-                    clientName,
-                    clientPhone || "",
-                    latest.id
-                );
-            } else {
-                notify(`Perfil de ${clientName} selecionado! Nenhum corte salvo ainda.`);
+        function toggleClientPhotosVideosPanel() {
+            const panel = document.getElementById("clientMediaGallery333Panel");
+            if (!panel) return;
+            const willOpen = panel.style.display === "none";
+            panel.style.display = willOpen ? "block" : "none";
+            if (willOpen) {
+                renderClientPhotosAndVideos333();
             }
         }
 
-        function renderSavedClientProfilesLog() {
-            const bar = document.getElementById("clientLetterFilterBar");
-            const listEl = document.getElementById("savedClientProfilesLogList");
-            if (!bar || !listEl) return;
+        function renderClientPhotosAndVideos333() {
+            const contentEl = document.getElementById("clientMediaGallery333Content");
+            if (!contentEl) return;
 
-            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-            bar.innerHTML = alphabet.map(ch =>
-                `<button type="button" class="letter-btn ${selectedClientInitial === ch ? "active" : ""}" onclick="selectClientInitialFilter('${ch}')">${ch}</button>`
-            ).join("");
-
-            const allClients = getAllClientProfilesWithPhotos();
-            const filtered = selectedClientInitial
-                ? allClients.filter(cl =>
-                    cl.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().startsWith(selectedClientInitial)
-                )
-                : allClients;
-
-            if (!filtered.length) {
-                listEl.innerHTML = `<div style="font-size:0.75rem; color:#bbb;">${
-                    selectedClientInitial
-                        ? `Nenhum cliente começando com "${selectedClientInitial}".`
-                        : "Nenhum cliente cadastrado ainda. Cadastre nome e foto acima."
-                }</div>`;
+            const activeClient = getActiveClientRecord();
+            if (!activeClient) {
+                contentEl.innerHTML = `<div style="font-size:0.74rem; color:#bbb;">Entre no seu perfil primeiro.</div>`;
                 return;
             }
 
-            listEl.innerHTML = filtered.map(cl => {
-                const nameLower = cl.name.toLowerCase();
-                const cutsCount = state.clientCuts.filter(c => (c.clientName || "").toLowerCase() === nameLower).length;
-                const safeName = cl.name.replace(/'/g, "\\'");
-                const safePhone = (cl.phone || "").replace(/'/g, "\\'");
-                return `
-                    <div class="saved-client-log-card" onclick="openClientCutsFromProfile('${safeName}', '${safePhone}')">
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <img class="saved-client-avatar" src="${cl.photo}" alt="${cl.name}">
-                            <div>
-                                <strong style="font-size:0.82rem; display:block;">${cl.name}</strong>
-                                <span style="font-size:0.7rem; color:#ccc;">${cutsCount} corte(s) salvo(s) • Toque para ver cortes</span>
+            const nameLower = activeClient.name.trim().toLowerCase();
+            const records = state.clientCuts.filter(c => (c.clientName || "").trim().toLowerCase() === nameLower);
+
+            const videos = [];
+            const photos = [];
+
+            records.forEach(rec => {
+                const cutLabel = rec.itemsLabel || "Corte";
+                if (rec.video) {
+                    videos.push({ src: rec.video, title: cutLabel });
+                }
+                const recPhotos = (Array.isArray(rec.photos) && rec.photos.length ? rec.photos : (rec.photo ? [rec.photo] : [])).slice(0, 4);
+                recPhotos.forEach((pSrc, idx) => {
+                    if (pSrc) {
+                        photos.push({ src: pSrc, title: `${cutLabel} (${idx + 1})`, cutLabel });
+                    }
+                });
+            });
+
+            if (!videos.length && !photos.length) {
+                contentEl.innerHTML = `<div style="font-size:0.74rem; color:#bbb; padding:6px;">Nenhum vídeo ou foto salvo no seu perfil ainda.</div>`;
+                return;
+            }
+
+            let html = "";
+            if (videos.length) {
+                html += videos.map(v => `
+                    <div style="margin-bottom:8px;">
+                        <video src="${v.src}" controls playsinline style="width:100%; height:145px; object-fit:cover; border-radius:9px; background:#0c0c0c;"></video>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+                            <span style="font-size:0.72rem; font-weight:600;">${v.title}</span>
+                            <button type="button" class="btn-mini-ok" onclick="chooseCutLabelForBooking('${v.title.replace(/'/g, "\\'")}')">✂️ Quero esse corte</button>
+                        </div>
+                    </div>
+                `).join("");
+            }
+
+            if (photos.length) {
+                html += `<div class="three-col-grid">` + photos.map(ph => {
+                    const safeTitle = ph.title.replace(/'/g, "\\'");
+                    const safeCut = (ph.cutLabel || ph.title).replace(/'/g, "\\'");
+                    return `
+                        <div class="three-photo-tile">
+                            <img src="${ph.src}" alt="${ph.title}" onclick="openSinglePhotoZoom(this.src, '${safeTitle}', '${safeCut}')">
+                            <div class="three-photo-tile-bar">
+                                <button type="button" class="three-photo-btn three-photo-btn-zoom" onclick="openSinglePhotoZoom('${ph.src}', '${safeTitle}', '${safeCut}')">🔍</button>
+                                <button type="button" class="three-photo-btn three-photo-btn-pick" onclick="chooseCutLabelForBooking('${safeCut}')">✂️ Quero</button>
                             </div>
                         </div>
-                        <span style="color:#e5b832; font-weight:700; font-size:0.76rem;">Ver →</span>
-                    </div>
-                `;
-            }).join("");
+                    `;
+                }).join("") + `</div>`;
+            }
+
+            contentEl.innerHTML = html;
+        }
+
+        function renderSelfClientProfileView() {
+            const box = document.getElementById("selectedClientSelfViewBox");
+            if (!box) return;
+
+            const activeClient = getActiveClientRecord();
+            if (!activeClient) {
+                box.style.display = "none";
+                return;
+            }
+
+            box.style.display = "block";
+            const nameLower = activeClient.name.trim().toLowerCase();
+            const cutsOfClient = state.clientCuts.filter(c => (c.clientName || "").trim().toLowerCase() === nameLower);
+
+            document.getElementById("selfViewPhoto").src = activeClient.photo || "icon-192.png";
+            document.getElementById("selfViewName").textContent = activeClient.name;
+            document.getElementById("selfViewPhone").textContent = activeClient.phone || "Não informado";
+
+            const badge = document.getElementById("pickedCutBadgeLabel");
+            if (badge) badge.textContent = state.pickedCutLabel ? `(${state.pickedCutLabel})` : "";
+
+            const nameInp = document.getElementById("selfEditNameInput");
+            const phoneInp = document.getElementById("selfEditPhoneInput");
+            if (nameInp) nameInp.value = activeClient.name;
+            if (phoneInp) phoneInp.value = activeClient.phone || "";
+
+            const cutsListEl = document.getElementById("selfViewCutsList");
+            if (cutsListEl) {
+                const flatPhotos = [];
+                cutsOfClient.forEach(c => {
+                    const cutTitle = c.itemsLabel || "Corte";
+                    const photos = (Array.isArray(c.photos) && c.photos.length ? c.photos : (c.photo ? [c.photo] : [])).slice(0, 4);
+                    photos.forEach((src, i) => {
+                        if (src) flatPhotos.push({ src, title: cutTitle, barberId: c.barberId || "", idx: i + 1 });
+                    });
+                });
+
+                if (!flatPhotos.length) {
+                    cutsListEl.innerHTML = `<div style="font-size:0.72rem; color:#bbb;">Nenhum corte salvo ainda.</div>`;
+                } else {
+                    cutsListEl.innerHTML = `<div class="three-col-grid">` + flatPhotos.map(item => {
+                        const safeTitle = item.title.replace(/'/g, "\\'");
+                        return `
+                            <div class="three-photo-tile">
+                                <img src="${item.src}" alt="${item.title}" onclick="openSinglePhotoZoom(this.src, '${safeTitle}', '${safeTitle}', '${item.barberId}')">
+                                <div class="three-photo-tile-bar">
+                                    <button type="button" class="three-photo-btn three-photo-btn-zoom" onclick="openSinglePhotoZoom('${item.src}', '${safeTitle}', '${safeTitle}', '${item.barberId}')">🔍</button>
+                                    <button type="button" class="three-photo-btn three-photo-btn-pick" onclick="chooseCutLabelForBooking('${safeTitle}', '${item.barberId}')">✂️ Quero</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join("") + `</div>`;
+                }
+            }
+
+            const mediaPanel = document.getElementById("clientMediaGallery333Panel");
+            if (mediaPanel && mediaPanel.style.display !== "none") {
+                renderClientPhotosAndVideos333();
+            }
+        }
+
+        function toggleEditMyClientProfile() {
+            const box = document.getElementById("selfEditFormBox");
+            if (!box) return;
+            selfEditPhotoDraft = "";
+            box.style.display = box.style.display === "none" ? "block" : "none";
+        }
+
+        async function handleSelfEditPhotoUpload(event) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            try {
+                selfEditPhotoDraft = await compressImageToDataUrl(file, 320, 0.76);
+                document.getElementById("selfViewPhoto").src = selfEditPhotoDraft;
+                notify("Nova foto carregada! Clique em Salvar Alterações.");
+            } catch (err) {
+                notify("Não foi possível carregar a foto.");
+            }
+        }
+
+        function saveSelfEditedProfile() {
+            const current = getActiveClientRecord();
+            if (!current) return;
+
+            const newName = (document.getElementById("selfEditNameInput").value || "").trim();
+            const newPhone = (document.getElementById("selfEditPhoneInput").value || "").trim();
+            if (!newName) {
+                notify("Digite seu nome.");
+                return;
+            }
+
+            const oldLower = current.name.trim().toLowerCase();
+            let prof = state.clientProfiles.find(p => (p.name || "").trim().toLowerCase() === oldLower);
+            const finalPhoto = selfEditPhotoDraft || current.photo || "icon-192.png";
+
+            if (!prof) {
+                prof = {
+                    id: "cprof_" + Date.now(),
+                    name: newName,
+                    phone: newPhone,
+                    photo: finalPhoto,
+                    updatedAt: new Date().toISOString()
+                };
+                state.clientProfiles.unshift(prof);
+            } else {
+                prof.name = newName;
+                prof.phone = newPhone;
+                prof.photo = finalPhoto;
+                prof.updatedAt = new Date().toISOString();
+            }
+
+            state.appointments.forEach(a => {
+                if ((a.clientName || "").trim().toLowerCase() === oldLower) {
+                    a.clientName = newName;
+                    a.phone = newPhone;
+                    if (db) db.ref(`appointments/${a.id}`).update({ clientName: newName, phone: newPhone });
+                }
+            });
+
+            state.clientCuts.forEach(c => {
+                if ((c.clientName || "").trim().toLowerCase() === oldLower) {
+                    c.clientName = newName;
+                    c.phone = newPhone;
+                    if (db) db.ref(`clientCuts/${c.id}`).update({ clientName: newName, phone: newPhone });
+                }
+            });
+
+            state.activeClientName = newName;
+            selfEditPhotoDraft = "";
+            document.getElementById("selfEditFormBox").style.display = "none";
+
+            persistState();
+            if (db) db.ref(`clientProfiles/${prof.id}`).set(prof);
+
+            renderSelfClientProfileView();
+            renderClientCutsHistory();
+            renderAppointmentsSections();
+            renderTomorrowRemindersBox();
+            renderAdminDashboard();
+            notify("Perfil atualizado!");
         }
 
         function renderClusterPreview(containerId, photosArray, videoSrc) {
@@ -2522,10 +3637,24 @@
                 el.innerHTML = "";
                 return;
             }
-            el.innerHTML = buildFourPhotosAndMiddleVideoHtml(photosArray, videoSrc, false);
+            el.innerHTML = buildFourPhotosAndMiddleVideoHtml(photosArray, videoSrc, false, "Prévia");
+            el.querySelectorAll(".four-photos-side-col img").forEach((imgEl, i) => {
+                imgEl.onclick = ev => {
+                    ev.stopPropagation();
+                    openSinglePhotoZoom(imgEl.src, `Prévia — Foto ${i + 1}`);
+                };
+            });
         }
 
         function getCandidateClientsForFinish(barberId) {
+            const fromProfiles = state.clientProfiles.map(p => ({
+                name: p.name,
+                phone: p.phone || "",
+                itemsLabel: "Corte",
+                total: Number(currentBarber().prices?.corte ?? 40),
+                date: new Date().toISOString().split("T")[0]
+            }));
+
             const fromAppts = state.appointments
                 .filter(a => a.barberId === barberId)
                 .map(a => ({
@@ -2546,10 +3675,10 @@
                     date: c.date || new Date().toISOString().split("T")[0]
                 }));
 
-            const merged = [...fromAppts, ...fromCuts];
+            const merged = [...fromAppts, ...fromCuts, ...fromProfiles];
             const seen = new Set();
             return merged.filter(item => {
-                const k = item.name.trim().toLowerCase();
+                const k = (item.name || "").trim().toLowerCase();
                 if (!k || seen.has(k)) return false;
                 seen.add(k);
                 return true;
@@ -2593,11 +3722,11 @@
             const clientName = (sel ? sel.value : "").trim();
 
             if (!clientName) {
-                notify("Nenhum cliente encontrado para finalizar o corte.");
+                notify("Selecione ou cadastre o cliente para colocar na galeria dele.");
                 return;
             }
             if (!finishCutPhotosDraft.length && !finishCutVideoDraft) {
-                notify("Adicione fotos ou um mini vídeo para salvar o corte do cliente.");
+                notify("Tire/puxe fotos ou um vídeo para colocar na galeria do cliente.");
                 return;
             }
 
@@ -2635,9 +3764,133 @@
             document.getElementById("finishCutVideoInput").value = "";
             renderClusterPreview("finishCutClusterPreview", [], "");
             renderClientCutsHistory();
-            renderSavedClientProfilesLog();
+            renderBarberAreaClientCutsManager();
+            renderSelfClientProfileView();
             renderAdminDashboard();
-            notify(`Corte de ${matched.name} salvo com ${photos.length} foto(s)${cutRecord.video ? " + mini vídeo" : ""}!`);
+            notify(`Marcado para ${matched.name}! Já está à vista na galeria dele.`);
+        }
+
+        function triggerReplaceSlotPhoto(collectionName, cutId, photoIndex) {
+            pendingSlotReplaceTarget = { collectionName, cutId, photoIndex };
+            const inp = document.getElementById("slotPhotoReplaceInput");
+            if (inp) {
+                inp.value = "";
+                inp.click();
+            }
+        }
+
+        async function handleSlotPhotoReplaceSelected(event) {
+            const file = event.target.files?.[0];
+            const target = pendingSlotReplaceTarget;
+            pendingSlotReplaceTarget = null;
+            if (!file || !target) return;
+
+            try {
+                const newDataUrl = await compressImageToDataUrl(file, 440, 0.76);
+                const list = target.collectionName === "barberCuts" ? state.barberCuts : state.clientCuts;
+                const item = list.find(c => c.id === target.cutId);
+                if (!item) return;
+
+                const photos = Array.isArray(item.photos) ? [...item.photos] : (item.photo ? [item.photo] : []);
+                photos[target.photoIndex] = newDataUrl;
+                item.photos = photos.slice(0, 4);
+                item.photo = item.photos[0] || "";
+
+                persistState();
+                if (db) {
+                    db.ref(`${target.collectionName}/${item.id}`).update({
+                        photos: item.photos,
+                        photo: item.photo
+                    });
+                }
+
+                renderHome();
+                renderBarberAreaSavedCutsList();
+                renderBarberAreaClientCutsManager();
+                renderBarberShowcaseCuts();
+                renderClientCutsHistory();
+                renderSelfClientProfileView();
+                renderAdminDashboard();
+                notify("Foto substituída com sucesso!");
+            } catch (err) {
+                notify("Não foi possível substituir a foto.");
+            }
+        }
+
+        function deleteSingleSlotPhoto(collectionName, cutId, photoIndex) {
+            const list = collectionName === "barberCuts" ? state.barberCuts : state.clientCuts;
+            const item = list.find(c => c.id === cutId);
+            if (!item) return;
+
+            const photos = Array.isArray(item.photos) ? [...item.photos] : (item.photo ? [item.photo] : []);
+            photos.splice(photoIndex, 1);
+            item.photos = photos;
+            item.photo = photos[0] || "";
+
+            persistState();
+            if (db) {
+                db.ref(`${collectionName}/${item.id}`).update({
+                    photos: item.photos,
+                    photo: item.photo
+                });
+            }
+
+            renderHome();
+            renderBarberAreaSavedCutsList();
+            renderBarberAreaClientCutsManager();
+            renderBarberShowcaseCuts();
+            renderClientCutsHistory();
+            renderSelfClientProfileView();
+            renderAdminDashboard();
+            notify("Foto removida!");
+        }
+
+        function buildIndividualPhotoControlsHtml(collectionName, cutId, photos, titleLabel) {
+            const list = (Array.isArray(photos) ? photos : []).slice(0, 4);
+            if (!list.length) {
+                return `<div style="font-size:0.7rem; color:#bbb; margin-top:6px;">Sem fotos neste corte.</div>`;
+            }
+            return `
+                <div class="photo-slot-manage-grid">
+                    ${list.map((src, idx) => {
+                        const safeTitle = `${titleLabel} — Foto ${idx + 1}`.replace(/'/g, "\\'");
+                        return `
+                            <div class="photo-slot-manage-card">
+                                <img src="${src}" alt="Foto ${idx + 1}" onclick="openSinglePhotoZoom(this.src, '${safeTitle}')" title="Toque para ampliar">
+                                <div style="display:flex; gap:3px; justify-content:center;">
+                                    <button type="button" class="btn-mini-edit" style="padding:3px 5px; font-size:0.62rem;" onclick="triggerReplaceSlotPhoto('${collectionName}', '${cutId}', ${idx})">✏️</button>
+                                    <button type="button" class="btn-mini-del" style="padding:3px 5px; font-size:0.62rem;" onclick="deleteSingleSlotPhoto('${collectionName}', '${cutId}', ${idx})">🗑️</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join("")}
+                </div>
+            `;
+        }
+
+        function renderBarberAreaClientCutsManager() {
+            const active = currentBarber();
+            const box = document.getElementById("barberAreaClientCutsManager");
+            if (!box) return;
+
+            const cuts = state.clientCuts.filter(c => c.barberId === active.id);
+            if (!cuts.length) {
+                box.innerHTML = `<div style="font-size:0.73rem; color:#bbb;">Nenhum corte de cliente salvo por ${active.name} ainda.</div>`;
+                return;
+            }
+
+            box.innerHTML = cuts.map(c => {
+                const photos = (Array.isArray(c.photos) && c.photos.length ? c.photos : (c.photo ? [c.photo] : [])).slice(0, 4);
+                return `
+                    <div class="appt-item">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <strong>${c.clientName}</strong>
+                            <span style="font-size:0.7rem; color:#e5b832;">${c.itemsLabel || "Corte"}</span>
+                        </div>
+                        ${buildIndividualPhotoControlsHtml("clientCuts", c.id, photos, c.clientName)}
+                    </div>
+                `;
+            }).join("");
         }
 
         async function handleNewBarberCutPhotosUpload(event) {
@@ -2695,19 +3948,22 @@
             listEl.innerHTML = cuts.map(c => {
                 const photos = (Array.isArray(c.photos) && c.photos.length ? c.photos : (c.photo ? [c.photo] : [])).slice(0, 4);
                 const thumb = photos[0] || "icon-192.png";
+                const safeTitle = (c.title || "Corte").replace(/'/g, "\\'");
                 return `
-                    <div class="client-clickable-row" style="cursor:default;">
-                        <div style="display:flex; align-items:center; gap:9px; flex:1;">
-                            <img class="saved-client-avatar" src="${thumb}" alt="${c.title}">
-                            <div>
-                                <strong>${c.title}</strong>
-                                <div style="color:#e5b832; font-size:0.72rem; font-weight:700;">
-                                    R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")} • ${photos.length} foto(s)${c.video ? " • Vídeo" : ""}
+                    <div class="appt-item">
+                        <div style="display:flex; align-items:center; justify-content:space-between; gap:9px;">
+                            <div style="display:flex; align-items:center; gap:9px; flex:1;">
+                                <img class="saved-client-avatar" src="${thumb}" alt="${c.title}" onclick="openSinglePhotoZoom(this.src, '${safeTitle}')" style="cursor:pointer;">
+                                <div>
+                                    <strong>${c.title}</strong>
+                                    <div style="color:#e5b832; font-size:0.72rem; font-weight:700;">
+                                        R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")} • ${photos.length} foto(s)${c.video ? " • Vídeo" : ""}
+                                    </div>
                                 </div>
-                                <div style="color:#7df5b0; font-size:0.66rem;">✓ Na lista de cortes</div>
                             </div>
+                            <button type="button" class="btn-mini-del" onclick="deleteBarberShowcaseCut('${c.id}')">🗑️ Apagar Corte</button>
                         </div>
-                        <button type="button" class="btn-mini-del" onclick="deleteBarberShowcaseCut('${c.id}')">🗑️ Apagar</button>
+                        ${buildIndividualPhotoControlsHtml("barberCuts", c.id, photos, c.title)}
                     </div>
                 `;
             }).join("");
@@ -2757,6 +4013,7 @@
             renderHome();
             renderBarberAreaSavedCutsList();
             renderBarberShowcaseCuts();
+            renderClientCutsHistory();
             renderAdminDashboard();
             notify(`Corte "${title}" salvo e já está na lista de cortes de ${active.name}!`);
         }
@@ -2769,7 +4026,8 @@
             if (db) db.ref(`clientCuts/${cutId}`).remove();
             closeModal("fourPhotosViewerModal");
             renderClientCutsHistory();
-            renderSavedClientProfilesLog();
+            renderBarberAreaClientCutsManager();
+            renderSelfClientProfileView();
             renderAdminDashboard();
             notify("Corte salvo excluído!");
         }
@@ -2788,30 +4046,28 @@
             renderHome();
             renderBarberAreaSavedCutsList();
             renderBarberShowcaseCuts();
+            renderClientCutsHistory();
             renderAdminDashboard();
             notify("Corte apagado da lista de cortes!");
         }
 
-        function openFourPhotosModal(title, meta, photos, videoSrc, clientNameForBooking, phoneForBooking, savedCutId = "") {
+        function openFourPhotosModal(title, meta, photos, videoSrc, savedCutId = "", barberId = "") {
             const list = (Array.isArray(photos) ? photos : []).slice(0, 4);
-            document.getElementById("fourPhotosTitle").textContent = `📸 ${title} (${list.length}/4 fotos${videoSrc ? " + vídeo" : ""})`;
+            document.getElementById("fourPhotosTitle").textContent = `📸 ${title}`;
             document.getElementById("fourPhotosMeta").textContent = meta || "";
 
-            document.getElementById("fourPhotosClusterContainer").innerHTML = buildFourPhotosAndMiddleVideoHtml(list, videoSrc, true);
+            const container = document.getElementById("fourPhotosClusterContainer");
+            container.innerHTML = buildFourPhotosAndMiddleVideoHtml(list, videoSrc, true, title);
+            container.querySelectorAll(".four-photos-side-col img").forEach((imgEl, idx) => {
+                imgEl.onclick = ev => {
+                    ev.stopPropagation();
+                    openSinglePhotoZoom(imgEl.src, `${title} (${idx + 1})`, title, barberId);
+                };
+            });
 
             const useBtn = document.getElementById("fourPhotosUseBtn");
             useBtn.onclick = () => {
-                closeModal("fourPhotosViewerModal");
-                closeModal("profilePixModal");
-                closeModal("barberCutsShowcaseModal");
-                if (clientNameForBooking) {
-                    document.getElementById("apptClientName").value = clientNameForBooking;
-                }
-                if (phoneForBooking) {
-                    document.getElementById("apptClientPhone").value = phoneForBooking;
-                }
-                openBookingModal();
-                notify(`Corte "${title}" selecionado para agendamento!`);
+                chooseCutLabelForBooking(title, barberId);
             };
 
             const delBtn = document.getElementById("fourPhotosDeleteBtn");
@@ -2827,84 +4083,47 @@
         }
 
         function renderBarberShowcaseCuts() {
-            const container = document.getElementById("barberShowcaseCutsList");
-            if (!container) return;
-
-            const active = currentBarber();
-            const cuts = state.barberCuts.filter(c => c.barberId === active.id);
-            const listToShow = cuts.length ? cuts : state.barberCuts;
-
-            if (!listToShow.length) {
-                container.innerHTML = `<div style="font-size:0.75rem; color:#bbb;">Nenhum corte adicionado pelos barbeiros ainda.</div>`;
-                return;
-            }
-
-            container.innerHTML = "";
-            listToShow.forEach(c => {
-                const photos = (Array.isArray(c.photos) && c.photos.length ? c.photos : (c.photo ? [c.photo] : [])).slice(0, 4);
-                const div = document.createElement("div");
-                div.className = "appt-item";
-                div.style.cursor = "pointer";
-                div.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <strong>${c.title}</strong>
-                        <span style="color:#e5b832; font-weight:700;">R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}</span>
-                    </div>
-                    <div style="color:#bbb; font-size:0.7rem;">Barbeiro: ${c.barberName || active.name} • ${photos.length} foto(s)${c.video ? " • Pasta c/ vídeo" : ""}</div>
-                    ${buildFourPhotosAndMiddleVideoHtml(photos, c.video || "", false)}
-                `;
-                div.onclick = () => {
-                    openFourPhotosModal(
-                        c.title,
-                        `Barbeiro: ${c.barberName || active.name} • R$ ${Number(c.price || 0).toFixed(2).replace(".", ",")}`,
-                        photos,
-                        c.video || "",
-                        "",
-                        "",
-                        ""
-                    );
-                };
-                container.appendChild(div);
-            });
+            return;
         }
 
         function openProfilePixModal() {
-            const sel = document.getElementById("profileBarberSelect");
-            sel.innerHTML = state.barbers.map((b, i) => `<option value="${i}" ${i === state.currentIndex ? "selected" : ""}>${b.name}</option>`).join("");
-            syncProfileModalBarber();
-            renderSavedClientProfilesLog();
-            renderBarberShowcaseCuts();
+            if (!state.profileChooserBarberId && currentBarber()) {
+                state.profileChooserBarberId = currentBarber().id;
+            }
+            refreshClientRegistrationVisibility();
+            renderSelfClientProfileView();
+            renderProfileBarberChooser();
             renderClientCutsHistory();
             document.getElementById("profilePixModal").style.display = "flex";
         }
 
-        function syncProfileModalBarber() {
-            renderBarberShowcaseCuts();
-        }
+        function refreshCarouselPhotoCompactState(barber) {
+            const b = normalizeBarber(barber);
+            const uploadBox = document.getElementById("barberCarouselUploadBox");
+            const okLine = document.getElementById("barberCarouselOkLine");
+            const okThumb = document.getElementById("barberCarouselOkThumb");
+            const prevImg = document.getElementById("barberAreaPhotoPreview");
 
-        function openBarberPassGate() {
-            const active = currentBarber();
-            if (unlockedBarberId === active.id) {
-                openBarberArea();
-                return;
-            }
-            document.getElementById("barberPassNameLabel").textContent = active.name;
-            document.getElementById("barberPassField").value = "";
-            document.getElementById("barberPassModal").style.display = "flex";
-        }
+            const photoUrl = getBarberPhotoUrl(b);
+            if (prevImg) prevImg.src = photoUrl;
+            if (okThumb) okThumb.src = photoUrl;
 
-        function checkBarberPass() {
-            const active = currentBarber();
-            const entered = document.getElementById("barberPassField").value.trim();
-            const expected = BARBER_PASSWORDS[active.id] || BARBER_DEFAULT_PASSWORD;
-
-            if (entered === expected || entered === BARBER_DEFAULT_PASSWORD || entered === ADMIN_PASSWORD) {
-                unlockedBarberId = active.id;
-                closeModal("barberPassModal");
-                openBarberArea();
+            if (b.carouselPhotoSet) {
+                if (uploadBox) uploadBox.style.display = "none";
+                if (okLine) okLine.style.display = "flex";
             } else {
-                notify(`Senha incorreta para a área de ${active.name}! Use 1234.`);
+                if (uploadBox) uploadBox.style.display = "flex";
+                if (okLine) okLine.style.display = "none";
             }
+        }
+
+        function reopenCarouselPhotoUploader() {
+            const active = currentBarber();
+            active.carouselPhotoSet = false;
+            persistState();
+            refreshCarouselPhotoCompactState(active);
+            const input = document.getElementById("barberProfilePhotoInput");
+            if (input) input.click();
         }
 
         function openBarberArea() {
@@ -2922,9 +4141,13 @@
             document.getElementById("addCutBarberLabel").textContent = active.name;
             document.getElementById("barberCombosOwnerLabel").textContent = active.name;
             document.getElementById("barberPricesOwnerLabel").textContent = active.name;
-            document.getElementById("barberAreaPhotoPreview").src = getBarberPhotoUrl(active);
+            document.getElementById("barberProfileNameInput").value = active.name || "";
+            document.getElementById("barberWhatsappInput").value = active.phone || "";
+            document.getElementById("barberCustomPasswordInput").value = active.password || BARBER_DEFAULT_PASSWORD;
             document.getElementById("barberProfilePhotoInput").value = "";
             document.getElementById("barberAreaPixInput").value = active.pixKey || "";
+
+            refreshCarouselPhotoCompactState(active);
 
             const finishSel = document.getElementById("finishClientSelect");
             const candidates = getCandidateClientsForFinish(active.id);
@@ -2938,6 +4161,7 @@
             document.getElementById("finishCutPhotosInput").value = "";
             document.getElementById("finishCutVideoInput").value = "";
             renderClusterPreview("finishCutClusterPreview", [], "");
+            renderBarberAreaClientCutsManager();
 
             document.getElementById("newBarberCutTitle").value = "";
             document.getElementById("newBarberCutPrice").value = "";
@@ -2969,6 +4193,55 @@
             document.getElementById("barberAreaModal").style.display = "flex";
         }
 
+        function saveBarberNameAndPassword() {
+            const active = normalizeBarber(currentBarber());
+            const newName = (document.getElementById("barberProfileNameInput").value || "").trim();
+            const newPhone = (document.getElementById("barberWhatsappInput").value || "").trim();
+            const newPass = (document.getElementById("barberCustomPasswordInput").value || "").trim();
+
+            if (!newName) {
+                notify("Digite seu nome.");
+                return;
+            }
+
+            active.name = newName;
+            active.phone = newPhone;
+            if (newPass) {
+                active.password = newPass;
+            }
+            state.barbers[state.currentIndex] = active;
+
+            persistState();
+            if (db) {
+                db.ref(`barbers/${state.currentIndex}`).update({
+                    name: active.name,
+                    phone: active.phone,
+                    password: active.password
+                });
+                if (active.id) {
+                    db.ref(`barbersById/${active.id}`).update({
+                        name: active.name,
+                        phone: active.phone,
+                        password: active.password
+                    }).catch(() => {});
+                }
+            }
+
+            document.getElementById("barberAreaName").textContent = active.name;
+            document.getElementById("addCutBarberLabel").textContent = active.name;
+            document.getElementById("barberCombosOwnerLabel").textContent = active.name;
+            document.getElementById("barberPricesOwnerLabel").textContent = active.name;
+
+            renderHome();
+            renderBarberAreaSavedCutsList();
+            renderBarberAreaClientCutsManager();
+            renderPartnerQuickMatches();
+            renderProfileBarberChooser();
+            renderTomorrowRemindersBox();
+            renderAdminDashboard();
+            notify("Nome, WhatsApp e senha curta salvos!");
+        }
+
         async function handleBarberProfilePhotoUpload(event) {
             const file = event.target.files?.[0];
             if (!file) return;
@@ -2978,12 +4251,14 @@
                 const dataUrl = await compressImageToDataUrl(file, 360, 0.78);
                 active.photo = dataUrl;
                 active.photoUpdatedAt = Date.now();
+                active.carouselPhotoSet = true;
                 persistState();
                 syncBarberPhotoToFirebase(idx, active);
-                document.getElementById("barberAreaPhotoPreview").src = getBarberPhotoUrl(active);
+                refreshCarouselPhotoCompactState(active);
                 renderHome();
+                renderPartnerQuickMatches();
                 renderAdminDashboard();
-                notify(`Aviso para ${active.name}: foto de perfil atualizada no carrossel!`);
+                notify(`Foto de carrossel ok para ${active.name}!`);
             } catch (err) {
                 notify("Não foi possível carregar a foto de perfil.");
             }
@@ -3161,6 +4436,7 @@
             }
 
             renderAppointmentsSections();
+            renderSelfClientProfileView();
             renderAdminDashboard();
             notify(`Aviso para ${appt.barberName}: pagamento em ${method === "cash" ? "Dinheiro" : "Pix"} confirmado!`);
             document.getElementById("afterPaymentCutPhotoBox").style.display = "block";
@@ -3206,6 +4482,9 @@
             persistState();
             if (db) db.ref(`clientCuts/${cutRecord.id}`).set(cutRecord);
 
+            renderClientCutsHistory();
+            renderBarberAreaClientCutsManager();
+            renderSelfClientProfileView();
             notify(`Aviso para ${appt.barberName}: foto salva no histórico de ${appt.clientName}!`);
             finishAndGoHome();
         }
@@ -3221,47 +4500,81 @@
             const grid = document.getElementById("clientCutsHistoryGrid");
             if (!grid) return;
 
-            const filtered = state.clientCuts.filter(c => {
-                if (!q) return true;
-                return (c.clientName || "").toLowerCase().includes(q) || (c.phone || "").toLowerCase().includes(q);
-            });
+            const chosenBarberId = state.profileChooserBarberId || currentBarber().id;
+            const chosenBarber = state.barbers.find(b => b.id === chosenBarberId) || currentBarber();
 
-            if (!filtered.length) {
-                grid.innerHTML = `<div style="font-size:0.76rem; color:#bbb; grid-column:1/-1;">Nenhum corte salvo encontrado.</div>`;
+            const barberCatalogCuts = state.barberCuts.filter(c => c.barberId === chosenBarber.id && (!q || (c.title || "").toLowerCase().includes(q)));
+            const barberClientPhotos = state.clientCuts.filter(c => c.barberId === chosenBarber.id && (!q || (c.itemsLabel || "").toLowerCase().includes(q)));
+
+            if (!barberCatalogCuts.length && !barberClientPhotos.length) {
+                grid.innerHTML = `<div style="font-size:0.74rem; color:#bbb;">Nenhum corte cadastrado para ${chosenBarber.name} ainda.</div>`;
                 return;
             }
 
-            grid.innerHTML = "";
-            filtered.forEach(c => {
-                const photos = (Array.isArray(c.photos) && c.photos.length ? c.photos : (c.photo ? [c.photo] : [])).slice(0, 4);
-                const card = document.createElement("div");
-                card.className = "cut-card";
-                card.innerHTML = `
-                    <div class="cut-card-clickable">
-                        <img src="${photos[0] || ''}" alt="${c.clientName}">
-                        <div class="cut-card-body">
-                            <strong>${c.clientName}</strong>
-                            <div style="color:#ccc;">${c.itemsLabel} • ${photos.length} foto(s)${c.video ? " • Vídeo" : ""}</div>
-                            <div style="color:#e5b832; margin-top:3px;">Ver pasta / Agendar</div>
+            let html = "";
+
+            if (barberCatalogCuts.length) {
+                html += barberCatalogCuts.map(c => {
+                    const cutTitle = c.title || "Corte";
+                    const safeTitle = cutTitle.replace(/'/g, "\\'");
+                    const priceText = Number(c.price || 0) > 0 ? `R$ ${Number(c.price).toFixed(2).replace(".", ",")}` : "";
+                    const photos = (Array.isArray(c.photos) && c.photos.length ? c.photos : (c.photo ? [c.photo] : [])).slice(0, 4);
+
+                    return `
+                        <div class="barber-cut-showcase-card">
+                            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px;">
+                                <strong style="font-size:0.8rem;">${cutTitle}</strong>
+                                ${priceText ? `<span style="color:#e5b832; font-weight:700; font-size:0.76rem;">${priceText}</span>` : ""}
+                            </div>
+                            ${photos.length ? `
+                                <div class="three-col-grid" style="margin-top:0; margin-bottom:8px;">
+                                    ${photos.map((src, idx) => `
+                                        <div class="three-photo-tile">
+                                            <img src="${src}" alt="${cutTitle} ${idx + 1}" onclick="openSinglePhotoZoom(this.src, '${safeTitle}', '${safeTitle}', '${chosenBarber.id}')">
+                                        </div>
+                                    `).join("")}
+                                </div>
+                            ` : ""}
+                            ${c.video ? `
+                                <div style="margin-bottom:8px;">
+                                    <video src="${c.video}" controls playsinline style="width:100%; height:120px; object-fit:cover; border-radius:8px; background:#0c0c0c;"></video>
+                                </div>
+                            ` : ""}
+                            <button type="button" class="btn-gold" style="margin-top:0;" onclick="chooseCutLabelForBooking('${safeTitle}', '${chosenBarber.id}')">
+                                ✂️ Quero esse corte
+                            </button>
                         </div>
-                    </div>
-                    <div class="cut-card-actions">
-                        <button type="button" class="btn-mini-del" style="width:100%;" onclick="deleteClientCut('${c.id}', event)">🗑️ Excluir</button>
-                    </div>
-                `;
-                card.querySelector(".cut-card-clickable").onclick = () => {
-                    openFourPhotosModal(
-                        `Corte de ${c.clientName}`,
-                        `Barbeiro: ${c.barberName || ""} • ${c.itemsLabel || "Corte"}`,
-                        photos,
-                        c.video || "",
-                        c.clientName,
-                        c.phone || "",
-                        c.id
-                    );
-                };
-                grid.appendChild(card);
-            });
+                    `;
+                }).join("");
+            }
+
+            if (barberClientPhotos.length) {
+                const extraTiles = [];
+                barberClientPhotos.forEach(c => {
+                    const cutTitle = c.itemsLabel || "Corte";
+                    const photos = (Array.isArray(c.photos) && c.photos.length ? c.photos : (c.photo ? [c.photo] : [])).slice(0, 4);
+                    photos.forEach(src => {
+                        if (src) extraTiles.push({ src, title: cutTitle });
+                    });
+                });
+
+                if (extraTiles.length) {
+                    html += `<div class="three-col-grid">` + extraTiles.map(t => {
+                        const safeTitle = t.title.replace(/'/g, "\\'");
+                        return `
+                            <div class="three-photo-tile">
+                                <img src="${t.src}" alt="${t.title}" onclick="openSinglePhotoZoom(this.src, '${safeTitle}', '${safeTitle}', '${chosenBarber.id}')">
+                                <div class="three-photo-tile-bar">
+                                    <button type="button" class="three-photo-btn three-photo-btn-zoom" onclick="openSinglePhotoZoom('${t.src}', '${safeTitle}', '${safeTitle}', '${chosenBarber.id}')">🔍</button>
+                                    <button type="button" class="three-photo-btn three-photo-btn-pick" onclick="chooseCutLabelForBooking('${safeTitle}', '${chosenBarber.id}')">✂️ Quero</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join("") + `</div>`;
+                }
+            }
+
+            grid.innerHTML = html;
         }
 
         function openAdminGate() {
@@ -3283,21 +4596,48 @@
         function getAllKnownClients() {
             const map = new Map();
 
-            getAllClientProfilesWithPhotos().forEach(p => {
+            state.clientProfiles.forEach(p => {
                 const key = (p.name || "").trim().toLowerCase();
                 if (!key) return;
+                map.set(key, {
+                    id: p.id || "",
+                    key,
+                    name: p.name.trim(),
+                    phone: p.phone || "",
+                    photo: p.photo || "icon-192.png"
+                });
+            });
+
+            state.clientCuts.forEach(c => {
+                const key = (c.clientName || "").trim().toLowerCase();
+                if (!key) return;
+                const firstPhoto = (Array.isArray(c.photos) && c.photos[0]) || c.photo || "icon-192.png";
                 if (!map.has(key)) {
                     map.set(key, {
-                        id: p.id || "",
+                        id: "",
                         key,
-                        name: p.name,
-                        phone: p.phone || "",
-                        photo: p.photo || "icon-192.png"
+                        name: c.clientName.trim(),
+                        phone: c.phone || "",
+                        photo: firstPhoto
                     });
                 }
             });
 
-            return Array.from(map.values());
+            state.appointments.forEach(a => {
+                const key = (a.clientName || "").trim().toLowerCase();
+                if (!key) return;
+                if (!map.has(key)) {
+                    map.set(key, {
+                        id: "",
+                        key,
+                        name: a.clientName.trim(),
+                        phone: a.phone || "",
+                        photo: "icon-192.png"
+                    });
+                }
+            });
+
+            return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
         }
 
         function computeBarberRealRevenue(barberId) {
@@ -3328,6 +4668,8 @@
             editingBarberIndex = barberIdx;
             editingBarberPhotoDraft = b.photo || "icon-192.png";
             document.getElementById("adminEditBarberName").value = b.name || "";
+            document.getElementById("adminEditBarberPhone").value = b.phone || "";
+            document.getElementById("adminEditBarberPass").value = b.password || BARBER_DEFAULT_PASSWORD;
             document.getElementById("adminEditBarberPix").value = b.pixKey || "";
             document.getElementById("adminEditBarberPhotoPreview").src = getBarberPhotoUrl(b);
             document.getElementById("adminEditBarberPhotoInput").value = "";
@@ -3349,6 +4691,8 @@
             const b = state.barbers[editingBarberIndex];
             if (!b) return;
             const newName = document.getElementById("adminEditBarberName").value.trim();
+            const newPhone = document.getElementById("adminEditBarberPhone").value.trim();
+            const newPass = (document.getElementById("adminEditBarberPass").value || "").trim() || BARBER_DEFAULT_PASSWORD;
             const newPix = document.getElementById("adminEditBarberPix").value.trim();
             if (!newName) {
                 notify("Informe o nome do barbeiro.");
@@ -3357,16 +4701,21 @@
 
             const photoChanged = Boolean(editingBarberPhotoDraft && editingBarberPhotoDraft !== b.photo);
             b.name = newName;
+            b.phone = newPhone;
+            b.password = newPass;
             b.pixKey = newPix;
             b.photo = editingBarberPhotoDraft || b.photo || "icon-192.png";
             if (photoChanged) {
                 b.photoUpdatedAt = Date.now();
+                b.carouselPhotoSet = true;
             }
 
             persistState();
             if (db) {
                 db.ref(`barbers/${editingBarberIndex}`).update({
                     name: b.name,
+                    phone: b.phone,
+                    password: b.password,
                     pixKey: b.pixKey,
                     photo: b.photo,
                     photoUpdatedAt: b.photoUpdatedAt || Date.now()
@@ -3375,6 +4724,8 @@
                     db.ref(`barbersById/${b.id}`).set({
                         id: b.id,
                         name: b.name,
+                        phone: b.phone || "",
+                        password: b.password,
                         photo: b.photo,
                         photoUpdatedAt: b.photoUpdatedAt || Date.now(),
                         pixKey: b.pixKey || ""
@@ -3384,8 +4735,38 @@
 
             closeModal("adminEditBarberModal");
             renderHome();
+            renderPartnerQuickMatches();
+            renderProfileBarberChooser();
+            renderTomorrowRemindersBox();
             renderAdminDashboard();
             notify(`Perfil de ${b.name} atualizado!`);
+        }
+
+        function deletePartnerBarberByIndex(barberIdx) {
+            const b = state.barbers[barberIdx];
+            if (!b) return;
+            if (b.id === "gean") {
+                notify("O perfil principal do Gean não pode ser excluído.");
+                return;
+            }
+            const removedId = b.id;
+            state.barbers.splice(barberIdx, 1);
+            if (state.currentIndex >= state.barbers.length) {
+                state.currentIndex = 0;
+            }
+            if (state.profileChooserBarberId === removedId) {
+                state.profileChooserBarberId = state.barbers[0]?.id || "";
+            }
+            persistState();
+            if (db) {
+                db.ref("barbers").set(state.barbers).catch(() => {});
+                if (removedId) db.ref(`barbersById/${removedId}`).remove().catch(() => {});
+            }
+            renderHome();
+            renderPartnerQuickMatches();
+            renderProfileBarberChooser();
+            renderAdminDashboard();
+            notify(`Barbeiro "${b.name}" removido!`);
         }
 
         function openAdminEditClient(clientName) {
@@ -3454,13 +4835,18 @@
                 }
             });
 
+            if (state.activeClientName.trim().toLowerCase() === oldLower) {
+                state.activeClientName = newName;
+            }
+
             persistState();
             if (db) db.ref(`clientProfiles/${prof.id}`).set(prof);
 
             closeModal("adminEditClientModal");
-            renderSavedClientProfilesLog();
+            renderSelfClientProfileView();
             renderClientCutsHistory();
             renderAppointmentsSections();
+            renderTomorrowRemindersBox();
             renderAdminDashboard();
             notify(`Perfil de ${newName} salvo!`);
         }
@@ -3478,6 +4864,11 @@
             const removedAppts = state.appointments.filter(a => (a.clientName || "").trim().toLowerCase() === targetLower);
             state.appointments = state.appointments.filter(a => (a.clientName || "").trim().toLowerCase() !== targetLower);
 
+            if (state.activeClientName.trim().toLowerCase() === targetLower) {
+                state.activeClientName = "";
+                state.clientRegCompletedOnDevice = false;
+            }
+
             persistState();
             if (db) {
                 removedProfiles.forEach(p => { if (p.id) db.ref(`clientProfiles/${p.id}`).remove(); });
@@ -3485,9 +4876,11 @@
                 removedAppts.forEach(a => { if (a.id) db.ref(`appointments/${a.id}`).remove(); });
             }
 
-            renderSavedClientProfilesLog();
+            refreshClientRegistrationVisibility();
+            renderSelfClientProfileView();
             renderClientCutsHistory();
             renderAppointmentsSections();
+            renderTomorrowRemindersBox();
             renderAdminDashboard();
             notify(`Cliente "${clientName}" removido!`);
         }
@@ -3558,10 +4951,13 @@
                             <img class="saved-client-avatar" src="${getBarberPhotoUrl(b)}" alt="${b.name}">
                             <div>
                                 <strong>${b.name}</strong>
-                                <div style="color:#bbb; font-size:0.7rem;">Pix: ${b.pixKey || "Não definida"}</div>
+                                <div style="color:#bbb; font-size:0.7rem;">WhatsApp: ${b.phone || "Não informado"} • Senha: ${b.password || BARBER_DEFAULT_PASSWORD} • Pix: ${b.pixKey || "Não definida"}</div>
                             </div>
                         </div>
-                        <button type="button" class="btn-mini-edit" onclick="openAdminEditBarber(${idx})">✏️ Editar</button>
+                        <div style="display:flex; gap:6px; flex-shrink:0;">
+                            <button type="button" class="btn-mini-edit" onclick="openAdminEditBarber(${idx})">✏️</button>
+                            ${b.id !== "gean" ? `<button type="button" class="btn-mini-del" onclick="deletePartnerBarberByIndex(${idx})">🗑️</button>` : ""}
+                        </div>
                     </div>
                 `).join("");
             }
@@ -3620,7 +5016,7 @@
 
             metricsEl.innerHTML = barberStats.map(s => `
                 <div class="appt-item">
-                    <strong>${s.barber.name}</strong> • Pix: ${s.barber.pixKey || "Não definida"}
+                    <strong>${s.barber.name}</strong> • WhatsApp: ${s.barber.phone || "Não informado"} • Pix: ${s.barber.pixKey || "Não definida"}
                     <div style="margin-top:4px; color:#e5b832; font-weight:700;">Ganho Real: R$ ${s.revenue.toFixed(2).replace(".", ",")}</div>
                 </div>
             `).join("");
@@ -3650,7 +5046,7 @@
                                 <span style="color:#e5b832; font-size:0.72rem;">${c.date || ""}</span>
                             </div>
                             <div style="margin-top:4px;">${c.itemsLabel || "Corte"} • R$ ${Number(c.total || 0).toFixed(2).replace(".", ",")}</div>
-                            ${buildFourPhotosAndMiddleVideoHtml(photos, c.video || "", false)}
+                            ${buildFourPhotosAndMiddleVideoHtml(photos, c.video || "", false, client.name)}
                             <div style="margin-top:8px;">
                                 <button type="button" class="btn-mini-del" onclick="deleteClientCut('${c.id}'); openAdminClientDetails(${clientIdx});">🗑️ Excluir este corte</button>
                             </div>
@@ -3662,7 +5058,7 @@
             if (paidAppts.length) {
                 html += paidAppts.map(a => `
                     <div class="appt-item">
-                        <strong>Barbeiro: ${a.barberName}</strong> • ${a.date} às ${a.time}
+                        <strong>Barbeiro: ${a.barberName}</strong> • ${formatDateBr(a.date)} às ${a.time}
                         <div style="margin-top:3px;">${a.itemsLabel} • R$ ${Number(a.total || 0).toFixed(2).replace(".", ",")} (${a.paymentMethod === "cash" ? "Dinheiro" : "Pix"})</div>
                     </div>
                 `).join("");
@@ -3682,6 +5078,8 @@
         }
 
         loadSavedState();
+        applyScreenVisibility();
+        refreshClientRegistrationVisibility();
         renderHome();
         subscribeFirebase();
 
